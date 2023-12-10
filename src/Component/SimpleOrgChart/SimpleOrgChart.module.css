@@ -1,0 +1,9 @@
+.simple_org_chart {
+    position: absolute;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+    background: lightblue;
+    border-radius: 1rem;
+    cursor: pointer;
+}

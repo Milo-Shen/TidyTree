@@ -1,0 +1,13 @@
+.basic {
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.line_type {
+}
+
+.square_type {
+  background: transparent;
+  border-style: solid;
+  border-bottom: none;
+}
