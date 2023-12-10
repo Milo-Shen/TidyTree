@@ -1,8 +1,48 @@
 // Import Utils
-import Comparator from "./utils";
 import { ReactNode } from "react";
 
 export type NodeType<T> = DoublyLinkedListNode<T> | undefined;
+
+class Comparator {
+  compare: Function;
+
+  constructor(compareFunction?: Function) {
+    this.compare = compareFunction || Comparator.defaultCompareFunction;
+  }
+
+  static defaultCompareFunction(a: number, b: number) {
+    if (a === b) {
+      return 0;
+    }
+
+    return a < b ? -1 : 1;
+  }
+
+  equal(a: number, b: number) {
+    return this.compare(a, b) === 0;
+  }
+
+  lessThan(a: number, b: number) {
+    return this.compare(a, b) < 0;
+  }
+
+  greaterThan(a: number, b: number) {
+    return this.compare(a, b) > 0;
+  }
+
+  lessThanOrEqual(a: number, b: number) {
+    return this.lessThan(a, b) || this.equal(a, b);
+  }
+
+  greaterThanOrEqual(a: number, b: number) {
+    return this.greaterThan(a, b) || this.equal(a, b);
+  }
+
+  reverse() {
+    const compareOriginal = this.compare;
+    this.compare = (a: number, b: number) => compareOriginal(b, a);
+  }
+}
 
 export class DoublyLinkedListNode<T> {
   value: T;
