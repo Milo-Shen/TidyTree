@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // Import Types & Interfaces
-import { Node, ChartRenderData, chartRenderDefaultData, OrgChart, OrgChartDirection } from "./OrgChart/OrgChart";
+import { Node, ChartRenderData, chartRenderDefaultData, OrgChart, OrgChartDirection } from "./OrgChart/TidyTree";
 import { UI5CardInterface } from "./Component/UI5Card/UI5Card";
 
 // Import Customized Component

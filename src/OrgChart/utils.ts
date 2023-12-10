@@ -1,5 +1,5 @@
 // Import Types, Classes and Interfaces
-import { Node } from "./OrgChart";
+import { Node } from "./TidyTree";
 
 // Import LinkedList
 import { DoublyLinkedList } from "./DoublyLinkedList";

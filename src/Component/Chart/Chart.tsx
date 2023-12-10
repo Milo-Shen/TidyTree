@@ -2,7 +2,7 @@
 import React, { ReactNode } from "react";
 
 // Import Interface & Types & Classes
-import { Node, ChartRenderData } from "../../OrgChart/OrgChart";
+import { Node, ChartRenderData } from "../../OrgChart/TidyTree";
 
 // Import Customized Component
 import Line from "../Line";
