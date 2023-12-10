@@ -7,11 +7,6 @@ import { LayoutMode } from "./TidyTreeType";
 import { DoublyLinkedList } from "./DoublyLinkedList";
 
 // Export Classes, Interfaces, Type
-export type ChartRenderData = {
-  card_list: Node[] | DoublyLinkedList<Node>;
-  // todo: may convert line_list to linked list later
-  line_list: LineNode[];
-};
 
 // Export Constants
 export const chartRenderDefaultData = { card_list: [], line_list: [] };
