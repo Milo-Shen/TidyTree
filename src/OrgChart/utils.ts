@@ -1,5 +1,5 @@
 // Import Types, Classes and Interfaces
-import { CardNode } from "./OrgChart";
+import { Node } from "./OrgChart";
 
 // Import LinkedList
 import { DoublyLinkedList } from "./DoublyLinkedList";
@@ -8,20 +8,20 @@ export function is_even(num: number): boolean {
   return num % 2 === 0;
 }
 
-export function is_leaf<T>(node: CardNode<T>) {
+export function is_leaf<T>(node: Node<T>) {
   return !node.children.length;
 }
 
-export function is_most_left_leaf_of_a_sub_tree<T>(node: CardNode<T>) {
+export function is_most_left_leaf_of_a_sub_tree<T>(node: Node<T>) {
   return node && is_leaf(node) && node.previous === undefined;
 }
 
-export function traverse_tree_by_level<T>(node: CardNode<T>, callback: (node: CardNode<T>) => void) {
+export function traverse_tree_by_level<T>(node: Node<T>, callback: (node: Node<T>) => void) {
   if (!node) {
     return;
   }
 
-  let queue = DoublyLinkedList.from_array<CardNode<T>>([node]);
+  let queue = DoublyLinkedList.from_array<Node<T>>([node]);
 
   while (!queue.is_empty()) {
     let card = queue.shift()!;
@@ -34,13 +34,13 @@ export function traverse_tree_by_level<T>(node: CardNode<T>, callback: (node: Ca
   }
 }
 
-export function traverse_tree_by_dfs<T>(root: CardNode<T>, callback: (node: CardNode<T>) => void) {
+export function traverse_tree_by_dfs<T>(root: Node<T>, callback: (node: Node<T>) => void) {
   if (!root) {
     return;
   }
 
   let pre = root;
-  let stack = DoublyLinkedList.from_array<CardNode<T>>([root]);
+  let stack = DoublyLinkedList.from_array<Node<T>>([root]);
 
   while (!stack.is_empty()) {
     let node = stack.last()!;

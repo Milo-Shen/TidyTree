@@ -13,7 +13,7 @@ import { DoublyLinkedList } from "./DoublyLinkedList";
 
 // Export Classes, Interfaces, Type
 export type ChartRenderData<T> = {
-  card_list: CardNode<T>[] | DoublyLinkedList<CardNode<T>>;
+  card_list: Node<T>[] | DoublyLinkedList<Node<T>>;
   // todo: may convert line_list to linked list later
   line_list: LineNode[];
 };
@@ -38,17 +38,17 @@ export enum OrgChartMode {
 // Export Constants
 export const chartRenderDefaultData = { card_list: [], line_list: [] };
 
-class CardNode<T> {
+class Node<T> {
   id: string;
   name: string;
   content?: T;
-  children: Array<CardNode<T>>;
+  children: Array<Node<T>>;
   total_child_count: number;
-  parent?: CardNode<T>;
-  previous?: CardNode<T>;
+  parent?: Node<T>;
+  previous?: Node<T>;
   level?: number;
-  level_previous?: CardNode<T>;
-  level_first?: CardNode<T>;
+  level_previous?: Node<T>;
+  level_first?: Node<T>;
   width: number;
   height: number;
   pos_x: number;
@@ -82,13 +82,13 @@ class CardNode<T> {
 }
 
 class OrgChart<T> {
-  root?: CardNode<T>;
-  previous_card?: CardNode<T>;
-  card_map: Map<string, CardNode<T>>;
+  root?: Node<T>;
+  previous_card?: Node<T>;
+  card_map: Map<string, Node<T>>;
   most_right_map: Map<string, number>;
-  traversed_nodes: DoublyLinkedList<CardNode<T>>;
-  card_list: Array<CardNode<T>>;
-  card_linked_list: DoublyLinkedList<CardNode<T>>;
+  traversed_nodes: DoublyLinkedList<Node<T>>;
+  card_list: Array<Node<T>>;
+  card_linked_list: DoublyLinkedList<Node<T>>;
   line_list: Array<LineNode>;
   line_width: number;
   line_color: string;
@@ -151,7 +151,7 @@ class OrgChart<T> {
     // create the root node
     let root_data = card_raw_list[0];
     let { id, name, width, height } = root_data;
-    this.root = new CardNode<T>(id, name, width, height);
+    this.root = new Node<T>(id, name, width, height);
     this.root.pos_y = 0;
 
     this.initialize_fixed_width_height_of_a_node(this.root);
@@ -200,7 +200,7 @@ class OrgChart<T> {
     this.calculate_line_pos(this.root);
   }
 
-  initialize_fixed_width_height_of_a_node(node: CardNode<T>) {
+  initialize_fixed_width_height_of_a_node(node: Node<T>) {
     // process the fixed size type
     if (!(this.fixed_size && this.fixed_width && this.fixed_height)) {
       return;
@@ -216,7 +216,7 @@ class OrgChart<T> {
     // build card node map
     for (let i = 1; i < card_list_len; i++) {
       let { id, name, width, height } = card_raw_list[i];
-      let new_card = new CardNode<T>(id, name, width, height);
+      let new_card = new Node<T>(id, name, width, height);
 
       // process the fixed size type
       this.initialize_fixed_width_height_of_a_node(new_card);
@@ -241,7 +241,7 @@ class OrgChart<T> {
   }
 
   link_level_prev_card_and_build_card_list() {
-    let queue = DoublyLinkedList.from_array<CardNode<T>>([this.root]);
+    let queue = DoublyLinkedList.from_array<Node<T>>([this.root]);
 
     // the current level of card node
     let level = 0;
@@ -281,7 +281,7 @@ class OrgChart<T> {
     }
   }
 
-  update_node_horizon_space(root: CardNode<T>) {
+  update_node_horizon_space(root: Node<T>) {
     this.previous_card = undefined;
 
     traverse_tree_by_dfs(root, (node) => {
@@ -298,13 +298,13 @@ class OrgChart<T> {
     });
   }
 
-  readjust_by_diff(root: CardNode<T>, diff: number) {
+  readjust_by_diff(root: Node<T>, diff: number) {
     traverse_tree_by_level(root, (node) => {
       node.pos_x += diff;
     });
   }
 
-  readjust_by_collision_detection(root: CardNode<T>) {
+  readjust_by_collision_detection(root: Node<T>) {
     let most_right_non_collision_pos_x = -Infinity;
 
     let root_start_x = root.pos_x;
@@ -341,7 +341,7 @@ class OrgChart<T> {
     this.readjust_by_diff(root, diff);
   }
 
-  calculate_child_count(node: CardNode<T>) {
+  calculate_child_count(node: Node<T>) {
     let total = 0;
 
     for (let i = 0, len = node.children.length; i < len; i++) {
@@ -352,7 +352,7 @@ class OrgChart<T> {
     node.total_child_count = total;
   }
 
-  readjust_by_negative_pos_x(root: CardNode<T>) {
+  readjust_by_negative_pos_x(root: Node<T>) {
     if (root.pos_x >= 0) {
       return;
     }
@@ -363,7 +363,7 @@ class OrgChart<T> {
   }
 
   // todo: we can enhance the performance here
-  find_the_most_right_pos_x(root: CardNode<T>) {
+  find_the_most_right_pos_x(root: Node<T>) {
     let child_len = root.children.length;
     let most_child_right_pos = -Infinity;
 
@@ -386,7 +386,7 @@ class OrgChart<T> {
     return Math.max(current_right_pos, most_child_right_pos);
   }
 
-  readjust_by_the_most_right_pos_x_of_a_subtree(left_node: CardNode<T> | undefined, root: CardNode<T>) {
+  readjust_by_the_most_right_pos_x_of_a_subtree(left_node: Node<T> | undefined, root: Node<T>) {
     if (!left_node) {
       return;
     }
@@ -415,7 +415,7 @@ class OrgChart<T> {
     this.readjust_by_diff(root, diff);
   }
 
-  update_node_horizon_space_most_left_leaf(node: CardNode<T>) {
+  update_node_horizon_space_most_left_leaf(node: Node<T>) {
     // most left node of each subtree
     if (!is_most_left_leaf_of_a_sub_tree(node)) {
       return;
@@ -438,7 +438,7 @@ class OrgChart<T> {
     this.previous_card = node;
   }
 
-  update_node_horizon_space_sibling_nodes(node: CardNode<T>) {
+  update_node_horizon_space_sibling_nodes(node: Node<T>) {
     // sibling node
     if (node.previous !== this.previous_card) {
       return;
@@ -457,7 +457,7 @@ class OrgChart<T> {
     this.previous_card = node;
   }
 
-  update_node_horizon_space_parent_node(node: CardNode<T>) {
+  update_node_horizon_space_parent_node(node: Node<T>) {
     if (this.previous_card?.parent !== node) {
       return;
     }
@@ -499,7 +499,7 @@ class OrgChart<T> {
     this.previous_card = node;
   }
 
-  readjust_horizon_pos_of_subtree(node: CardNode<T>) {
+  readjust_horizon_pos_of_subtree(node: Node<T>) {
     if (!node.level_previous) {
       return;
     }
@@ -513,7 +513,7 @@ class OrgChart<T> {
     this.readjust_by_diff(node, diff);
   }
 
-  calculate_line_pos(root: CardNode<T>) {
+  calculate_line_pos(root: Node<T>) {
     traverse_tree_by_level(root, (node) => {
       if (is_leaf(node)) {
         return;
@@ -591,4 +591,4 @@ class OrgChart<T> {
   }
 }
 
-export { CardNode, OrgChart };
+export { Node, OrgChart };

@@ -2,7 +2,7 @@
 import React, { ReactNode } from "react";
 
 // Import Interface & Types & Classes
-import { CardNode, ChartRenderData } from "../../OrgChart/OrgChart";
+import { Node, ChartRenderData } from "../../OrgChart/OrgChart";
 
 // Import Customized Component
 import Line from "../Line";
@@ -13,7 +13,7 @@ import ChartStyle from "./Chart.module.css";
 // Interface
 interface ChartPropsInterface<T> {
   data: ChartRenderData<T>;
-  card_template: (card: CardNode<T>) => ReactNode;
+  card_template: (card: Node<T>) => ReactNode;
   children?: ReactNode | ReactNode[];
 }
 
