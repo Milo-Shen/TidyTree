@@ -4,7 +4,6 @@ import { DoublyLinkedList } from "../OrgChart/DoublyLinkedList";
 
 export interface MockCard {
   id: string;
-  name: string;
   children: string[];
   width?: number;
   height?: number;
@@ -14,7 +13,6 @@ function build_card(): MockCard {
   let id = generate_id();
   return {
     id: id,
-    name: id,
     children: [],
     width: range(50, 200),
     height: range(50, 200),

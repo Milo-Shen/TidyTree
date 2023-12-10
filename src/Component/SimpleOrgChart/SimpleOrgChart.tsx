@@ -5,7 +5,7 @@ import React from "react";
 import SimpleOrgChartStyle from "./SimpleOrgChart.module.css";
 
 function SimpleOrgChart(props: any) {
-  const { id, name, parent_id, width, height, pos_x, pos_y, child_count, onClick } = props;
+  const { id, parent_id, width, height, pos_x, pos_y, child_count, onClick } = props;
   return (
     <div
       onClick={() => {
@@ -19,7 +19,7 @@ function SimpleOrgChart(props: any) {
       }}
       className={SimpleOrgChartStyle.simple_org_chart}
     >
-      id: {name}
+      id: {id}
       <br />
       parent: {parent_id}
       <br />
