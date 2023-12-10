@@ -6,7 +6,6 @@ import UI5CardStyle from "./UI5Card.module.css";
 
 export interface UI5CardInterface {
   avatar: string;
-  name?: string;
   position?: string;
   total_subordinate: number;
   actual_subordinate: number;

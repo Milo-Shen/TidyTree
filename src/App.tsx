@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // Import Types & Interfaces
-import { Node, ChartRenderData, chartRenderDefaultData, OrgChart, OrgChartDirection } from "./OrgChart/TidyTree";
+import { Node, ChartRenderData, chartRenderDefaultData, TidyTree } from "./TidyTree/TidyTree";
 import { UI5CardInterface } from "./Component/UI5Card/UI5Card";
 
 // Import Customized Component
@@ -15,7 +15,7 @@ import { mock_org_chart_data } from "./Utils/mock_org_chart_data";
 function App() {
   let is_fetch = useRef(false);
 
-  let [card_list, set_card_list] = useState<ChartRenderData<UI5CardInterface>>(chartRenderDefaultData);
+  let [card_list, set_card_list] = useState<ChartRenderData>(chartRenderDefaultData);
 
   useEffect(() => {
     if (is_fetch.current) {
@@ -46,21 +46,7 @@ function App() {
     // let data = mock_org_chart_data(3000, 20, false);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
-    let chart = new OrgChart<UI5CardInterface>(
-      OrgChartDirection.Horizontal,
-      data,
-      false,
-      200,
-      100,
-      100,
-      50,
-      10,
-      40,
-      2,
-      "#6A6D70",
-      12,
-      2
-    );
+    let chart = new TidyTree();
 
     let render_data = chart.get_render_data();
     console.log(`build org chart time: ${performance.now() - now} ms`);
@@ -77,7 +63,7 @@ function App() {
     <div className="App">
       <Chart<UI5CardInterface>
         data={card_list}
-        card_template={(card: Node<UI5CardInterface>) => (
+        card_template={(card: Node) => (
           <SimpleOrgChart
             onClick={(a: any) => console.log(a)}
             key={card.id}
@@ -85,9 +71,9 @@ function App() {
             parent_id={card.parent?.id}
             width={card.width}
             height={card.height}
-            pos_x={card.pos_x}
-            pos_y={card.pos_y}
-            child_count={card.total_child_count}
+            pos_x={card.x}
+            pos_y={card.y}
+            child_count={-1}
           />
         )}
       />

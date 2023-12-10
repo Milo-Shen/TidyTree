@@ -4,7 +4,7 @@ export enum Direction {
 }
 
 export enum LayoutMode {
-  Loose = "Loose",
+  Basic = "Basic",
   Tidy = "Tidy",
   LayeredTidy = "LayeredTidy",
 }

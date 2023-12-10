@@ -1,6 +1,6 @@
 // Import Utils
 import { generate_id, range } from "./generate_id";
-import { DoublyLinkedList } from "../OrgChart/DoublyLinkedList";
+import { DoublyLinkedList } from "../TidyTree/DoublyLinkedList";
 
 export interface MockCard {
   id: string;

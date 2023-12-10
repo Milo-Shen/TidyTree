@@ -1,16 +1,9 @@
 // Import Classes, Interfaces, Type
-import { LineNode, LineType } from "./Line";
 import { Node } from "./Node";
-import { Direction, LayoutMode } from "./TidyTreeType";
+import { LineNode } from "./Line";
+import { LayoutMode } from "./TidyTreeType";
 
 // Import Utils
-import {
-  is_even,
-  is_leaf,
-  is_most_left_leaf_of_a_sub_tree,
-  traverse_tree_by_dfs,
-  traverse_tree_by_level,
-} from "./utils";
 import { DoublyLinkedList } from "./DoublyLinkedList";
 
 // Export Classes, Interfaces, Type
@@ -24,7 +17,19 @@ export type ChartRenderData = {
 export const chartRenderDefaultData = { card_list: [], line_list: [] };
 
 class TidyTree {
-  constructor() {}
+  root?: Node;
+  layout_mode: LayoutMode;
+  map: Map<string, string>;
+  h_space: number;
+  v_space: number;
+
+  constructor(root?: Node, layout_mode: LayoutMode = LayoutMode.Basic, h_space: number = 10, v_space: number = 40) {
+    this.root = root;
+    this.layout_mode = layout_mode;
+    this.map = new Map();
+    this.h_space = h_space;
+    this.v_space = v_space;
+  }
 
   get_render_data(): ChartRenderData {
     // return this.card_list;

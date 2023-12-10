@@ -8,7 +8,7 @@ import React from "react";
 import LineStyle from "./Line.module.css";
 
 // Interface & Enums
-import { LineType } from "../../OrgChart/Line";
+import { LineType } from "../../TidyTree/Line";
 
 // Interface
 export interface LinePropsInterface {
