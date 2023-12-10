@@ -31,6 +31,8 @@ class TidyTree {
     this.v_space = v_space;
   }
 
+  generate_tree_from_raw_data<T>(node_list: T) {}
+
   get_render_data(): ChartRenderData {
     // return this.card_list;
     return {
