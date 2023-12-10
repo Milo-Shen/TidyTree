@@ -33,9 +33,12 @@ class TidyTree {
 
   generate_tree_from_raw_data(node_list: Array<any>) {
     let node_list_len = node_list.length;
+    if (!node_list || node_list_len === 0) {
+      return;
+    }
 
     // build card node map
-    for (let i = 1; i < node_list_len; i++) {
+    for (let i = 0; i < node_list_len; i++) {
       let { id, width, height } = node_list[i];
       this.map.set(id, new Node(id, width, height));
     }
@@ -43,21 +46,16 @@ class TidyTree {
     // establish relationship between nodes
     for (let i = 0; i < node_list_len; i++) {
       let { id, children } = node_list[i];
-      let card = this.map.get(id)!;
+      let node = this.map.get(id)!;
 
       for (let j = 0; j < children.length; j++) {
         let child = this.map.get(children[j])!;
-        child.parent = card;
-        card.children.push(child!);
+        child.parent = node;
+        node.children.push(child!);
       }
     }
-  }
 
-  get_render_data(): any {
-    return {
-      card_list: [],
-      line_list: [],
-    };
+    this.root = this.map.get(node_list[0].id);
   }
 }
 

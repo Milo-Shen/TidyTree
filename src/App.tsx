@@ -39,17 +39,15 @@ function App() {
       { id: "id=13", name: "id=13", children: [], width: 200, height: 139 },
       { id: "id=14", name: "id=14", children: [], width: 122, height: 65 },
     ];
-    console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
     // let data = mock_org_chart_data(3000, 20, false);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
     let chart = new TidyTree();
-
-    let render_data = chart.get_render_data();
+    chart.generate_tree_from_raw_data(data);
     console.log(`build org chart time: ${performance.now() - now} ms`);
-    set_card_list(render_data);
+    // set_card_list(render_data);
     console.log(chart);
-    console.log(render_data);
 
     return () => {
       is_fetch.current = true;
