@@ -9,9 +9,6 @@ import { UI5CardInterface } from "./Component/UI5Card/UI5Card";
 import Chart from "./Component/Chart/Chart";
 import SimpleOrgChart from "./Component/SimpleOrgChart";
 
-// Import Utils
-import { mock_org_chart_data } from "./Utils/mock_org_chart_data";
-
 function App() {
   let is_fetch = useRef(false);
 

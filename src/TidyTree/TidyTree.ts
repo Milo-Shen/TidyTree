@@ -19,7 +19,7 @@ export const chartRenderDefaultData = { card_list: [], line_list: [] };
 class TidyTree {
   root?: Node;
   layout_mode: LayoutMode;
-  map: Map<string, string>;
+  map: Map<string, Node>;
   h_space: number;
   v_space: number;
 
@@ -31,10 +31,29 @@ class TidyTree {
     this.v_space = v_space;
   }
 
-  generate_tree_from_raw_data<T>(node_list: T) {}
+  generate_tree_from_raw_data(node_list: Array<any>) {
+    let node_list_len = node_list.length;
 
-  get_render_data(): ChartRenderData {
-    // return this.card_list;
+    // build card node map
+    for (let i = 1; i < node_list_len; i++) {
+      let { id, width, height } = node_list[i];
+      this.map.set(id, new Node(id, width, height));
+    }
+
+    // establish relationship between nodes
+    for (let i = 0; i < node_list_len; i++) {
+      let { id, children } = node_list[i];
+      let card = this.map.get(id)!;
+
+      for (let j = 0; j < children.length; j++) {
+        let child = this.map.get(children[j])!;
+        child.parent = card;
+        card.children.push(child!);
+      }
+    }
+  }
+
+  get_render_data(): any {
     return {
       card_list: [],
       line_list: [],
