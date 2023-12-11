@@ -44,7 +44,7 @@ function App() {
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
     let chart = new TidyTree();
-    chart.generate_tree_from_raw_data(data);
+    chart.initialize_tree_from_raw_data(data);
     console.log(`build org chart time: ${performance.now() - now} ms`);
     // set_card_list(render_data);
     console.log(chart);

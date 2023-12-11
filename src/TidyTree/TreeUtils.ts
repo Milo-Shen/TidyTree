@@ -12,7 +12,7 @@ export function is_leaf(node: Node) {
   return !node.children.length;
 }
 
-export function bfs_traverse_tree(root: Node, callback: (node: Node) => void) {
+export function bfs_traverse_tree(root: Node | undefined, callback: (node: Node) => void) {
   if (!root) {
     return;
   }
@@ -30,7 +30,7 @@ export function bfs_traverse_tree(root: Node, callback: (node: Node) => void) {
   }
 }
 
-export function post_order_traverse_tree(root: Node, callback: (node: Node) => void) {
+export function post_order_traverse_tree(root: Node | undefined, callback: (node: Node) => void) {
   if (!root) {
     return;
   }
@@ -53,7 +53,7 @@ export function post_order_traverse_tree(root: Node, callback: (node: Node) => v
   }
 }
 
-export function pre_order_traverse_tree(root: Node, callback: (node: Node) => void) {
+export function pre_order_traverse_tree(root: Node | undefined, callback: (node: Node) => void) {
   if (!root) {
     return;
   }

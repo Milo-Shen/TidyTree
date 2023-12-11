@@ -7,7 +7,7 @@ import { LayoutMode } from "./TidyTreeType";
 import { DoublyLinkedList } from "./DoublyLinkedList";
 
 // Import Utils
-import { pre_order_traverse_tree } from "./TreeUtils";
+import { post_order_traverse_tree } from "./TreeUtils";
 
 // Export Classes, Interfaces, Type
 
@@ -29,7 +29,7 @@ class TidyTree {
     this.v_space = v_space;
   }
 
-  generate_tree_from_raw_data(node_list: Array<any>) {
+  initialize_tree_from_raw_data(node_list: Array<any>) {
     let node_list_len = node_list.length;
     if (!node_list || node_list_len === 0) {
       return;
@@ -54,7 +54,10 @@ class TidyTree {
     }
 
     this.root = this.map.get(node_list[0].id);
-    pre_order_traverse_tree(this.root!, (node) => console.log(node.id));
+  }
+
+  generate_basic_layout() {
+    post_order_traverse_tree(this.root, (node) => {});
   }
 }
 
