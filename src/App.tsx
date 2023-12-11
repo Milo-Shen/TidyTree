@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // Import Types & Interfaces
-import { Node, ChartRenderData, chartRenderDefaultData, TidyTree } from "./TidyTree/TidyTree";
+import { Node, chartRenderDefaultData, TidyTree } from "./TidyTree/TidyTree";
 import { UI5CardInterface } from "./Component/UI5Card/UI5Card";
 
 // Import Customized Component
@@ -12,7 +12,7 @@ import SimpleOrgChart from "./Component/SimpleOrgChart";
 function App() {
   let is_fetch = useRef(false);
 
-  let [card_list, set_card_list] = useState<ChartRenderData>(chartRenderDefaultData);
+  let [card_list, set_card_list] = useState(chartRenderDefaultData);
 
   useEffect(() => {
     if (is_fetch.current) {
@@ -56,7 +56,7 @@ function App() {
 
   return (
     <div className="App">
-      <Chart<UI5CardInterface>
+      <Chart
         data={card_list}
         card_template={(card: Node) => (
           <SimpleOrgChart

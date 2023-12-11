@@ -12,20 +12,20 @@ export function is_leaf(node: Node) {
   return !node.children.length;
 }
 
-export function bfs_traverse_tree(node: Node, callback: (node: Node) => void) {
-  if (!node) {
+export function bfs_traverse_tree(root: Node, callback: (node: Node) => void) {
+  if (!root) {
     return;
   }
 
-  let queue = DoublyLinkedList.from_array<Node>([node]);
+  let queue = DoublyLinkedList.from_array<Node>([root]);
 
   while (!queue.is_empty()) {
     let card = queue.shift()!;
     callback(card);
 
     let children = card!.children;
-    for (let j = 0; j < children.length; j++) {
-      queue.push(children[j]);
+    for (let i = 0; i < children.length; i++) {
+      queue.push(children[i]);
     }
   }
 }
@@ -50,5 +50,23 @@ export function post_order_traverse_tree(root: Node, callback: (node: Node) => v
     }
 
     pre = node;
+  }
+}
+
+export function pre_order_traverse_tree(root: Node, callback: (node: Node) => void) {
+  if (!root) {
+    return;
+  }
+
+  let queue = DoublyLinkedList.from_array<Node>([root]);
+
+  while (!queue.is_empty()) {
+    let card = queue.pop()!;
+    callback(card);
+
+    let children = card!.children;
+    for (let i = children.length - 1; i >= 0; i--) {
+      queue.push(children[i]);
+    }
   }
 }

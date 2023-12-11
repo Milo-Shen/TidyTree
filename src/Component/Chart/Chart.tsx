@@ -2,7 +2,7 @@
 import React, { ReactNode } from "react";
 
 // Import Interface & Types & Classes
-import { Node, ChartRenderData } from "../../TidyTree/TidyTree";
+import { Node } from "../../TidyTree/Node";
 
 // Import Customized Component
 import Line from "../Line";
@@ -12,12 +12,12 @@ import ChartStyle from "./Chart.module.css";
 
 // Interface
 interface ChartPropsInterface {
-  data: ChartRenderData;
+  data: any;
   card_template: (card: Node) => ReactNode;
   children?: ReactNode | ReactNode[];
 }
 
-function Chart<T>(props: ChartPropsInterface) {
+function Chart(props: ChartPropsInterface) {
   const { data, card_template } = props;
 
   return (

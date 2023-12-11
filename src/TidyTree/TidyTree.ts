@@ -3,8 +3,11 @@ import { Node } from "./Node";
 import { LineNode } from "./Line";
 import { LayoutMode } from "./TidyTreeType";
 
-// Import Utils
+// Import DoublyLinkedList
 import { DoublyLinkedList } from "./DoublyLinkedList";
+
+// Import Utils
+import { pre_order_traverse_tree } from "./TreeUtils";
 
 // Export Classes, Interfaces, Type
 
@@ -51,6 +54,7 @@ class TidyTree {
     }
 
     this.root = this.map.get(node_list[0].id);
+    pre_order_traverse_tree(this.root!, (node) => console.log(node.id));
   }
 }
 
