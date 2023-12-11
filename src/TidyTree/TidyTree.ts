@@ -7,7 +7,7 @@ import { LayoutMode } from "./TidyTreeType";
 import { DoublyLinkedList } from "./DoublyLinkedList";
 
 // Import Utils
-import { post_order_traverse_tree } from "./TreeUtils";
+import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree } from "./TreeUtils";
 
 // Export Classes, Interfaces, Type
 
@@ -57,7 +57,39 @@ class TidyTree {
   }
 
   generate_basic_layout() {
-    post_order_traverse_tree(this.root, (node) => {});
+    bfs_traverse_tree(this.root, (node) => {
+      if (node === this.root) {
+        return;
+      }
+
+      node.y = node.parent!.y + node.parent!.height + this.v_space;
+    });
+
+    post_order_traverse_tree(this.root, (node) => {
+      const children_len = node.children.length;
+      if (children_len === 0) {
+        node.bounding_box_w = node.width;
+        node.bounding_box_h = node.height;
+        return;
+      }
+
+      const children_w = node.children.reduce((w, n) => w + n.width + this.h_space, -this.h_space);
+      node.bounding_box_w = Math.max(node.width, children_w);
+
+      let relative_x = (node.width - children_w) / 2;
+      for (const child of node.children) {
+        child.relative_x = relative_x + child.bounding_box_w / 2 - child.width / 2;
+        relative_x += child.bounding_box_w + this.h_space;
+      }
+    });
+
+    pre_order_traverse_tree(this.root, (node) => {
+      if (node === this.root) {
+        return;
+      }
+
+      node.x = node.parent!.x + node.relative_x;
+    });
   }
 }
 
