@@ -9,17 +9,16 @@ import { DoublyLinkedList } from "./DoublyLinkedList";
 // Import Utils
 import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree } from "./TreeUtils";
 
-// Export Classes, Interfaces, Type
-
-// Export Constants
+// todo: remove this later
 export const chartRenderDefaultData = { card_list: [], line_list: [] };
 
 class TidyTree {
   root?: Node;
-  layout_mode: LayoutMode;
-  map: Map<string, Node>;
   h_space: number;
   v_space: number;
+  layout_mode: LayoutMode;
+  map: Map<string, Node>;
+  node_linked_list: DoublyLinkedList<Node>;
 
   constructor(root?: Node, layout_mode: LayoutMode = LayoutMode.Basic, h_space: number = 10, v_space: number = 40) {
     this.root = root;
@@ -27,6 +26,7 @@ class TidyTree {
     this.map = new Map();
     this.h_space = h_space;
     this.v_space = v_space;
+    this.node_linked_list = new DoublyLinkedList();
   }
 
   initialize_tree_from_raw_data(node_list: Array<any>) {
@@ -90,6 +90,16 @@ class TidyTree {
 
       node.x = node.parent!.x + node.relative_x;
     });
+  }
+
+  get_node_list() {
+    let result: Array<Node> = [];
+
+    bfs_traverse_tree(this.root, (node) => {
+      result.push(node);
+    });
+
+    return result;
   }
 }
 
