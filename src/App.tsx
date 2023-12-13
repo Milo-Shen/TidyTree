@@ -48,8 +48,8 @@ function App() {
     chart.generate_basic_layout();
     let card_list = chart.get_node_list();
     console.log(`build org chart time: ${performance.now() - now} ms`);
-    // set_card_list(render_data);
     console.log(card_list);
+    set_card_list({ card_list: card_list, line_list: [] } as any);
 
     return () => {
       is_fetch.current = true;

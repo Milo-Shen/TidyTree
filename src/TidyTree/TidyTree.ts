@@ -57,30 +57,36 @@ class TidyTree {
   }
 
   generate_basic_layout() {
-    bfs_traverse_tree(this.root, (node) => {
-      if (node === this.root) {
-        return;
-      }
-
-      node.y = node.parent!.y + node.parent!.height + this.v_space;
-    });
+    let min_x = Infinity;
 
     post_order_traverse_tree(this.root, (node) => {
+      node.bounding_box_w = node.width;
+      node.bounding_box_h = node.height;
+
       const children_len = node.children.length;
       if (children_len === 0) {
-        node.bounding_box_w = node.width;
-        node.bounding_box_h = node.height;
         return;
       }
 
-      const children_w = node.children.reduce((w, n) => w + n.width + this.h_space, -this.h_space);
-      node.bounding_box_w = Math.max(node.width, children_w);
+      let temp_x = 0;
+      let max_height = 0;
 
-      let relative_x = (node.width - children_w) / 2;
-      for (const child of node.children) {
-        child.relative_x = relative_x + child.bounding_box_w / 2 - child.width / 2;
-        relative_x += child.bounding_box_w + this.h_space;
+      for (let child of node.children) {
+        child.relative_x = temp_x + child.bounding_box_w / 2;
+        child.relative_y = node.height + this.v_space;
+        temp_x += child.bounding_box_w + this.h_space;
+        max_height = Math.max(child.bounding_box_h, max_height);
       }
+
+      let children_w = temp_x - this.h_space;
+      let shift_x = -children_w / 2;
+
+      for (let child of node.children) {
+        child.relative_x += shift_x;
+      }
+
+      node.bounding_box_w = Math.max(children_w, node.width);
+      node.bounding_box_h = node.height + this.v_space + max_height;
     });
 
     pre_order_traverse_tree(this.root, (node) => {
@@ -89,7 +95,16 @@ class TidyTree {
       }
 
       node.x = node.parent!.x + node.relative_x;
+      node.y = node.parent!.y + node.relative_y;
+
+      min_x = Math.min(min_x, node.x);
     });
+
+    if (min_x < 0) {
+      bfs_traverse_tree(this.root, (node) => {
+        node.x += -min_x;
+      });
+    }
   }
 
   get_node_list() {
