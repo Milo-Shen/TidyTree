@@ -39,6 +39,13 @@ function App() {
       { id: "id=13", name: "id=13", children: [], width: 200, height: 139 },
       { id: "id=14", name: "id=14", children: [], width: 122, height: 65 },
     ];
+    // let data = [
+    //   { id: "id=0", name: "id=0", children: ["id=1", "id=2", "id=4"], width: 100, height: 100 },
+    //   { id: "id=1", name: "id=1", children: [], width: 100, height: 100 },
+    //   { id: "id=2", name: "id=2", children: ["id=3"], width: 100, height: 100 },
+    //   { id: "id=3", name: "id=3", children: [], width: 100, height: 100 },
+    //   { id: "id=4", name: "id=4", children: [], width: 100, height: 100 },
+    // ];
     // console.log(JSON.stringify(data));
     // let data = mock_org_chart_data(3000, 20, false);
     console.log(`build mock data time: ${performance.now() - now} ms`);

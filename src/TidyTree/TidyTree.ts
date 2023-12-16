@@ -100,11 +100,11 @@ class TidyTree {
       min_x = Math.min(min_x, node.x);
     });
 
-    if (min_x < 0) {
-      bfs_traverse_tree(this.root, (node) => {
-        node.x += -min_x;
-      });
-    }
+    // if (min_x < 0) {
+    //   bfs_traverse_tree(this.root, (node) => {
+    //     node.x += -min_x;
+    //   });
+    // }
   }
 
   get_node_list() {
