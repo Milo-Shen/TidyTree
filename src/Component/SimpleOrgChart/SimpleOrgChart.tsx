@@ -14,7 +14,7 @@ function SimpleOrgChart(props: any) {
       style={{
         width: `${width}px`,
         height: `${height}px`,
-        left: `${pos_x}px`,
+        left: `${pos_x - width / 2}px`,
         top: `${pos_y}px`,
       }}
       className={SimpleOrgChartStyle.simple_org_chart}
