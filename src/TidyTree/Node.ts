@@ -7,7 +7,6 @@ export class Node {
   relative_x: number;
   relative_y: number;
   bounding_box_w: number;
-  bounding_box_h: number;
   parent?: Node;
   children: Array<Node>;
 
@@ -20,7 +19,6 @@ export class Node {
     this.relative_x = 0;
     this.relative_y = 0;
     this.bounding_box_w = 0;
-    this.bounding_box_h = 0;
     this.parent = undefined;
     this.children = [];
   }

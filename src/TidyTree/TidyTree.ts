@@ -61,7 +61,6 @@ class TidyTree {
 
     post_order_traverse_tree(this.root, (node) => {
       node.bounding_box_w = node.width;
-      node.bounding_box_h = node.height;
 
       const children_len = node.children.length;
       if (children_len === 0) {
@@ -69,13 +68,11 @@ class TidyTree {
       }
 
       let temp_x = 0;
-      let max_height = 0;
 
       for (let child of node.children) {
         child.relative_x = temp_x + child.bounding_box_w / 2;
         child.relative_y = node.height + this.v_space;
         temp_x += child.bounding_box_w + this.h_space;
-        max_height = Math.max(child.bounding_box_h, max_height);
       }
 
       let children_w = temp_x - this.h_space;
@@ -86,10 +83,9 @@ class TidyTree {
       }
 
       node.bounding_box_w = Math.max(children_w, node.width);
-      node.bounding_box_h = node.height + this.v_space + max_height;
     });
 
-    pre_order_traverse_tree(this.root, (node) => {
+    bfs_traverse_tree(this.root, (node) => {
       if (node === this.root) {
         return;
       }
@@ -97,14 +93,16 @@ class TidyTree {
       node.x = node.parent!.x + node.relative_x;
       node.y = node.parent!.y + node.relative_y;
 
-      min_x = Math.min(min_x, node.x - node.width);
+      min_x = Math.min(min_x, node.x - node.width / 2);
     });
 
-    if (min_x < 0) {
-      bfs_traverse_tree(this.root, (node) => {
-        node.x += -min_x;
-      });
-    }
+    pre_order_traverse_tree(this.root, (node) => {
+      if (min_x < 0) {
+        node.x -= min_x;
+      }
+
+      node.x -= node.width / 2;
+    });
   }
 
   get_node_list() {
