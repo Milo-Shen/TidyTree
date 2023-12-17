@@ -97,11 +97,8 @@ class TidyTree {
     });
 
     pre_order_traverse_tree(this.root, (node) => {
-      if (min_x < 0) {
-        node.x -= min_x;
-      }
-
-      node.x -= node.width / 2;
+      let diff = min_x < 0 ? -min_x : 0;
+      node.x = node.x - node.width / 2 + diff;
     });
   }
 
