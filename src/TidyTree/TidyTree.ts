@@ -38,7 +38,11 @@ class TidyTree {
     // build card node map
     for (let i = 0; i < node_list_len; i++) {
       let { id, width, height } = node_list[i];
-      this.map.set(id, new Node(id, width, height));
+      let node = new Node(id, width, height);
+      this.map.set(id, node);
+
+      // add node to linked list
+      this.node_linked_list.push(node);
     }
 
     // establish relationship between nodes
@@ -102,14 +106,8 @@ class TidyTree {
     });
   }
 
-  get_node_list() {
-    let result: Array<Node> = [];
-
-    bfs_traverse_tree(this.root, (node) => {
-      result.push(node);
-    });
-
-    return result;
+  get_node_linked_list() {
+    return this.node_linked_list;
   }
 }
 
