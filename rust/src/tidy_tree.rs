@@ -9,7 +9,7 @@ use crate::mock_org_chart_data::MockChartData;
 use crate::utils::{is_even, is_leaf, traverse_tree_by_dfs};
 
 #[derive(Debug)]
-pub enum CardNodeType {
+pub enum NodeType {
     NORMAL,
     LITE,
     BATCH,
@@ -17,74 +17,57 @@ pub enum CardNodeType {
 }
 
 #[derive(Debug)]
-pub struct CardNode {
-    pub id: i64,
-    pub children: Vec<Rc<RefCell<CardNode>>>,
-    pub parent: Weak<RefCell<CardNode>>,
-    pub previous: Weak<RefCell<CardNode>>,
-    pub level: i64,
-    pub level_previous: Weak<RefCell<CardNode>>,
-    pub level_first: Weak<RefCell<CardNode>>,
-    pub width: f32,
-    pub height: f32,
-    pub pos_x: f32,
-    pub pos_y: f32,
-    pub mode: CardNodeType,
+pub enum LayoutMode {
+    Basic,
+    Tidy,
+    LayeredTidy,
 }
 
-impl CardNode {
-    pub fn new(id: i64, w: f32, h: f32, mode: CardNodeType) -> CardNode {
-        CardNode {
+#[derive(Debug)]
+pub struct Node {
+    pub id: i64,
+    pub children: Vec<Rc<RefCell<Node>>>,
+    pub parent: Weak<RefCell<Node>>,
+    pub width: f32,
+    pub height: f32,
+    pub x: f32,
+    pub y: f32,
+    pub mode: NodeType,
+}
+
+impl Node {
+    pub fn new(id: i64, w: f32, h: f32, mode: NodeType) -> Node {
+        Node {
             id,
             children: Vec::new(),
             parent: Weak::new(),
-            previous: Weak::new(),
-            level: 0,
-            level_previous: Weak::new(),
-            level_first: Weak::new(),
             width: w,
             height: h,
-            pos_x: f32::MIN,
-            pos_y: 0.0,
+            x: 0.0,
+            y: 0.0,
             mode,
         }
     }
 }
 
-pub struct OrgChart {
-    pub root: Option<Rc<RefCell<CardNode>>>,
-    previous_card: Weak<RefCell<CardNode>>,
-    card_map: HashMap<i64, Rc<RefCell<CardNode>>>,
-    card_list: Vec<Rc<RefCell<CardNode>>>,
-    line_list: Vec<LineNode>,
-    line_width: f32,
-    fixed_size: bool,
-    fixed_width: f32,
-    fixed_height: f32,
-    lite_width: f32,
-    lite_height: f32,
-    horizon_gap: f32,
-    vertical_gap: f32,
-    batch_column_capacity: i64,
+pub struct TidyTree {
+    pub root: Option<Rc<RefCell<Node>>>,
+    h_space: f32,
+    v_space: f32,
+    layout_mode: LayoutMode,
+    map: HashMap<i64, Rc<RefCell<Node>>>,
+    node_linked_list: Vec<Rc<RefCell<Node>>>,
 }
 
-impl OrgChart {
-    pub fn new(fixed_size: bool, fixed_width: f32, fixed_height: f32, lite_width: f32, lite_height: f32, horizon_gap: f32, vertical_gap: f32, line_width: f32, batch_column_capacity: i64) -> OrgChart {
-        OrgChart {
+impl TidyTree {
+    pub fn new(layout_mode: LayoutMode, h_space: f32, v_space: f32) -> TidyTree {
+        TidyTree {
             root: None,
-            previous_card: Weak::new(),
-            card_map: HashMap::new(),
-            card_list: Vec::new(),
-            line_list: Vec::new(),
-            line_width,
-            fixed_size,
-            fixed_width,
-            fixed_height,
-            lite_width,
-            lite_height,
-            horizon_gap,
-            vertical_gap,
-            batch_column_capacity,
+            h_space,
+            v_space,
+            layout_mode: LayoutMode::Basic,
+            map: Default::default(),
+            node_linked_list: vec![],
         }
     }
 

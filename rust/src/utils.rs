@@ -4,7 +4,7 @@ use std::collections::VecDeque;
 use std::rc::Rc;
 
 //  use local types
-use crate::org_chart::CardNode;
+use crate::tidy_tree::CardNode;
 
 pub fn traverse_tree_by_dfs<F>(root: Option<Rc<RefCell<CardNode>>>, mut callback: F)
 where
