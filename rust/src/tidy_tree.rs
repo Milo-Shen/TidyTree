@@ -70,4 +70,6 @@ impl TidyTree {
             node_linked_list: vec![],
         }
     }
+
+    pub fn initialize_tree_from_raw_data() {}
 }

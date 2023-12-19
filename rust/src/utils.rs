@@ -4,11 +4,11 @@ use std::collections::VecDeque;
 use std::rc::Rc;
 
 //  use local types
-use crate::tidy_tree::CardNode;
+use crate::tidy_tree::Node;
 
-pub fn traverse_tree_by_dfs<F>(root: Option<Rc<RefCell<CardNode>>>, mut callback: F)
-where
-    F: FnMut(Rc<RefCell<CardNode>>) -> (),
+pub fn traverse_tree_by_dfs<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
+    where
+        F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     if root.is_none() {
         return;
@@ -33,9 +33,9 @@ where
     }
 }
 
-pub fn traverse_tree_by_level<F>(root: Option<Rc<RefCell<CardNode>>>, mut callback: F)
-where
-    F: FnMut(Rc<RefCell<CardNode>>) -> (),
+pub fn traverse_tree_by_level<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
+    where
+        F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     let mut queue = VecDeque::from([root.unwrap()]);
 
@@ -49,7 +49,7 @@ where
     }
 }
 
-pub fn is_leaf(node: &Rc<RefCell<CardNode>>) -> bool {
+pub fn is_leaf(node: &Rc<RefCell<Node>>) -> bool {
     node.borrow().children.is_empty()
 }
 
