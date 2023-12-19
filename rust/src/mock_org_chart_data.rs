@@ -21,13 +21,15 @@ impl GenerateID {
 #[derive(Debug, Clone)]
 pub struct MockChartData {
     pub id: i64,
+    pub width: f32,
+    pub height: f32,
     pub children: Vec<i64>,
 }
 
 pub fn build_card(generate_id: &mut GenerateID) -> MockChartData {
     let id = generate_id.get_next_id();
 
-    MockChartData { id, children: vec![] }
+    MockChartData { id, width: 200.0, height: 100.0, children: vec![] }
 }
 
 pub fn range(min: i64, max: i64) -> i64 {

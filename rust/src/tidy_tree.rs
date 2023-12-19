@@ -66,10 +66,41 @@ impl TidyTree {
             h_space,
             v_space,
             layout_mode: LayoutMode::Basic,
-            map: Default::default(),
+            map: HashMap::new(),
             node_linked_list: vec![],
         }
     }
 
-    pub fn initialize_tree_from_raw_data() {}
+    pub fn initialize_tree_from_raw_data(&mut self, node_list: Vec<MockChartData>) {
+        let node_list_len = node_list.len();
+        if node_list_len == 0 {
+            return;
+        }
+
+        self.node_linked_list = Vec::with_capacity(node_list_len);
+
+        // build card node map
+        for node in node_list {
+            let MockChartData { id, width, height, .. } = node;
+            let node = Rc::new(RefCell::new(Node::new(id, width, height, NodeType::NORMAL)));
+            self.map.insert(id, node);
+
+            // add node to linked list
+            self.node_linked_list.push(Rc::clone(&node));
+        }
+
+        // establish relationship between nodes
+        for node in node_list {
+            let MockChartData { id, children, .. } = node;
+            let node = self.map.get(&id).unwrap();
+
+            for child_id in children {
+                let child = self.map.get(&child_id).unwrap();
+                child.borrow_mut().parent = Rc::downgrade(node);
+                node.borrow_mut().children.push(Rc::clone(child));
+            }
+        }
+
+        self.root = Some(Rc::clone(self.map.get(&node_list[0].id).unwrap()))
+    }
 }
