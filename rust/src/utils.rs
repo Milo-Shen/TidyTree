@@ -6,6 +6,27 @@ use std::rc::Rc;
 //  use local types
 use crate::tidy_tree::Node;
 
+pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
+    where
+        F: FnMut(Rc<RefCell<Node>>) -> (),
+{
+    if root.is_none() {
+        return;
+    }
+
+    let mut queue = VecDeque::from([root.unwrap()]);
+
+    while !queue.is_empty() {
+        let node = queue.pop_back().unwrap();
+        callback(Rc::clone(&node));
+
+        let child_len = node.borrow().children.len();
+        for i in (0..child_len).rev() {
+            queue.push_back(Rc::clone(&node.borrow().children[i]));
+        }
+    }
+}
+
 pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
     where
         F: FnMut(Rc<RefCell<Node>>) -> (),
@@ -40,10 +61,10 @@ pub fn bfs_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
     let mut queue = VecDeque::from([root.unwrap()]);
 
     while !queue.is_empty() {
-        let card = queue.pop_front().unwrap();
-        callback(Rc::clone(&card));
+        let node = queue.pop_front().unwrap();
+        callback(Rc::clone(&node));
 
-        for child in &card.borrow().children {
+        for child in &node.borrow().children {
             queue.push_back(Rc::clone(child));
         }
     }

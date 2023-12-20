@@ -16,10 +16,10 @@ fn main() {
     let duration = start_time.elapsed();
     println!("init org chart: {:?}", duration);
     let start_time = Instant::now();
-    chart.initialization(mock_data);
+    chart.initialize_tree_from_raw_data(mock_data);
     let duration = start_time.elapsed();
     println!("build org chart time {:?}", duration);
-    let data = chart.get_render_data();
+    // let data = chart.get_render_data();
     // println!("{:#?}", data.0);
     println!("Hello, world!");
 }

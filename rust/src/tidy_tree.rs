@@ -6,7 +6,7 @@ use std::rc::{Rc, Weak};
 //  use local types
 use crate::line::{LineNode, LineType};
 use crate::mock_org_chart_data::MockChartData;
-use crate::utils::{is_even, is_leaf, traverse_tree_by_dfs};
+use crate::utils::{is_even, is_leaf, post_order_traverse_tree};
 
 #[derive(Debug)]
 pub enum NodeType {
@@ -80,27 +80,28 @@ impl TidyTree {
         self.node_linked_list = Vec::with_capacity(node_list_len);
 
         // build card node map
-        for node in node_list {
+        for node in &node_list {
             let MockChartData { id, width, height, .. } = node;
-            let node = Rc::new(RefCell::new(Node::new(id, width, height, NodeType::NORMAL)));
-            self.map.insert(id, node);
+            let node = Rc::new(RefCell::new(Node::new(*id, *width, *height, NodeType::NORMAL)));
+            self.map.insert(*id, Rc::clone(&node));
 
             // add node to linked list
             self.node_linked_list.push(Rc::clone(&node));
         }
 
         // establish relationship between nodes
-        for node in node_list {
+        for node in &node_list {
             let MockChartData { id, children, .. } = node;
-            let node = self.map.get(&id).unwrap();
+            let node = self.map.get(id).unwrap();
 
             for child_id in children {
-                let child = self.map.get(&child_id).unwrap();
+                let child = self.map.get(child_id).unwrap();
                 child.borrow_mut().parent = Rc::downgrade(node);
                 node.borrow_mut().children.push(Rc::clone(child));
             }
         }
 
-        self.root = Some(Rc::clone(self.map.get(&node_list[0].id).unwrap()))
+        let first_node_id = node_list[0].id;
+        self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 }
