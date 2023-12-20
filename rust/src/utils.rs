@@ -6,7 +6,7 @@ use std::rc::Rc;
 //  use local types
 use crate::tidy_tree::Node;
 
-pub fn traverse_tree_by_dfs<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
+pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
     where
         F: FnMut(Rc<RefCell<Node>>) -> (),
 {
@@ -33,7 +33,7 @@ pub fn traverse_tree_by_dfs<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
     }
 }
 
-pub fn traverse_tree_by_level<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
+pub fn bfs_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
     where
         F: FnMut(Rc<RefCell<Node>>) -> (),
 {
