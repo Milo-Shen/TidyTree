@@ -104,4 +104,10 @@ impl TidyTree {
         let first_node_id = node_list[0].id;
         self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
+
+    pub fn generate_basic_layout(&self) {
+        let mut min_x: f32 = f32::MAX;
+
+        post_order_traverse_tree(self.root.clone(), |node| {})
+    }
 }
