@@ -1,5 +1,6 @@
 // use std
 use std::cell::RefCell;
+use std::cmp::max;
 use std::collections::{HashMap, VecDeque};
 use std::rc::{Rc, Weak};
 
@@ -26,12 +27,15 @@ pub enum LayoutMode {
 #[derive(Debug)]
 pub struct Node {
     pub id: i64,
-    pub children: Vec<Rc<RefCell<Node>>>,
-    pub parent: Weak<RefCell<Node>>,
     pub width: f32,
     pub height: f32,
     pub x: f32,
     pub y: f32,
+    pub relative_x: f32,
+    pub relative_y: f32,
+    pub bounding_box_w: f32,
+    pub parent: Weak<RefCell<Node>>,
+    pub children: Vec<Rc<RefCell<Node>>>,
     pub mode: NodeType,
 }
 
@@ -45,6 +49,9 @@ impl Node {
             height: h,
             x: 0.0,
             y: 0.0,
+            relative_x: 0.0,
+            relative_y: 0.0,
+            bounding_box_w: 0.0,
             mode,
         }
     }
@@ -108,6 +115,33 @@ impl TidyTree {
     pub fn generate_basic_layout(&self) {
         let mut min_x: f32 = f32::MAX;
 
-        post_order_traverse_tree(self.root.clone(), |node| {})
+        post_order_traverse_tree(self.root.clone(), |node| {
+            let node_w = node.borrow().width;
+            node.borrow_mut().bounding_box_w = node_w;
+
+            let node_children = &node.borrow().children;
+            let children_len = node_children.len();
+            if children_len == 0 {
+                return;
+            }
+
+            let mut temp_x = 0.0;
+
+            for child in node_children {
+                let child_bounding_box_w = child.borrow().bounding_box_w;
+                child.borrow_mut().relative_x = temp_x + child_bounding_box_w / 2.0;
+                child.borrow_mut().relative_y = node.borrow().height + self.v_space;
+                temp_x += child_bounding_box_w + self.h_space;
+            }
+
+            let children_w = temp_x - self.h_space;
+            let shift_x = -children_w / 2.0;
+
+            for child in node_children {
+                child.borrow_mut().relative_x += shift_x;
+            }
+
+            node.borrow_mut().bounding_box_w = children_w.max(node_w)
+        })
     }
 }
