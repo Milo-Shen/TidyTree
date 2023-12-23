@@ -7,7 +7,7 @@ use std::rc::{Rc, Weak};
 //  use local types
 use crate::line::{LineNode, LineType};
 use crate::mock_org_chart_data::MockChartData;
-use crate::utils::{bfs_traverse_tree, is_even, is_leaf, post_order_traverse_tree};
+use crate::utils::{bfs_traverse_tree, is_even, is_leaf, post_order_traverse_tree, pre_order_traverse_tree};
 
 #[derive(Debug)]
 pub enum NodeType {
@@ -156,6 +156,11 @@ impl TidyTree {
 
             let final_x = node.borrow().x;
             min_x = min_x.min(final_x);
+        });
+
+        pre_order_traverse_tree(self.root.clone(), |node| {
+            let diff = if min_x < 0.0 { -min_x } else { 0.0 };
+            node.borrow_mut().x = node.borrow().x - node.borrow().width / 2.0 + diff;
         })
     }
 }

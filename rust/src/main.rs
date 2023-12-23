@@ -17,6 +17,7 @@ fn main() {
     println!("init org chart: {:?}", duration);
     let start_time = Instant::now();
     chart.initialize_tree_from_raw_data(mock_data);
+    chart.generate_basic_layout();
     let duration = start_time.elapsed();
     println!("build org chart time {:?}", duration);
     // let data = chart.get_render_data();
