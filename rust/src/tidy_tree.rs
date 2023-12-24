@@ -1,13 +1,12 @@
 // use std
 use std::cell::RefCell;
-use std::cmp::max;
-use std::collections::{HashMap, VecDeque};
+use std::collections::{HashMap};
 use std::rc::{Rc, Weak};
 
 //  use local types
 use crate::line::{LineNode, LineType};
 use crate::mock_org_chart_data::MockChartData;
-use crate::utils::{bfs_traverse_tree, is_even, is_leaf, post_order_traverse_tree, pre_order_traverse_tree};
+use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree};
 
 #[derive(Debug)]
 pub enum NodeType {
