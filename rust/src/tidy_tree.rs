@@ -117,27 +117,27 @@ impl TidyTree {
 
         post_order_traverse_tree(self.root.clone(), |node| {
             let node_w = node.borrow().width;
+            let node_h = node.borrow().height;
             node.borrow_mut().bounding_box_w = node_w;
 
-            let node_children = &node.borrow().children;
-            let children_len = node_children.len();
+            let children_len = node.borrow().children.len();
             if children_len == 0 {
                 return;
             }
 
             let mut temp_x = 0.0;
 
-            for child in node_children {
+            for child in &node.borrow().children {
                 let child_bounding_box_w = child.borrow().bounding_box_w;
                 child.borrow_mut().relative_x = temp_x + child_bounding_box_w / 2.0;
-                child.borrow_mut().relative_y = node.borrow().height + self.v_space;
+                child.borrow_mut().relative_y = node_h + self.v_space;
                 temp_x += child_bounding_box_w + self.h_space;
             }
 
             let children_w = temp_x - self.h_space;
             let shift_x = -children_w / 2.0;
 
-            for child in node_children {
+            for child in &node.borrow().children {
                 child.borrow_mut().relative_x += shift_x;
             }
 
@@ -146,13 +146,15 @@ impl TidyTree {
 
         bfs_traverse_tree(self.root.clone(), |node| {
             let parent_opt = node.borrow().parent.upgrade();
-            if parent_opt.is_none() {
+            if node.borrow().parent.upgrade().is_none() {
                 return;
             }
 
             let parent = parent_opt.unwrap();
-            node.borrow_mut().x = parent.borrow().x + node.borrow().relative_x;
-            node.borrow_mut().y = parent.borrow().y + node.borrow().relative_y;
+            let node_relative_x = node.borrow().relative_x;
+            let node_relative_y = node.borrow().relative_y;
+            node.borrow_mut().x = parent.borrow().x + node_relative_x;
+            node.borrow_mut().y = parent.borrow().y + node_relative_y;
 
             let final_x = node.borrow().x;
             min_x = min_x.min(final_x);
@@ -160,7 +162,9 @@ impl TidyTree {
 
         pre_order_traverse_tree(self.root.clone(), |node| {
             let diff = if min_x < 0.0 { -min_x } else { 0.0 };
-            node.borrow_mut().x = node.borrow().x - node.borrow().width / 2.0 + diff;
+            let node_x = node.borrow().x;
+            let node_w = node.borrow().width;
+            node.borrow_mut().x = node_x - node_w / 2.0 + diff;
         })
     }
 }
