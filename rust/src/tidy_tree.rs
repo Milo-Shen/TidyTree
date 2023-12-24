@@ -166,4 +166,8 @@ impl TidyTree {
             node.borrow_mut().x = node_x - node_w / 2.0 + diff;
         })
     }
+
+    pub fn get_node_linked_list(&self) -> &Vec<Rc<RefCell<Node>>> {
+        return &self.node_linked_list;
+    }
 }
