@@ -24,15 +24,15 @@ function App() {
 
     // todo: test it
     let now = performance.now();
-    let data = mock_org_chart_data(~~(Math.random() * 30) + 1, ~~(Math.random() * 5) + 1, true);
+    // let data = mock_org_chart_data(~~(Math.random() * 30) + 1, ~~(Math.random() * 5) + 1, true);
     // console.log(JSON.stringify(data));
-    data = [
-      { id: "id=0", children: ["id=1", "id=2"], width: 108, height: 114 },
-      { id: "id=1", children: ["id=3"], width: 63, height: 126 },
-      { id: "id=2", children: [], width: 97, height: 136 },
-      { id: "id=3", children: [], width: 129, height: 75 },
-    ];
-    // let data = mock_org_chart_data(3000, 20, false);
+    // let data = [
+    //   { id: "id=0", children: ["id=1", "id=2"], width: 108, height: 114 },
+    //   { id: "id=1", children: ["id=3"], width: 63, height: 126 },
+    //   { id: "id=2", children: [], width: 97, height: 136 },
+    //   { id: "id=3", children: [], width: 129, height: 75 },
+    // ];
+    let data = mock_org_chart_data(5, 2, false);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
     let chart = new TidyTree();
