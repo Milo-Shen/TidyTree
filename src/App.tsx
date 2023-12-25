@@ -33,9 +33,10 @@ function App() {
     chart.initialize_tree_from_raw_data(data);
     chart.generate_basic_layout();
     let card_list = chart.get_node_linked_list();
+    let line_list = chart.calculate_line_pos(chart.root);
     console.log(`build org chart time: ${performance.now() - now} ms`);
     console.log(card_list);
-    set_card_list({ card_list: card_list, line_list: [] } as any);
+    set_card_list({ card_list: card_list, line_list: line_list } as any);
 
     return () => {
       is_fetch.current = true;
