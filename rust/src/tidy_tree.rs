@@ -144,18 +144,27 @@ impl TidyTree {
         });
 
         bfs_traverse_tree(self.root.clone(), |node| {
+            let node_x = node.borrow().x;
+            let node_w = node.borrow().width;
+
             let parent_opt = node.borrow().parent.upgrade();
             if node.borrow().parent.upgrade().is_none() {
+                let final_x = node_x - node_w / 2.0;
+                min_x = min_x.min(final_x);
                 return;
             }
 
             let parent = parent_opt.unwrap();
             let node_relative_x = node.borrow().relative_x;
             let node_relative_y = node.borrow().relative_y;
-            node.borrow_mut().x = parent.borrow().x + node_relative_x;
-            node.borrow_mut().y = parent.borrow().y + node_relative_y;
 
-            let final_x = node.borrow().x;
+            let new_node_x = parent.borrow().x + node_relative_x;
+            let new_node_y = parent.borrow().y + node_relative_y;
+            
+            node.borrow_mut().x = new_node_x;
+            node.borrow_mut().y = new_node_y;
+
+            let final_x = new_node_x - node_w / 2.0;
             min_x = min_x.min(final_x);
         });
 
