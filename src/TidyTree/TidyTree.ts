@@ -100,14 +100,14 @@ class TidyTree {
     });
 
     bfs_traverse_tree(this.root, (node) => {
+      min_x = Math.min(min_x, node.x - node.width / 2);
+
       if (node === this.root) {
         return;
       }
 
       node.x = node.parent!.x + node.relative_x;
       node.y = node.parent!.y + node.relative_y;
-
-      min_x = Math.min(min_x, node.x - node.width / 2);
     });
 
     pre_order_traverse_tree(this.root, (node) => {
