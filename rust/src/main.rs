@@ -12,7 +12,7 @@ fn main() {
     let duration = start_time.elapsed();
     println!("mock data: {:?}", duration);
     let start_time = Instant::now();
-    let mut chart = tidy_tree::TidyTree::new(LayoutMode::Basic, 0.0, 0.0);
+    let mut chart = tidy_tree::TidyTree::new(LayoutMode::Basic, 10.0, 40.0);
     let duration = start_time.elapsed();
     println!("init org chart: {:?}", duration);
     let start_time = Instant::now();
@@ -21,7 +21,7 @@ fn main() {
     let data = chart.get_node_linked_list();
     let duration = start_time.elapsed();
     println!("build org chart time {:?}", duration);
-    let print: Vec<_> = data.iter().map(|x| (x.borrow().id, x.borrow().x, x.borrow().y, x.borrow().width, x.borrow().height)).collect();
+    let print: Vec<_> = data.iter().map(|x| (x.borrow().id, x.borrow().x, x.borrow().y)).collect();
     println!("{:#?}", print);
     println!("Hello, world!");
 }

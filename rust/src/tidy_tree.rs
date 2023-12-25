@@ -117,6 +117,7 @@ impl TidyTree {
         post_order_traverse_tree(self.root.clone(), |node| {
             let node_w = node.borrow().width;
             let node_h = node.borrow().height;
+
             node.borrow_mut().bounding_box_w = node_w;
 
             let children_len = node.borrow().children.len();
@@ -158,13 +159,11 @@ impl TidyTree {
             let node_relative_x = node.borrow().relative_x;
             let node_relative_y = node.borrow().relative_y;
 
-            let new_node_x = parent.borrow().x + node_relative_x;
-            let new_node_y = parent.borrow().y + node_relative_y;
-            
-            node.borrow_mut().x = new_node_x;
-            node.borrow_mut().y = new_node_y;
+            let new_x = parent.borrow().x + node_relative_x;
+            node.borrow_mut().x = new_x;
+            node.borrow_mut().y = parent.borrow().y + node_relative_y;
 
-            let final_x = new_node_x - node_w / 2.0;
+            let final_x = new_x - node_w / 2.0;
             min_x = min_x.min(final_x);
         });
 
