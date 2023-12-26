@@ -21,13 +21,17 @@ class TidyTree {
   node_linked_list: DoublyLinkedList<Node>;
   line_list: Array<LineNode>;
   line_width: number;
+  is_layered: boolean;
+  // this is only for layered mode
+  depth_to_y: Array<number>;
 
   constructor(
     root?: Node,
     layout_mode: LayoutMode = LayoutMode.Basic,
     h_space: number = 10,
     v_space: number = 40,
-    line_width: number = 2
+    line_width: number = 2,
+    is_layered: boolean = false
   ) {
     this.root = root;
     this.layout_mode = layout_mode;
@@ -37,6 +41,8 @@ class TidyTree {
     this.node_linked_list = new DoublyLinkedList();
     this.line_list = [];
     this.line_width = line_width;
+    this.is_layered = is_layered;
+    this.depth_to_y = [];
   }
 
   initialize_tree_from_raw_data(node_list: Array<any>) {
