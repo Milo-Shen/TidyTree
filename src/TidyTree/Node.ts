@@ -41,4 +41,24 @@ export class Node {
     this.modifier_extreme_left = 0;
     this.modifier_extreme_right = 0;
   }
+
+  clone() {
+    let node = new Node(this.id);
+    node.width = this.width;
+    node.height = this.height;
+    node.x = this.x;
+    node.y = this.y;
+    node.relative_x = this.relative_x;
+    node.relative_y = this.relative_y;
+    node.bounding_box_w = this.bounding_box_w;
+    node.parent = this.parent;
+    node.children = this.children;
+    node.shift_acceleration = this.shift_acceleration;
+    node.shift_change = this.shift_change;
+    node.modifier_to_subtree = this.modifier_to_subtree;
+    node.modifier_thread_left = this.modifier_thread_left;
+    node.modifier_thread_right = this.modifier_thread_right;
+    node.modifier_extreme_left = this.modifier_extreme_left;
+    node.modifier_extreme_right = this.modifier_extreme_right;
+  }
 }
