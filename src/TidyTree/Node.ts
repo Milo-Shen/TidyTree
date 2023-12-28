@@ -73,4 +73,9 @@ export class Contour {
     this.current = node;
     this.modifier_sum = node.modifier_to_subtree;
   }
+
+  left(): number {
+    let node = this.current;
+    return this.modifier_sum + node.relative_x - node.width / 2;
+  }
 }
