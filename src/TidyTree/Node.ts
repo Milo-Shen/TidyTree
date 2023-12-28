@@ -62,3 +62,15 @@ export class Node {
     node.modifier_extreme_right = this.modifier_extreme_right;
   }
 }
+
+export class Contour {
+  is_left: boolean;
+  current: Node;
+  modifier_sum: number;
+
+  constructor(is_left: boolean = false, node: Node) {
+    this.is_left = is_left;
+    this.current = node;
+    this.modifier_sum = node.modifier_to_subtree;
+  }
+}
