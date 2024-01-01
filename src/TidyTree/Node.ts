@@ -61,6 +61,11 @@ export class Node {
     node.modifier_extreme_left = this.modifier_extreme_left;
     node.modifier_extreme_right = this.modifier_extreme_right;
   }
+
+  set_extreme() {
+    if (this.children.length) {
+    }
+  }
 }
 
 export class Contour {
