@@ -67,4 +67,16 @@ export class Node {
     node.tidy = this.tidy;
     return node;
   }
+
+  depth() {
+    let depth = 0;
+    let node: Node = this;
+
+    while (node.parent) {
+      node = node.parent;
+      depth += 1;
+    }
+
+    return depth;
+  }
 }
