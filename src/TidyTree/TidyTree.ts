@@ -12,6 +12,24 @@ import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree, i
 // todo: remove this later
 export const chartRenderDefaultData = { card_list: [], line_list: [] };
 
+class TidyConfiguration {
+  // margin between sibling nodes
+  public h_space: number;
+  // margin between child and parent node
+  public v_space: number;
+  // all siblings node will be putted on a same pos y layer
+  public is_layered: boolean;
+  // this is only for layered mode
+  public depth_to_y: Array<number>;
+
+  constructor(h_space = 0, v_space = 0, is_layered = true, depth_to_y = []) {
+    this.h_space = h_space;
+    this.v_space = v_space;
+    this.is_layered = is_layered;
+    this.depth_to_y = depth_to_y;
+  }
+}
+
 class TidyTree {
   root?: Node;
   // margin between sibling nodes
@@ -201,4 +219,4 @@ class TidyTree {
   }
 }
 
-export { Node, TidyTree };
+export { Node, TidyTree, TidyConfiguration };
