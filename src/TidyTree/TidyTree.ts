@@ -14,7 +14,9 @@ export const chartRenderDefaultData = { card_list: [], line_list: [] };
 
 class TidyTree {
   root?: Node;
+  // margin between sibling nodes
   h_space: number;
+  // margin between child and parent node
   v_space: number;
   layout_mode: LayoutMode;
   map: Map<string, Node>;
