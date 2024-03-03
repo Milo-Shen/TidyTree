@@ -67,9 +67,4 @@ export class Node {
     node.tidy = this.tidy;
     return node;
   }
-
-  set_extreme() {
-    if (this.children.length) {
-    }
-  }
 }
