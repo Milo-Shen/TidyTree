@@ -79,10 +79,10 @@ export class Contour {
   current?: Node;
   modifier_sum: number;
 
-  constructor(is_left: boolean = false, node: Node) {
+  constructor(is_left: boolean = false, node?: Node) {
     this.is_left = is_left;
     this.current = node;
-    this.modifier_sum = node.modifier_to_subtree;
+    this.modifier_sum = node?.tidy?.modifier_to_subtree ?? 0;
   }
 
   left() {
@@ -97,9 +97,11 @@ export class Contour {
 
   bottom() {
     let node = this.current;
+
     if (!node) {
       return 0;
     }
+
     return node.y + node.height;
   }
 
