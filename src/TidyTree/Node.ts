@@ -79,4 +79,10 @@ export class Node {
 
     return depth;
   }
+
+  bottom() {
+    return this.height + this.y;
+  }
+
+  reset_parent_link_of_children() {}
 }
