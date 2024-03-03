@@ -1,3 +1,31 @@
+export class TidyInfo {
+  public thread_left?: Node;
+  public thread_right?: Node;
+  public extreme_left?: Node;
+  public extreme_right?: Node;
+  public shift_acceleration: number;
+  public shift_change: number;
+  public modifier_to_subtree: number;
+  public modifier_thread_left: number;
+  public modifier_thread_right: number;
+  public modifier_extreme_left: number;
+  public modifier_extreme_right: number;
+
+  constructor() {
+    this.thread_left = undefined;
+    this.thread_left = undefined;
+    this.thread_left = undefined;
+    this.thread_left = undefined;
+    this.shift_acceleration = 0;
+    this.shift_change = 0;
+    this.modifier_to_subtree = 0;
+    this.modifier_thread_left = 0;
+    this.modifier_thread_right = 0;
+    this.modifier_extreme_left = 0;
+    this.modifier_extreme_right = 0;
+  }
+}
+
 export class Node {
   id: string;
   width: number;
@@ -9,18 +37,7 @@ export class Node {
   bounding_box_w: number;
   parent?: Node;
   children: Array<Node>;
-  // define the tidy info
-  thread_left?: Node;
-  thread_right?: Node;
-  extreme_left?: Node;
-  extreme_right?: Node;
-  shift_acceleration: number;
-  shift_change: number;
-  modifier_to_subtree: number;
-  modifier_thread_left: number;
-  modifier_thread_right: number;
-  modifier_extreme_left: number;
-  modifier_extreme_right: number;
+  tidy?: TidyInfo;
 
   constructor(id: string, w: number = 0, h: number = 0) {
     this.id = id;
@@ -33,13 +50,7 @@ export class Node {
     this.bounding_box_w = 0;
     this.parent = undefined;
     this.children = [];
-    this.shift_acceleration = 0;
-    this.shift_change = 0;
-    this.modifier_to_subtree = 0;
-    this.modifier_thread_left = 0;
-    this.modifier_thread_right = 0;
-    this.modifier_extreme_left = 0;
-    this.modifier_extreme_right = 0;
+    this.tidy = undefined;
   }
 
   clone() {
@@ -53,13 +64,8 @@ export class Node {
     node.bounding_box_w = this.bounding_box_w;
     node.parent = this.parent;
     node.children = this.children;
-    node.shift_acceleration = this.shift_acceleration;
-    node.shift_change = this.shift_change;
-    node.modifier_to_subtree = this.modifier_to_subtree;
-    node.modifier_thread_left = this.modifier_thread_left;
-    node.modifier_thread_right = this.modifier_thread_right;
-    node.modifier_extreme_left = this.modifier_extreme_left;
-    node.modifier_extreme_right = this.modifier_extreme_right;
+    node.tidy = this.tidy;
+    return node;
   }
 
   set_extreme() {

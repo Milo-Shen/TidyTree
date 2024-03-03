@@ -32,7 +32,7 @@ function App() {
     //   { id: "id=2", children: [], width: 97, height: 136 },
     //   { id: "id=3", children: [], width: 129, height: 75 },
     // ];
-    let data = mock_org_chart_data(5, 2, false);
+    let data = mock_org_chart_data(30, 3, true);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
     let chart = new TidyTree();
