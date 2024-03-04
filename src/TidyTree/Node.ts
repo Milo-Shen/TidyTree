@@ -89,5 +89,12 @@ export class Node {
     this.children.push(node);
   }
 
-  intersects() {}
+  intersects(other: Node) {
+    return (
+      this.x - this.width / 2 < other.x + other.width / 2 &&
+      this.x + this.width / 2 > other.x - other.width / 2 &&
+      this.y < other.y + other.height &&
+      this.y + this.height > other.y
+    );
+  }
 }
