@@ -88,4 +88,6 @@ export class Node {
     node.parent = this;
     this.children.push(node);
   }
+
+  intersects() {}
 }
