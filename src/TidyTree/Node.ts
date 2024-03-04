@@ -84,5 +84,8 @@ export class Node {
     return this.height + this.y;
   }
 
-  reset_parent_link_of_children() {}
+  append_child(node: Node) {
+    node.parent = this;
+    this.children.push(node);
+  }
 }
