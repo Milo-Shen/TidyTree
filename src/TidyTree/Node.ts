@@ -97,4 +97,12 @@ export class Node {
       this.y + this.height > other.y
     );
   }
+
+  remove_child(id: string) {
+    let index = this.children.findIndex((x) => x.id === id);
+
+    if (index !== -1) {
+      this.children.splice(index, 1);
+    }
+  }
 }
