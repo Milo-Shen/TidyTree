@@ -6,8 +6,11 @@ import { LayoutMode } from "./TidyTreeType";
 // Import DoublyLinkedList
 import { DoublyLinkedList } from "./DoublyLinkedList";
 
+// Import Layout
+import { basic_layout } from "./Layout/BasicLayout";
+
 // Import Utils
-import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree, is_leaf } from "./TreeUtils";
+import { bfs_traverse_tree, is_leaf } from "./TreeUtils";
 
 // todo: remove this later
 export const chartRenderDefaultData = { card_list: [], line_list: [] };
@@ -97,50 +100,7 @@ class TidyTree {
   }
 
   generate_basic_layout() {
-    let min_x = Infinity;
-
-    post_order_traverse_tree(this.root, (node) => {
-      node.bounding_box_w = node.width;
-
-      const children_len = node.children.length;
-      if (children_len === 0) {
-        return;
-      }
-
-      let temp_x = 0;
-
-      for (let child of node.children) {
-        child.relative_x = temp_x + child.bounding_box_w / 2;
-        child.relative_y = node.height + this.v_space;
-        temp_x += child.bounding_box_w + this.h_space;
-      }
-
-      let children_w = temp_x - this.h_space;
-      let shift_x = -children_w / 2;
-
-      for (let child of node.children) {
-        child.relative_x += shift_x;
-      }
-
-      node.bounding_box_w = Math.max(children_w, node.width);
-    });
-
-    bfs_traverse_tree(this.root, (node) => {
-      if (node === this.root) {
-        min_x = Math.min(min_x, node.x - node.width / 2);
-        return;
-      }
-
-      node.x = node.parent!.x + node.relative_x;
-      node.y = node.parent!.y + node.relative_y;
-
-      min_x = Math.min(min_x, node.x - node.width / 2);
-    });
-
-    pre_order_traverse_tree(this.root, (node) => {
-      let diff = min_x < 0 ? -min_x : 0;
-      node.x = node.x - node.width / 2 + diff;
-    });
+    basic_layout(this.root!, this.v_space, this.h_space);
   }
 
   calculate_line_pos(root: Node | undefined) {

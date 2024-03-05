@@ -4,7 +4,7 @@ import { Node } from "../Node";
 // Import Utils
 import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree } from "../TreeUtils";
 
-function generate_basic_layout(root: Node, v_space: number, h_space: number) {
+function basic_layout(root: Node, v_space: number, h_space: number) {
   let min_x = Infinity;
 
   post_order_traverse_tree(root, (node) => {
@@ -50,3 +50,5 @@ function generate_basic_layout(root: Node, v_space: number, h_space: number) {
     node.x = node.x - node.width / 2 + diff;
   });
 }
+
+export { basic_layout };
