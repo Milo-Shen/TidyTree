@@ -8,6 +8,7 @@ import { DoublyLinkedList } from "./DoublyLinkedList";
 
 // Import Layout
 import { basic_layout } from "./Layout/BasicLayout";
+import { tidy_layout } from "./Layout/TidyLayout";
 
 // Import Utils
 import { bfs_traverse_tree, is_leaf } from "./TreeUtils";
