@@ -104,6 +104,10 @@ class TidyTree {
     basic_layout(this.root!, this.v_space, this.h_space);
   }
 
+  generate_tidy_layout() {
+    tidy_layout(this.root!, this.v_space, this.h_space);
+  }
+
   calculate_line_pos(root: Node | undefined) {
     bfs_traverse_tree(root, (node) => {
       if (is_leaf(node)) {

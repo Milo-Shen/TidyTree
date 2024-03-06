@@ -32,12 +32,13 @@ function App() {
     //   { id: "id=2", children: [], width: 97, height: 136 },
     //   { id: "id=3", children: [], width: 129, height: 75 },
     // ];
-    let data = mock_org_chart_data(30, 3, true);
+    let data = mock_org_chart_data(5, 2, false);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
     let chart = new TidyTree();
     chart.initialize_tree_from_raw_data(data);
-    chart.generate_basic_layout();
+    // chart.generate_basic_layout();
+    chart.generate_tidy_layout();
     let card_list = chart.get_node_linked_list();
     let line_list = chart.calculate_line_pos(chart.root);
     console.log(`build org chart time: ${performance.now() - now} ms`);
