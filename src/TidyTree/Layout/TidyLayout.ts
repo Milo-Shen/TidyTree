@@ -4,7 +4,7 @@ import { Node } from "../Node";
 // Import Utils
 import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree } from "../TreeUtils";
 
-function tidy_layout(root: Node, v_space: number, h_space: number) {
+function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean) {
   // reset the status of each node
   bfs_traverse_tree(root, (node) => {
     node.x = 0;
@@ -27,6 +27,9 @@ function tidy_layout(root: Node, v_space: number, h_space: number) {
   });
 
   // set_y_recursive
+  if (!is_layered) {
+  } else {
+  }
 }
 
 export { tidy_layout };

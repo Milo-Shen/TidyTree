@@ -105,7 +105,7 @@ class TidyTree {
   }
 
   generate_tidy_layout() {
-    tidy_layout(this.root!, this.v_space, this.h_space);
+    tidy_layout(this.root!, this.v_space, this.h_space, this.is_layered);
   }
 
   calculate_line_pos(root: Node | undefined) {

@@ -37,8 +37,8 @@ function App() {
     now = performance.now();
     let chart = new TidyTree();
     chart.initialize_tree_from_raw_data(data);
-    // chart.generate_basic_layout();
-    chart.generate_tidy_layout();
+    chart.generate_basic_layout();
+    // chart.generate_tidy_layout();
     let card_list = chart.get_node_linked_list();
     let line_list = chart.calculate_line_pos(chart.root);
     console.log(`build org chart time: ${performance.now() - now} ms`);
