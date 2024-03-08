@@ -2,7 +2,7 @@
 import { Node } from "../Node";
 
 // Import Utils
-import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree } from "../TreeUtils";
+import { bfs_traverse_tree, pre_order_traverse_tree } from "../TreeUtils";
 
 function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean) {
   // reset the status of each node
@@ -28,6 +28,9 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 
   // set_y_recursive
   if (!is_layered) {
+    pre_order_traverse_tree(root, (node) => {
+      node.y = node.parent ? (node.y = node.bottom() + v_space) : 0;
+    });
   } else {
   }
 }
