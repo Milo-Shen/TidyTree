@@ -30,6 +30,30 @@ export function bfs_traverse_tree(root: Node | undefined, callback: (node: Node)
   }
 }
 
+export function bfs_traverse_tree_with_depth(root: Node | undefined, callback: (node: Node, level: number) => void) {
+  if (!root) {
+    return;
+  }
+
+  let level = 0;
+  let queue = DoublyLinkedList.from_array<Node>([root]);
+
+  while (!queue.is_empty()) {
+    let len = queue.length;
+    level++;
+
+    for (let i = 0; i < len; i++) {
+      let card = queue.shift()!;
+      callback(card, level);
+
+      let children = card!.children;
+      for (let j = 0; j < children.length; j++) {
+        queue.push(children[j]);
+      }
+    }
+  }
+}
+
 export function post_order_traverse_tree(root: Node | undefined, callback: (node: Node) => void) {
   if (!root) {
     return;

@@ -55,7 +55,7 @@ class TidyTree {
     h_space: number = 10,
     v_space: number = 40,
     line_width: number = 2,
-    is_layered: boolean = false
+    is_layered: boolean = true
   ) {
     this.root = root;
     this.layout_mode = layout_mode;
@@ -105,7 +105,7 @@ class TidyTree {
   }
 
   generate_tidy_layout() {
-    tidy_layout(this.root!, this.v_space, this.h_space, this.is_layered);
+    tidy_layout(this.root!, this.v_space, this.h_space, this.is_layered, this.depth_to_y);
   }
 
   calculate_line_pos(root: Node | undefined) {

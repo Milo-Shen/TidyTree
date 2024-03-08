@@ -2,9 +2,9 @@
 import { Node } from "../Node";
 
 // Import Utils
-import { bfs_traverse_tree, pre_order_traverse_tree } from "../TreeUtils";
+import { bfs_traverse_tree, bfs_traverse_tree_with_depth, pre_order_traverse_tree } from "../TreeUtils";
 
-function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean) {
+function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean, depth_to_y: Array<number>) {
   // reset the status of each node
   bfs_traverse_tree(root, (node) => {
     node.x = 0;
@@ -32,6 +32,10 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
       node.y = node.parent ? (node.y = node.bottom() + v_space) : 0;
     });
   } else {
+    depth_to_y.length = 0;
+    bfs_traverse_tree_with_depth(root, (node, level) => {
+      console.log(node.id, level);
+    });
   }
 }
 
