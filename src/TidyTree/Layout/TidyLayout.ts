@@ -67,4 +67,8 @@ function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, de
   }
 }
 
+function first_walk(root: Node) {}
+
+function second_walk(root: Node, modified_sum: number) {}
+
 export { tidy_layout };
