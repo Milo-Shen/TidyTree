@@ -35,7 +35,7 @@ export function bfs_traverse_tree_with_depth(root: Node | undefined, callback: (
     return;
   }
 
-  let level = 0;
+  let level = -1;
   let queue = DoublyLinkedList.from_array<Node>([root]);
 
   while (!queue.is_empty()) {

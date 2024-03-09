@@ -33,8 +33,18 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
     });
   } else {
     depth_to_y.length = 0;
-    bfs_traverse_tree_with_depth(root, (node, level) => {
-      console.log(node.id, level);
+    bfs_traverse_tree_with_depth(root, (node, depth) => {
+      while (depth >= depth_to_y.length) {
+        depth_to_y.push(0);
+      }
+
+      if (!node.parent || depth === 0) {
+        node.y = 0;
+        return;
+      }
+
+      let parent = node.parent;
+      depth_to_y[depth] = Math.max(depth_to_y[depth], depth_to_y[depth - 1] + parent.height + v_space);
     });
   }
 }
