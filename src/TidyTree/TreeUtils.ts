@@ -4,6 +4,12 @@ import { Node } from "./Node";
 // Import LinkedList
 import { DoublyLinkedList } from "./DoublyLinkedList";
 
+// Interface Definition
+interface NodeWithDepth {
+  node: Node;
+  depth: number;
+}
+
 export function is_even(num: number): boolean {
   return num % 2 === 0;
 }
@@ -30,7 +36,7 @@ export function bfs_traverse_tree(root: Node | undefined, callback: (node: Node)
   }
 }
 
-export function bfs_traverse_tree_with_depth(root: Node | undefined, callback: (node: Node, level: number) => void) {
+export function bfs_traverse_tree_with_depth(root: Node | undefined, callback: (node: Node, depth: number) => void) {
   if (!root) {
     return;
   }
@@ -91,6 +97,28 @@ export function pre_order_traverse_tree(root: Node | undefined, callback: (node:
     let children = card!.children;
     for (let i = children.length - 1; i >= 0; i--) {
       queue.push(children[i]);
+    }
+  }
+}
+
+export function pre_order_traverse_tree_with_depth(
+  root: Node | undefined,
+  callback: (node: Node, depth: number) => void
+) {
+  if (!root) {
+    return;
+  }
+
+  let rootWithDepth: NodeWithDepth = { node: root, depth: 0 };
+  let queue = DoublyLinkedList.from_array<NodeWithDepth>([rootWithDepth]);
+
+  while (!queue.is_empty()) {
+    let nodeWithDepth = queue.pop()!;
+    callback(nodeWithDepth.node, nodeWithDepth.depth);
+
+    let children = nodeWithDepth.node!.children;
+    for (let i = children.length - 1; i >= 0; i--) {
+      queue.push({ node: children[i], depth: nodeWithDepth.depth + 1 });
     }
   }
 }
