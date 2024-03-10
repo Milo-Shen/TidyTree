@@ -9,6 +9,8 @@ import {
   pre_order_traverse_tree_with_depth,
 } from "../TreeUtils";
 
+import { set_extreme } from "./TidyLayoutUtils";
+
 function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean, depth_to_y: Array<number>) {
   // reset the status of each node
   init_node(root);
@@ -70,6 +72,7 @@ function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, de
 function first_walk(node: Node) {
   // empty children
   if (!node.children.length) {
+    set_extreme(node);
     return;
   }
 }
