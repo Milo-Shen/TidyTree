@@ -17,6 +17,9 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 
   // set pos_y of nodes
   set_pos_y_of_nodes(root, v_space, is_layered, depth_to_y);
+
+  // first walk
+  first_walk(root);
 }
 
 function init_node(root: Node) {
@@ -78,6 +81,13 @@ function first_walk(node: Node) {
 
   // todo: enhance the performance here
   first_walk(node.children[0]);
+
+  let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
+  for (let i = 1; i < node.children.length; i++) {
+    let child = node.children[i];
+    first_walk(child);
+    let max_y = child.tidy!.extreme_left!.bottom();
+  }
 }
 
 function second_walk(node: Node, modified_sum: number) {}
