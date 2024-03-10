@@ -75,6 +75,9 @@ function first_walk(node: Node) {
     set_extreme(node);
     return;
   }
+
+  // todo: enhance the performance here
+  first_walk(node.children[0]);
 }
 
 function second_walk(node: Node, modified_sum: number) {}
