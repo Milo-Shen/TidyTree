@@ -86,7 +86,7 @@ function first_walk(node: Node) {
   for (let i = 1; i < node.children.length; i++) {
     let child = node.children[i];
     first_walk(child);
-    let max_y = child.tidy!.extreme_left!.bottom();
+    let max_pos_y = child.tidy!.extreme_left!.bottom();
   }
 }
 
