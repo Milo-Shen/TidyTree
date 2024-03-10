@@ -67,8 +67,13 @@ function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, de
   }
 }
 
-function first_walk(root: Node) {}
+function first_walk(node: Node) {
+  // empty children
+  if (!node.children.length) {
+    return;
+  }
+}
 
-function second_walk(root: Node, modified_sum: number) {}
+function second_walk(node: Node, modified_sum: number) {}
 
 export { tidy_layout };
