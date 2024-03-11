@@ -49,7 +49,7 @@ export class DoublyLinkedListNode<T> {
   next?: DoublyLinkedListNode<T>;
   previous?: DoublyLinkedListNode<T>;
 
-  constructor(value: any = undefined, next?: DoublyLinkedListNode<T>, previous?: DoublyLinkedListNode<T>) {
+  constructor(value: T, next?: DoublyLinkedListNode<T>, previous?: DoublyLinkedListNode<T>) {
     this.value = value;
     this.next = next;
     this.previous = previous;
