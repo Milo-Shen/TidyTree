@@ -1,10 +1,19 @@
-// Import Linked List
-import { DoublyLinkedListNode } from "./DoublyLinkedList";
-
-export class LinkedYList extends DoublyLinkedListNode<number> {
+export class LinkedYList {
   index: number;
+  pos_y: number;
+  next?: LinkedYList;
+
   constructor(index: number, pos_y: number) {
-    super(pos_y);
     this.index = index;
+    this.pos_y = pos_y;
+    this.next = undefined;
+  }
+
+  bottom() {
+    return this.pos_y;
+  }
+
+  pop() {
+    return this.next;
   }
 }
