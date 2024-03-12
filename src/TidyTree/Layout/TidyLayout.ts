@@ -1,5 +1,6 @@
 // Import Classes, Interfaces, Type
 import { Node } from "../Node";
+import { LinkedYList } from "../LinkedYList";
 
 // Import Utils
 import {
@@ -8,7 +9,6 @@ import {
   pre_order_traverse_tree,
   pre_order_traverse_tree_with_depth,
 } from "../TreeUtils";
-
 import { set_extreme } from "./TidyLayoutUtils";
 
 function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean, depth_to_y: Array<number>) {
@@ -83,10 +83,13 @@ function first_walk(node: Node) {
   first_walk(node.children[0]);
 
   let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
+  let pos_y_list = new LinkedYList(0, extreme_right_bottom);
   for (let i = 1; i < node.children.length; i++) {
     let child = node.children[i];
     first_walk(child);
-    let max_pos_y = child.tidy!.extreme_left!.bottom();
+    let max_y = child.tidy!.extreme_left!.bottom();
+    // pos_y_list = separate(node, i, pos_y_list);
+    pos_y_list = pos_y_list.update(i, max_y);
   }
 }
 
