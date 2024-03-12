@@ -28,6 +28,6 @@ export class LinkedYList {
       }
     }
 
-    new LinkedYList(index, pos_y, node);
+    return new LinkedYList(index, pos_y, node);
   }
 }
