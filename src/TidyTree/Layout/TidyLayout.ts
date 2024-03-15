@@ -9,7 +9,7 @@ import {
   pre_order_traverse_tree,
   pre_order_traverse_tree_with_depth,
 } from "../TreeUtils";
-import { set_extreme } from "./TidyLayoutUtils";
+import { set_extreme, separate } from "./TidyLayoutUtils";
 
 function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean, depth_to_y: Array<number>) {
   // reset the status of each node
@@ -88,9 +88,12 @@ function first_walk(node: Node) {
     let child = node.children[i];
     first_walk(child);
     let max_y = child.tidy!.extreme_left!.bottom();
-    // pos_y_list = separate(node, i, pos_y_list);
+    pos_y_list = separate(node, i, pos_y_list);
     pos_y_list = pos_y_list.update(i, max_y);
   }
+
+  // position_root(node);
+  set_extreme(node);
 }
 
 function second_walk(node: Node, modified_sum: number) {}

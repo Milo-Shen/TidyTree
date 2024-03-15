@@ -1,5 +1,6 @@
 // Import Classes, Interfaces, Type
 import { Node } from "../Node";
+import { LinkedYList } from "../LinkedYList";
 
 function set_extreme(node: Node) {
   let tidy = node.tidy!;
@@ -20,4 +21,8 @@ function set_extreme(node: Node) {
   }
 }
 
-export { set_extreme };
+function separate(node: Node, child_index: number, pos_y_list: LinkedYList): LinkedYList {
+  return pos_y_list;
+}
+
+export { set_extreme, separate };
