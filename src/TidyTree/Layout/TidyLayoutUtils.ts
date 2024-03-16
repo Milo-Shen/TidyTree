@@ -42,11 +42,30 @@ function separate(node: Node, child_index: number, pos_y_list: LinkedYList, h_sp
     }
 
     let dist = left.right() - right.left() + h_space;
+    if (dist > 0) {
+      // left node and right node are too close. move right part with distance of dist
+      right.modifier_sum += dist;
+      move_subtree(node, child_index, pos_y_list.index, dist);
+    }
   }
 
   return pos_y_list;
 }
 
 function position_root(node: Node) {}
+
+function move_subtree(node: Node, current_index: number, from_index: number, distance: number) {
+  let child = node.children[current_index];
+  let child_tidy = child.tidy!;
+  child_tidy.modifier_to_subtree += distance;
+
+  // distribute extra space to nodes between from_index to current_index
+  if (from_index !== current_index - 1) {
+    let index_diff = current_index - from_index;
+    node.children[from_index + 1].tidy!.shift_acceleration += distance / index_diff;
+    node.children[current_index].tidy!.shift_acceleration -= distance / index_diff;
+    node.children[current_index].tidy!.shift_change -= distance - distance / index_diff;
+  }
+}
 
 export { set_extreme, separate, position_root };
