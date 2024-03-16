@@ -89,6 +89,7 @@ function set_left_thread(node: Node, current_index: number, target: Node, modifi
   let first = node.children[0];
   let current = node.children[current_index];
   let diff = modifier - first.tidy!.modifier_extreme_left - first.tidy!.modifier_to_subtree;
+
   first.tidy!.extreme_left!.tidy!.thread_left = target;
   first.tidy!.extreme_left!.tidy!.modifier_thread_left = diff;
   first.tidy!.extreme_left = current.tidy!.extreme_left;
@@ -96,6 +97,17 @@ function set_left_thread(node: Node, current_index: number, target: Node, modifi
     current.tidy!.modifier_extreme_left + current.tidy!.modifier_to_subtree - first.tidy!.modifier_to_subtree;
 }
 
-function set_right_thread(node: Node, current_index: number, target: Node, modifier: number) {}
+function set_right_thread(node: Node, current_index: number, target: Node, modifier: number) {
+  let current = node.children[current_index];
+
+  let diff = modifier - current.tidy!.modifier_extreme_right - current.tidy!.modifier_to_subtree;
+  current.tidy!.extreme_left!.tidy!.thread_right = target;
+  current.tidy!.extreme_left!.tidy!.modifier_thread_right = diff;
+
+  let prev = node.children[current_index - 1].tidy!;
+  current.tidy!.extreme_right = prev.extreme_right;
+  current.tidy!.modifier_extreme_right =
+    prev.modifier_extreme_right + prev.modifier_to_subtree - current.tidy!.modifier_to_subtree;
+}
 
 export { set_extreme, separate, position_root };
