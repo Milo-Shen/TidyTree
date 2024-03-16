@@ -19,7 +19,7 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
   set_pos_y_of_nodes(root, v_space, is_layered, depth_to_y);
 
   // first walk
-  first_walk(root);
+  first_walk(root, h_space);
 }
 
 function init_node(root: Node) {
@@ -72,7 +72,7 @@ function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, de
   }
 }
 
-function first_walk(node: Node) {
+function first_walk(node: Node, h_space: number) {
   // empty children
   if (!node.children.length) {
     set_extreme(node);
@@ -80,15 +80,15 @@ function first_walk(node: Node) {
   }
 
   // todo: enhance the performance here
-  first_walk(node.children[0]);
+  first_walk(node.children[0], h_space);
 
   let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
   let pos_y_list = new LinkedYList(0, extreme_right_bottom);
   for (let i = 1; i < node.children.length; i++) {
     let child = node.children[i];
-    first_walk(child);
+    first_walk(child, h_space);
     let max_y = child.tidy!.extreme_left!.bottom();
-    pos_y_list = separate(node, i, pos_y_list);
+    pos_y_list = separate(node, i, pos_y_list, h_space);
     pos_y_list = pos_y_list.update(i, max_y);
   }
 
