@@ -85,7 +85,16 @@ function move_subtree(node: Node, current_index: number, from_index: number, dis
   }
 }
 
-function set_left_thread(node: Node, current_index: number, target: Node, modifier: number) {}
+function set_left_thread(node: Node, current_index: number, target: Node, modifier: number) {
+  let first = node.children[0];
+  let current = node.children[current_index];
+  let diff = modifier - first.tidy!.modifier_extreme_left - first.tidy!.modifier_to_subtree;
+  first.tidy!.extreme_left!.tidy!.thread_left = target;
+  first.tidy!.extreme_left!.tidy!.modifier_thread_left = diff;
+  first.tidy!.extreme_left = current.tidy!.extreme_left;
+  first.tidy!.modifier_extreme_left =
+    current.tidy!.modifier_extreme_left + current.tidy!.modifier_to_subtree - first.tidy!.modifier_to_subtree;
+}
 
 function set_right_thread(node: Node, current_index: number, target: Node, modifier: number) {}
 
