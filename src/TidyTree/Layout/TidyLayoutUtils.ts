@@ -69,7 +69,16 @@ function separate(node: Node, child_index: number, pos_y_list: LinkedYList, h_sp
   return pos_y_list;
 }
 
-function position_root(node: Node) {}
+function position_root(node: Node) {
+  let first = node.children[0];
+  let first_child_pos = first.relative_x + first.tidy!.modifier_to_subtree;
+  let last = node.children[node.children.length - 1];
+  let last_child_pos = last.relative_x + last.tidy!.modifier_to_subtree;
+  node.relative_x = (first_child_pos + last_child_pos) / 2;
+  // make modifier_to_subtree + relative_x = 0
+  // there will always be collision in `separation()`'s first loop
+  node.tidy!.modifier_to_subtree = -node.relative_x;
+}
 
 function move_subtree(node: Node, current_index: number, from_index: number, distance: number) {
   let child = node.children[current_index];
