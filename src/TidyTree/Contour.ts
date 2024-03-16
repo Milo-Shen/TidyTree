@@ -31,6 +31,10 @@ export class Contour {
     return node.y + node.height;
   }
 
+  is_none() {
+    return !this.current;
+  }
+
   next() {
     let node = this.current;
     let node_tidy = node?.tidy;
