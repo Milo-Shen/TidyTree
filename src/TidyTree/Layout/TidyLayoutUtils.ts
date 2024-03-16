@@ -1,6 +1,7 @@
 // Import Classes, Interfaces, Type
 import { Node } from "../Node";
 import { LinkedYList } from "../LinkedYList";
+import { Contour } from "../Contour";
 
 function set_extreme(node: Node) {
   let tidy = node.tidy!;
@@ -22,7 +23,12 @@ function set_extreme(node: Node) {
 }
 
 function separate(node: Node, child_index: number, pos_y_list: LinkedYList): LinkedYList {
+  let left = new Contour(false, node.children[child_index - 1]);
+  let right = new Contour(true, node.children[child_index]);
+
   return pos_y_list;
 }
 
-export { set_extreme, separate };
+function position_root(node: Node) {}
+
+export { set_extreme, separate, position_root };
