@@ -47,6 +47,23 @@ function separate(node: Node, child_index: number, pos_y_list: LinkedYList, h_sp
       right.modifier_sum += dist;
       move_subtree(node, child_index, pos_y_list.index, dist);
     }
+
+    let left_bottom = left.bottom();
+    let right_bottom = right.bottom();
+
+    if (left_bottom <= right_bottom) {
+      left.next();
+    }
+
+    if (left_bottom >= right_bottom) {
+      right.next();
+    }
+  }
+
+  if (left.is_none() && !right.is_none()) {
+    set_left_thread(node, child_index, right.node(), right.modifier_sum);
+  } else if (!left.is_none() && right.is_none()) {
+    set_right_thread(node, child_index, left.node(), left.modifier_sum);
   }
 
   return pos_y_list;
@@ -67,5 +84,9 @@ function move_subtree(node: Node, current_index: number, from_index: number, dis
     node.children[current_index].tidy!.shift_change -= distance - distance / index_diff;
   }
 }
+
+function set_left_thread(node: Node, current_index: number, target: Node, modifier: number) {}
+
+function set_right_thread(node: Node, current_index: number, target: Node, modifier: number) {}
 
 export { set_extreme, separate, position_root };

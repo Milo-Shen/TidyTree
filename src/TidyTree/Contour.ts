@@ -11,6 +11,14 @@ export class Contour {
     this.modifier_sum = node?.tidy?.modifier_to_subtree ?? 0;
   }
 
+  node() {
+    if (!this.current) {
+      throw new Error("node is not available in Contour");
+    }
+
+    return this.current;
+  }
+
   left() {
     let node = this.current!;
     return this.modifier_sum + node.relative_x - node.width / 2;
