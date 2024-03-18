@@ -96,6 +96,12 @@ function first_walk(node: Node, h_space: number) {
   set_extreme(node);
 }
 
-function second_walk(node: Node, modified_sum: number) {}
+function second_walk(node: Node, modified_sum: number) {
+  modified_sum += node.tidy?.modifier_to_subtree!;
+  node.x = node.relative_x + modified_sum;
+  // add_child_spacing(node);
+
+  for (let i = 0; i < node.children.length; i++) {}
+}
 
 export { tidy_layout };
