@@ -119,4 +119,6 @@ function set_right_thread(node: Node, current_index: number, target: Node, modif
     prev.modifier_extreme_right + prev.modifier_to_subtree - current.tidy!.modifier_to_subtree;
 }
 
-export { set_extreme, separate, position_root };
+function add_child_spacing(node: Node) {}
+
+export { set_extreme, separate, position_root, add_child_spacing };
