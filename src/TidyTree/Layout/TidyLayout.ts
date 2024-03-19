@@ -20,6 +20,9 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 
   // first walk
   first_walk(root, h_space);
+
+  // second walk
+  second_walk(root, 0);
 }
 
 function init_node(root: Node) {
@@ -101,7 +104,9 @@ function second_walk(node: Node, modified_sum: number) {
   node.x = node.relative_x + modified_sum;
   // add_child_spacing(node);
 
-  for (let i = 0; i < node.children.length; i++) {}
+  for (let i = 0; i < node.children.length; i++) {
+    second_walk(node.children[i], modified_sum);
+  }
 }
 
 export { tidy_layout };
