@@ -119,6 +119,18 @@ function set_right_thread(node: Node, current_index: number, target: Node, modif
     prev.modifier_extreme_right + prev.modifier_to_subtree - current.tidy!.modifier_to_subtree;
 }
 
-function add_child_spacing(node: Node) {}
+function add_child_spacing(node: Node) {
+  let speed = 0;
+  let delta = 0;
+
+  for (let i = 0; i < node.children.length; i++) {
+    let child = node.children[i];
+    speed += child.tidy!.shift_acceleration;
+    delta += speed + child.tidy!.shift_change;
+    child.tidy!.modifier_to_subtree += delta;
+    child.tidy!.shift_acceleration = 0;
+    child.tidy!.shift_change = 0;
+  }
+}
 
 export { set_extreme, separate, position_root, add_child_spacing };
