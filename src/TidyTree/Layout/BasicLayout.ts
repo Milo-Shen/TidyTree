@@ -2,7 +2,7 @@
 import { Node } from "../Node";
 
 // Import Utils
-import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree } from "../TreeUtils";
+import { bfs_traverse_tree, post_order_traverse_tree } from "../TreeUtils";
 import { adjust_node_position } from "./TidyLayoutUtils";
 
 function basic_layout(root: Node, v_space: number, h_space: number) {
