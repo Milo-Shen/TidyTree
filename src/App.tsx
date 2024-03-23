@@ -35,12 +35,12 @@ function App() {
     let data = mock_org_chart_data(5, 2, false);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
-    let chart = new TidyTree();
-    chart.initialize_tree_from_raw_data(data);
+    let chart1 = new TidyTree();
+    chart1.initialize_tree_from_raw_data(data);
     // chart.generate_tidy_layout();
-    chart.generate_basic_layout();
-    let card_list = chart.get_node_linked_list();
-    let line_list = chart.calculate_line_pos(chart.root);
+    chart1.generate_basic_layout();
+    let card_list = chart1.get_node_linked_list();
+    let line_list = chart1.calculate_line_pos(chart1.root);
     console.log(`build org chart time: ${performance.now() - now} ms`);
     console.log(card_list);
     set_card_list({ card_list: card_list, line_list: line_list } as any);
