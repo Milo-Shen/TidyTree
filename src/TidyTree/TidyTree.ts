@@ -43,6 +43,8 @@ class TidyTree {
   layout_mode: LayoutMode;
   map: Map<string, Node>;
   node_linked_list: DoublyLinkedList<Node>;
+  // todo: node_linked_list is only in testing
+  node_array_list: Array<Node>;
   line_list: Array<LineNode>;
   line_width: number;
   is_layered: boolean;
@@ -51,7 +53,7 @@ class TidyTree {
 
   constructor(
     root?: Node,
-    layout_mode: LayoutMode = LayoutMode.Basic,
+    layout_mode: LayoutMode = LayoutMode.Tidy,
     h_space: number = 10,
     v_space: number = 40,
     line_width: number = 2,
@@ -62,6 +64,8 @@ class TidyTree {
     this.map = new Map();
     this.h_space = h_space;
     this.v_space = v_space;
+    // todo: node_array_list is only in testing
+    this.node_array_list = [];
     this.node_linked_list = new DoublyLinkedList();
     this.line_list = [];
     this.line_width = line_width;
@@ -83,6 +87,8 @@ class TidyTree {
 
       // add node to linked list
       this.node_linked_list.push(node);
+      // todo: node_array_list is only in testing
+      this.node_array_list.push(node);
     }
 
     // establish relationship between nodes
@@ -181,6 +187,11 @@ class TidyTree {
 
   get_node_linked_list() {
     return this.node_linked_list;
+  }
+
+  // todo: node_array_list is only for testing
+  get_node_array_list() {
+    return this.node_array_list;
   }
 }
 

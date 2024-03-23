@@ -27,7 +27,8 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
   second_walk(root, 0, min_x);
 
   // adjust the position of orgchart
-  adjust_node_position(root, min_x.value);
+  let diff = min_x.value < 0 ? -min_x.value : 0;
+  adjust_node_position(root, diff);
 }
 
 function init_node(root: Node) {
