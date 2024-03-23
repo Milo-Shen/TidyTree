@@ -28,7 +28,7 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 
   // adjust the position of orgchart
   let diff = min_x.value < 0 ? -min_x.value : 0;
-  // adjust_node_position(root, diff);
+  adjust_node_position(root, diff);
 }
 
 function init_node(root: Node) {
@@ -93,6 +93,7 @@ function first_walk(node: Node, h_space: number) {
 
   let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
   let pos_y_list = new LinkedYList(0, extreme_right_bottom);
+
   for (let i = 1; i < node.children.length; i++) {
     let child = node.children[i];
     first_walk(child, h_space);

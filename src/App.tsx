@@ -27,14 +27,14 @@ function App() {
     // let data = mock_org_chart_data(~~(Math.random() * 30) + 1, ~~(Math.random() * 5) + 1, true);
     // console.log(JSON.stringify(data));
     let data = [
-      { id: "id=0", children: ["id=1", "id=2", "id=3"], width: 200, height: 100 },
+      { id: "id=0", children: ["id=1", "id=2"], width: 200, height: 100 },
       { id: "id=1", children: ["id=4"], width: 200, height: 100 },
       { id: "id=2", children: ["id=5", "id=6"], width: 200, height: 100 },
-      { id: "id=3", children: ["id=7"], width: 200, height: 100 },
+      // { id: "id=3", children: ["id=7"], width: 200, height: 100 },
       { id: "id=4", children: [], width: 200, height: 100 },
       { id: "id=5", children: [], width: 200, height: 100 },
       { id: "id=6", children: [], width: 200, height: 100 },
-      { id: "id=7", children: [], width: 200, height: 100 },
+      // { id: "id=7", children: [], width: 200, height: 100 },
     ];
     // let data = mock_org_chart_data(8, 3, true);
     console.log(JSON.stringify(data));
