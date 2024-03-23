@@ -2,6 +2,7 @@
 import { Node } from "../Node";
 import { LinkedYList } from "../LinkedYList";
 import { Contour } from "../Contour";
+import { pre_order_traverse_tree } from "../TreeUtils";
 
 function set_extreme(node: Node) {
   let tidy = node.tidy!;
@@ -133,4 +134,10 @@ function add_child_spacing(node: Node) {
   }
 }
 
-export { set_extreme, separate, position_root, add_child_spacing };
+function adjust_node_position(node: Node, diff: number) {
+  pre_order_traverse_tree(node, (node) => {
+    node.x = node.x - node.width / 2 + diff;
+  });
+}
+
+export { set_extreme, separate, position_root, add_child_spacing, adjust_node_position };

@@ -3,6 +3,7 @@ import { Node } from "../Node";
 
 // Import Utils
 import { bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree } from "../TreeUtils";
+import { adjust_node_position } from "./TidyLayoutUtils";
 
 function basic_layout(root: Node, v_space: number, h_space: number) {
   let min_x = Infinity;
@@ -45,10 +46,8 @@ function basic_layout(root: Node, v_space: number, h_space: number) {
     min_x = Math.min(min_x, node.x - node.width / 2);
   });
 
-  pre_order_traverse_tree(root, (node) => {
-    let diff = min_x < 0 ? -min_x : 0;
-    node.x = node.x - node.width / 2 + diff;
-  });
+  let diff = min_x < 0 ? -min_x : 0;
+  adjust_node_position(root, diff);
 }
 
 export { basic_layout };
