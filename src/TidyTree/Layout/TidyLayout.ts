@@ -9,9 +9,11 @@ import {
   pre_order_traverse_tree,
   pre_order_traverse_tree_with_depth,
 } from "../TreeUtils";
-import { set_extreme, separate, position_root, add_child_spacing } from "./TidyLayoutUtils";
+import { set_extreme, separate, position_root, add_child_spacing, adjust_node_position } from "./TidyLayoutUtils";
 
 function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean, depth_to_y: Array<number>) {
+  let min_x = { value: Infinity };
+
   // reset the status of each node
   init_node(root);
 
@@ -22,7 +24,10 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
   first_walk(root, h_space);
 
   // second walk
-  second_walk(root, 0);
+  second_walk(root, 0, min_x);
+
+  // adjust the position of orgchart
+  adjust_node_position(root, min_x.value);
 }
 
 function init_node(root: Node) {
@@ -99,13 +104,14 @@ function first_walk(node: Node, h_space: number) {
   set_extreme(node);
 }
 
-function second_walk(node: Node, modified_sum: number) {
+function second_walk(node: Node, modified_sum: number, min_x: { value: number }) {
   modified_sum += node.tidy?.modifier_to_subtree!;
   node.x = node.relative_x + modified_sum;
+  min_x.value = Math.min(min_x.value, node.x - node.width / 2);
   add_child_spacing(node);
 
   for (let i = 0; i < node.children.length; i++) {
-    second_walk(node.children[i], modified_sum);
+    second_walk(node.children[i], modified_sum, min_x);
   }
 }
 
