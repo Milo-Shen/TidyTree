@@ -14,8 +14,8 @@ function build_card(width: number, height: number): MockCard {
   return {
     id: id,
     children: [],
-    width,
-    height,
+    width: range(100, 200),
+    height: range(100, 200),
   };
 }
 
