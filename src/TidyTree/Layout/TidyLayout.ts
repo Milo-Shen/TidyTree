@@ -24,11 +24,11 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
   first_walk(root, h_space);
 
   // second walk
-  second_walk(root, 0, min_x);
+  // second_walk(root, 0, min_x);
 
   // adjust the position of orgchart
   let diff = min_x.value < 0 ? -min_x.value : 0;
-  adjust_node_position(root, diff);
+  // adjust_node_position(root, diff);
 }
 
 function init_node(root: Node) {

@@ -54,14 +54,14 @@ export class Contour {
     if (this.is_left) {
       if (node.children.length) {
         this.current = node.children[0];
-        this.modifier_sum += node_tidy.modifier_to_subtree;
+        this.modifier_sum += this.node().tidy!.modifier_to_subtree;
       } else {
         this.modifier_sum += node_tidy.modifier_thread_left;
         this.current = node_tidy.thread_left;
       }
     } else if (node.children.length) {
       this.current = node.children[node.children.length - 1];
-      this.modifier_sum += node_tidy.modifier_to_subtree;
+      this.modifier_sum += this.node().tidy!.modifier_to_subtree;
     } else {
       this.modifier_sum += node_tidy.modifier_thread_right;
       this.current = node_tidy.thread_right;
