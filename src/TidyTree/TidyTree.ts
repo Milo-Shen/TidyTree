@@ -57,7 +57,7 @@ class TidyTree {
     h_space: number = 10,
     v_space: number = 40,
     line_width: number = 2,
-    is_layered: boolean = true
+    is_layered: boolean = false
   ) {
     this.root = root;
     this.layout_mode = layout_mode;
