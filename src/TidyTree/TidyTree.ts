@@ -52,14 +52,13 @@ class TidyTree {
   depth_to_y: Array<number>;
 
   constructor(
-    root?: Node,
     layout_mode: LayoutMode = LayoutMode.Tidy,
     h_space: number = 10,
     v_space: number = 40,
     line_width: number = 2,
     is_layered: boolean = false
   ) {
-    this.root = root;
+    this.root = undefined;
     this.layout_mode = layout_mode;
     this.map = new Map();
     this.h_space = h_space;

@@ -2,16 +2,14 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // Import Types & Interfaces
-import { Node, chartRenderDefaultData, TidyTree } from "./TidyTree/TidyTree";
-import { UI5CardInterface } from "./Component/UI5Card/UI5Card";
+import { chartRenderDefaultData, Node, TidyTree } from "./TidyTree/TidyTree";
 
 // Import Customized Component
 import Chart from "./Component/Chart/Chart";
 import SimpleOrgChart from "./Component/SimpleOrgChart";
 
 // Import Utils
-import { mock_org_chart_data } from "./Utils/mock_org_chart_data";
-import { range } from "./Utils/generate_id";
+import { LayoutMode } from "./TidyTree/TidyTreeType";
 
 function App() {
   let is_fetch = useRef(false);
@@ -37,11 +35,18 @@ function App() {
     //   { id: "id=6", children: [], width: 200, height: 100 },
     //   // { id: "id=7", children: [], width: 200, height: 100 },
     // ];
-    let data = mock_org_chart_data(5, 2, false);
+    // let data = mock_org_chart_data(5, 2, false);
     // console.log(JSON.stringify(data));
+    let data = [
+      { id: "id=0", children: ["id=1", "id=2"], width: 200, height: 100 },
+      { id: "id=1", children: ["id=3", "id=4"], width: 200, height: 100 },
+      { id: "id=2", children: [], width: 200, height: 100 },
+      { id: "id=3", children: [], width: 200, height: 100 },
+      { id: "id=4", children: [], width: 200, height: 100 },
+    ];
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
-    let chart1 = new TidyTree();
+    let chart1 = new TidyTree(LayoutMode.Tidy, 10, 40, 2, false);
     chart1.initialize_tree_from_raw_data(data);
     chart1.generate_tidy_layout();
     // chart1.generate_basic_layout();
