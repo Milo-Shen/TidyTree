@@ -37,7 +37,7 @@ function App() {
     //   { id: "id=6", children: [], width: 200, height: 100 },
     //   // { id: "id=7", children: [], width: 200, height: 100 },
     // ];
-    let data = mock_org_chart_data(10, 5, true, [100, 200], [50, 100]);
+    let data = mock_org_chart_data(30, 5, true, [100, 200], [50, 100]);
     console.log(JSON.stringify(data));
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
