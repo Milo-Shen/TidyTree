@@ -122,9 +122,13 @@ class TidyTree {
       // create line node
       let children_len = node.children.length;
 
+      if (children_len <= 0) {
+        return;
+      }
+
+      let child_y = node.children[0].y;
       // case one: one parent has one child
       if (children_len === 1) {
-        let child_y = node.children[0].y;
         let x = node.x + (node.width - this.line_width) / 2;
         let y = node.y + node.height;
         let w = this.line_width;
@@ -152,7 +156,8 @@ class TidyTree {
         x = node.x + (node.width - this.line_width) / 2;
         y = node.y + node.height;
         w = this.line_width;
-        h = (this.v_space - this.line_width) / 2;
+        // h = (this.v_space - this.line_width) / 2;
+        h = child_y - y - (this.v_space + this.line_width) / 2;
         let p_to_c_line = this.create_line_node(LineType.Line, x, y, w, h);
         this.line_list.push(p_to_c_line);
 
