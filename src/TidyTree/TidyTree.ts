@@ -124,10 +124,11 @@ class TidyTree {
 
       // case one: one parent has one child
       if (children_len === 1) {
+        let child_y = node.children[0].y;
         let x = node.x + (node.width - this.line_width) / 2;
         let y = node.y + node.height;
         let w = this.line_width;
-        let h = this.v_space;
+        let h = child_y - y;
         let line_node = this.create_line_node(LineType.Line, x, y, w, h);
         this.line_list.push(line_node);
       } else {
