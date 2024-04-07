@@ -56,7 +56,7 @@ function init_node(root: Node) {
 function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, depth_to_y: Array<number>) {
   if (!is_layered) {
     pre_order_traverse_tree(root, (node) => {
-      node.y = node.parent ? (node.y = node.bottom() + v_space) : 0;
+      node.y = node.parent ? (node.y = node.parent.bottom() + v_space) : 0;
     });
   } else {
     depth_to_y.length = 0;
