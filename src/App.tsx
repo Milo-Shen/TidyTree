@@ -25,7 +25,8 @@ function App() {
 
     // todo: test it
     let now = performance.now();
-    let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
+    // let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
+    let data = mock_org_chart_data(7, 3, false);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
     let chart1 = new TidyTree(LayoutMode.Tidy, 10, 40, 2, false);

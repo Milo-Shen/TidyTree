@@ -24,7 +24,7 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
   first_walk(root, h_space);
 
   // second walk
-  second_walk(root, 0, min_x);
+  second_walk_stack(root, 0, min_x);
 
   // adjust the position of orgchart
   let diff = min_x.value < 0 ? -min_x.value : 0;
@@ -115,6 +115,17 @@ function second_walk(node: Node, modified_sum: number, min_x: { value: number })
   for (let i = 0; i < node.children.length; i++) {
     second_walk(node.children[i], modified_sum, min_x);
   }
+}
+
+function second_walk_stack(root: Node, modified_sum: number, min_x: { value: number }) {
+  let _modified_sum = modified_sum;
+
+  pre_order_traverse_tree(root, (node) => {
+    _modified_sum += node.tidy?.modifier_to_subtree!;
+    node.x = node.relative_x + _modified_sum;
+    min_x.value = Math.min(min_x.value, node.x - node.width / 2);
+    add_child_spacing(node);
+  });
 }
 
 export { tidy_layout };
