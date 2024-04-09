@@ -10,12 +10,13 @@ export class TidyInfo {
   public modifier_thread_right: number;
   public modifier_extreme_left: number;
   public modifier_extreme_right: number;
+  public prev_modified_sum: number;
 
   constructor() {
     this.thread_left = undefined;
-    this.thread_left = undefined;
-    this.thread_left = undefined;
-    this.thread_left = undefined;
+    this.thread_right = undefined;
+    this.extreme_left = undefined;
+    this.extreme_right = undefined;
     this.shift_acceleration = 0;
     this.shift_change = 0;
     this.modifier_to_subtree = 0;
@@ -23,6 +24,7 @@ export class TidyInfo {
     this.modifier_thread_right = 0;
     this.modifier_extreme_left = 0;
     this.modifier_extreme_right = 0;
+    this.prev_modified_sum = 0;
   }
 }
 

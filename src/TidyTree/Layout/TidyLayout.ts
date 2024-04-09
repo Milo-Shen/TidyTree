@@ -1,5 +1,5 @@
 // Import Classes, Interfaces, Type
-import { Node } from "../Node";
+import { Node, TidyInfo } from "../Node";
 import { LinkedYList } from "../LinkedYList";
 
 // Import Utils
@@ -24,7 +24,7 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
   first_walk(root, h_space);
 
   // second walk
-  second_walk(root, 0, min_x);
+  second_walk_stack(root, 0, min_x);
 
   // adjust the position of orgchart
   let diff = min_x.value < 0 ? -min_x.value : 0;
@@ -37,19 +37,7 @@ function init_node(root: Node) {
     node.y = 0;
     node.relative_x = 0;
     node.relative_y = 0;
-    node.tidy = {
-      extreme_left: undefined,
-      extreme_right: undefined,
-      shift_acceleration: 0,
-      shift_change: 0,
-      modifier_to_subtree: 0,
-      modifier_extreme_left: 0,
-      modifier_extreme_right: 0,
-      thread_left: undefined,
-      thread_right: undefined,
-      modifier_thread_left: 0,
-      modifier_thread_right: 0,
-    };
+    node.tidy = new TidyInfo();
   });
 }
 
@@ -118,28 +106,13 @@ function second_walk(node: Node, modified_sum: number, min_x: { value: number })
 }
 
 function second_walk_stack(root: Node, modified_sum: number, min_x: { value: number }) {
-  let modified_sum_stack = [modified_sum];
-  let prev_node: Node | undefined = undefined;
-
   pre_order_traverse_tree(root, (node) => {
-    console.log(node.id);
-
-    if (prev_node?.parent === node) {
-      modified_sum_stack.pop();
-    }
-
-    let _modified_sum = modified_sum_stack[modified_sum_stack.length - 1];
-    _modified_sum += node.tidy?.modifier_to_subtree!;
-
-    if (!prev_node || prev_node === node.parent) {
-      modified_sum_stack.push(_modified_sum);
-    }
-
-    node.x = node.relative_x + _modified_sum;
+    let prev_modified_sum = node.parent ? node.parent.tidy!.prev_modified_sum : modified_sum;
+    let cur_modified_sum = prev_modified_sum + node.tidy?.modifier_to_subtree!;
+    node.x = node.relative_x + cur_modified_sum;
+    node.tidy!.prev_modified_sum = cur_modified_sum;
     min_x.value = Math.min(min_x.value, node.x - node.width / 2);
     add_child_spacing(node);
-
-    prev_node = node;
   });
 }
 
