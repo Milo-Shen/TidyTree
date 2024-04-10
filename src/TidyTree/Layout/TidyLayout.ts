@@ -94,6 +94,14 @@ function first_walk(node: Node, h_space: number) {
   set_extreme(node);
 }
 
+function first_walk_stack(node: Node, h_space: number) {
+  // empty children
+  if (!node.children.length) {
+    set_extreme(node);
+    return;
+  }
+}
+
 function second_walk(node: Node, modified_sum: number, min_x: { value: number }) {
   modified_sum += node.tidy?.modifier_to_subtree!;
   node.x = node.relative_x + modified_sum;
