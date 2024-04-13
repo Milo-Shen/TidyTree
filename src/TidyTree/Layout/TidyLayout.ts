@@ -70,6 +70,8 @@ function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, de
 }
 
 function first_walk(node: Node, h_space: number) {
+  console.log(node.id);
+
   // empty children
   if (!node.children.length) {
     set_extreme(node);
@@ -94,11 +96,27 @@ function first_walk(node: Node, h_space: number) {
   set_extreme(node);
 }
 
-function first_walk_stack(node: Node, h_space: number) {
-  // empty children
-  if (!node.children.length) {
-    set_extreme(node);
-    return;
+function first_walk_stack(root: Node, h_space: number) {
+  let stack: Node[] = [];
+
+  let node: Node | undefined = root;
+  while (node !== undefined) {
+    stack.push(node);
+    node = node.children.length ? node.children[0] : undefined;
+  }
+
+  while (stack.length) {
+    let node = stack[stack.length - 1];
+
+    // empty children
+    if (!node.children.length) {
+      set_extreme(node);
+      continue;
+    }
+
+    for (let i = node.children.length - 1; i > 0; i--) {
+      stack.push(node.children[i]);
+    }
   }
 }
 

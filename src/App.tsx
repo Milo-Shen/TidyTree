@@ -25,8 +25,16 @@ function App() {
 
     // todo: test it
     let now = performance.now();
-    let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
-    // let data = mock_org_chart_data(7, 3, false);
+    // let data = mock_org_chart_data(range(1, 10), range(0, 3), true, [100, 200], [50, 100]);
+    let data = [
+      { id: "id=0", children: ["id=1", "id=2"], width: 146, height: 90 },
+      { id: "id=1", children: ["id=3", "id=4", "id=5"], width: 145, height: 98 },
+      { id: "id=2", children: [], width: 135, height: 53 },
+      { id: "id=3", children: [], width: 177, height: 53 },
+      { id: "id=4", children: [], width: 137, height: 83 },
+      { id: "id=5", children: [], width: 188, height: 57 },
+    ];
+    // console.log(JSON.stringify(data));
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
     let chart1 = new TidyTree(LayoutMode.Tidy, 10, 40, 2, false);
