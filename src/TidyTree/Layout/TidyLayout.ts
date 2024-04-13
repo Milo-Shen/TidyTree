@@ -22,6 +22,7 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 
   // first walk
   first_walk(root, h_space);
+  first_walk_stack(root, h_space);
 
   // second walk
   second_walk_stack(root, 0, min_x);
@@ -70,10 +71,9 @@ function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, de
 }
 
 function first_walk(node: Node, h_space: number) {
-  console.log(node.id);
-
   // empty children
   if (!node.children.length) {
+    console.log(node.id);
     set_extreme(node);
     return;
   }
@@ -107,16 +107,18 @@ function first_walk_stack(root: Node, h_space: number) {
 
   let pre = root;
   while (stack.length) {
+    console.log(stack.map((x) => x.id));
     let node = stack[stack.length - 1];
 
     // empty children
     if (!node.children.length) {
       set_extreme(node);
       stack.pop();
+      pre = node;
       continue;
     }
 
-    if (pre === node.children[node.children.length - 1]) {
+    if (node.children[node.children.length - 1] === pre) {
       stack.pop();
     }
 
