@@ -99,24 +99,32 @@ function first_walk(node: Node, h_space: number) {
 function first_walk_stack(root: Node, h_space: number) {
   let stack: Node[] = [];
 
-  let node: Node | undefined = root;
-  while (node !== undefined) {
-    stack.push(node);
-    node = node.children.length ? node.children[0] : undefined;
+  let cur_node: Node | undefined = root;
+  while (cur_node !== undefined) {
+    stack.push(cur_node);
+    cur_node = cur_node.children.length ? cur_node.children[0] : undefined;
   }
 
+  let pre = root;
   while (stack.length) {
     let node = stack[stack.length - 1];
 
     // empty children
     if (!node.children.length) {
       set_extreme(node);
+      stack.pop();
       continue;
+    }
+
+    if (pre === node.children[node.children.length - 1]) {
+      stack.pop();
     }
 
     for (let i = node.children.length - 1; i > 0; i--) {
       stack.push(node.children[i]);
     }
+
+    pre = node;
   }
 }
 
