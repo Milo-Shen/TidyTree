@@ -73,13 +73,13 @@ function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, de
 function first_walk(node: Node, h_space: number) {
   // empty children
   if (!node.children.length) {
-    console.log(node.id);
     set_extreme(node);
     return;
   }
 
   // todo: enhance the performance here
   first_walk(node.children[0], h_space);
+  console.log(node.id);
 
   let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
   let pos_y_list = new LinkedYList(0, extreme_right_bottom);
@@ -118,8 +118,15 @@ function first_walk_stack(root: Node, h_space: number) {
       continue;
     }
 
+    if (node.children[0] === pre) {
+      console.log("to child", node.id);
+    }
+
     if (node.children[node.children.length - 1] === pre) {
       stack.pop();
+      // console.log("pop", node.id);
+      // position_root(node);
+      // set_extreme(node);
     }
 
     for (let i = node.children.length - 1; i > 0; i--) {
