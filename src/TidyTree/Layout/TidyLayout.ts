@@ -79,7 +79,6 @@ function first_walk(node: Node, h_space: number) {
 
   // todo: enhance the performance here
   first_walk(node.children[0], h_space);
-  console.log(node.id);
 
   let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
   let pos_y_list = new LinkedYList(0, extreme_right_bottom);
@@ -87,6 +86,8 @@ function first_walk(node: Node, h_space: number) {
   for (let i = 1; i < node.children.length; i++) {
     let child = node.children[i];
     first_walk(child, h_space);
+
+    console.log(node.id, child.id);
     let max_y = child.tidy!.extreme_left!.bottom();
     pos_y_list = separate(node, i, pos_y_list, h_space);
     pos_y_list = pos_y_list.update(i, max_y);
@@ -106,32 +107,47 @@ function first_walk_stack(root: Node, h_space: number) {
   }
 
   let pre = root;
+  let pos_y_list = null;
+  let child_index = 1;
+
   while (stack.length) {
     let node = stack[stack.length - 1];
     console.log(
       stack.map((x) => x.id),
-      node.id
+      node.id,
+      pre.id
     );
 
     // empty children
     if (!node.children.length) {
       set_extreme(node);
+
+      if (node.parent === pre || node.parent === pre.parent) {
+        let index = node.parent?.children.indexOf(node)!;
+        console.log("child", node.id, node.parent?.id, pre.id, index, child_index++);
+        let max_y = node.tidy!.extreme_left!.bottom();
+        pos_y_list = separate(node, index, pos_y_list!, h_space);
+        pos_y_list = pos_y_list.update(index, max_y);
+      }
+
       stack.pop();
       pre = node;
       continue;
     }
 
     if (node.children[0] === pre) {
-      console.log("to child", node.id);
+      let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
+      pos_y_list = new LinkedYList(0, extreme_right_bottom);
+      child_index = 1;
     }
 
     if (node.children[node.children.length - 1] === pre) {
+      position_root(node);
+      set_extreme(node);
+
       stack.pop();
       pre = node;
 
-      // console.log("pop", node.id);
-      // position_root(node);
-      // set_extreme(node);
       continue;
     }
 
