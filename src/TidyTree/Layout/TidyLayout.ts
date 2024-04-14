@@ -107,8 +107,11 @@ function first_walk_stack(root: Node, h_space: number) {
 
   let pre = root;
   while (stack.length) {
-    console.log(stack.map((x) => x.id));
     let node = stack[stack.length - 1];
+    console.log(
+      stack.map((x) => x.id),
+      node.id
+    );
 
     // empty children
     if (!node.children.length) {
@@ -124,9 +127,12 @@ function first_walk_stack(root: Node, h_space: number) {
 
     if (node.children[node.children.length - 1] === pre) {
       stack.pop();
+      pre = node;
+
       // console.log("pop", node.id);
       // position_root(node);
       // set_extreme(node);
+      continue;
     }
 
     for (let i = node.children.length - 1; i > 0; i--) {
