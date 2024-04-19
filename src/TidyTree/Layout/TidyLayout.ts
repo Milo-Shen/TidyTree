@@ -21,8 +21,8 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
   set_pos_y_of_nodes(root, v_space, is_layered, depth_to_y);
 
   // first walk
-  first_walk(root, h_space);
-  // first_walk_stack(root, h_space);
+  // first_walk(root, h_space);
+  first_walk_stack(root, h_space);
 
   // second walk
   second_walk_stack(root, 0, min_x);

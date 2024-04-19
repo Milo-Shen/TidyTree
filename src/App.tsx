@@ -26,26 +26,26 @@ function App() {
     // todo: test it
     let now = performance.now();
     // let data = mock_org_chart_data(range(1, 10), range(0, 3), true, [100, 200], [50, 100]);
-    // let data = [
-    //   { id: "id=0", children: ["id=1", "id=2"], width: 146, height: 90 },
-    //   { id: "id=1", children: ["id=3", "id=4", "id=5"], width: 145, height: 98 },
-    //   { id: "id=2", children: [], width: 135, height: 53 },
-    //   { id: "id=3", children: [], width: 177, height: 53 },
-    //   { id: "id=4", children: [], width: 137, height: 83 },
-    //   { id: "id=5", children: [], width: 188, height: 57 },
-    // ];
     let data = [
-      { id: "id=0", children: ["id=1"], width: 130, height: 64 },
-      { id: "id=1", children: ["id=2", "id=3"], width: 142, height: 62 },
-      { id: "id=2", children: ["id=4"], width: 169, height: 70 },
-      { id: "id=3", children: ["id=5"], width: 199, height: 92 },
-      { id: "id=4", children: ["id=6", "id=7"], width: 149, height: 57 },
-      { id: "id=5", children: ["id=8"], width: 184, height: 55 },
-      { id: "id=6", children: ["id=9"], width: 114, height: 76 },
-      { id: "id=7", children: [], width: 127, height: 59 },
-      { id: "id=8", children: [], width: 141, height: 64 },
-      { id: "id=9", children: [], width: 177, height: 94 },
+      { id: "id=0", children: ["id=1", "id=2"], width: 146, height: 90 },
+      { id: "id=1", children: ["id=3", "id=4", "id=5"], width: 145, height: 98 },
+      { id: "id=2", children: [], width: 135, height: 53 },
+      { id: "id=3", children: [], width: 177, height: 53 },
+      { id: "id=4", children: [], width: 137, height: 83 },
+      { id: "id=5", children: [], width: 188, height: 57 },
     ];
+    // let data = [
+    //   { id: "id=0", children: ["id=1"], width: 130, height: 64 },
+    //   { id: "id=1", children: ["id=2", "id=3"], width: 142, height: 62 },
+    //   { id: "id=2", children: ["id=4"], width: 169, height: 70 },
+    //   { id: "id=3", children: ["id=5"], width: 199, height: 92 },
+    //   { id: "id=4", children: ["id=6", "id=7"], width: 149, height: 57 },
+    //   { id: "id=5", children: ["id=8"], width: 184, height: 55 },
+    //   { id: "id=6", children: ["id=9"], width: 114, height: 76 },
+    //   { id: "id=7", children: [], width: 127, height: 59 },
+    //   { id: "id=8", children: [], width: 141, height: 64 },
+    //   { id: "id=9", children: [], width: 177, height: 94 },
+    // ];
     console.log(JSON.stringify(data));
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
