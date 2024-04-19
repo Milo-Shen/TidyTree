@@ -146,8 +146,15 @@ function first_walk_stack(root: Node, h_space: number) {
       continue;
     }
 
-    for (let i = node.children.length - 1; i > 0; i--) {
-      stack.push(node.children[i]);
+    // for (let i = node.children.length - 1; i > 0; i--) {
+    //   stack.push(node.children[i]);
+    // }
+
+    let index = node.children.indexOf(pre)! + 1;
+    let cur_node: Node | undefined = node.children[index];
+    while (cur_node !== undefined) {
+      stack.push(cur_node);
+      cur_node = cur_node.children.length ? cur_node.children[0] : undefined;
     }
 
     pre = node;
