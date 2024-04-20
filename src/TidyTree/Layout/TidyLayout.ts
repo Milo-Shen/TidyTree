@@ -117,14 +117,6 @@ function first_walk_stack(root: Node, h_space: number) {
     // empty children
     if (!node.children.length) {
       set_extreme(node);
-
-      if (node.parent === pre || node.parent === pre.parent) {
-        let index = node.parent?.children.indexOf(node)!;
-        let max_y = node.tidy!.extreme_left!.bottom();
-        pos_y_list = separate(node.parent!, index, pos_y_list!, h_space);
-        pos_y_list = pos_y_list.update(index, max_y);
-      }
-
       stack.pop();
       pre = node;
       continue;
@@ -134,6 +126,15 @@ function first_walk_stack(root: Node, h_space: number) {
       let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
       pos_y_list = new LinkedYList(0, extreme_right_bottom);
       child_index = 1;
+    }
+
+    if (pre.parent === node) {
+      let index = node.children.indexOf(pre)!;
+      if (index > 0) {
+        let max_y = pre.tidy!.extreme_left!.bottom();
+        pos_y_list = separate(node, index, pos_y_list!, h_space);
+        pos_y_list = pos_y_list.update(index, max_y);
+      }
     }
 
     if (node.children[node.children.length - 1] === pre) {
