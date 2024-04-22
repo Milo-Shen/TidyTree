@@ -106,7 +106,7 @@ function first_walk_stack(root: Node, h_space: number) {
   }
 
   let pre = root;
-  let pos_y_list = null;
+  let pos_y_list_map: Map<string, LinkedYList> = new Map();
   let child_index = 1;
 
   while (stack.length) {
@@ -124,13 +124,15 @@ function first_walk_stack(root: Node, h_space: number) {
 
     if (node.children[0] === pre) {
       let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
-      pos_y_list = new LinkedYList(0, extreme_right_bottom);
+      let pos_y_list = new LinkedYList(0, extreme_right_bottom);
+      pos_y_list_map.set(node.id, pos_y_list);
       child_index = 1;
     }
 
     if (pre.parent === node) {
       let index = node.children.indexOf(pre)!;
       if (index > 0) {
+        let pos_y_list = pos_y_list_map.get(node.id);
         let max_y = pre.tidy!.extreme_left!.bottom();
         pos_y_list = separate(node, index, pos_y_list!, h_space);
         pos_y_list = pos_y_list.update(index, max_y);
@@ -146,10 +148,6 @@ function first_walk_stack(root: Node, h_space: number) {
 
       continue;
     }
-
-    // for (let i = node.children.length - 1; i > 0; i--) {
-    //   stack.push(node.children[i]);
-    // }
 
     let index = node.children.indexOf(pre)! + 1;
     let cur_node: Node | undefined = node.children[index];
