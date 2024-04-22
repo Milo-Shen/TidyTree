@@ -139,10 +139,8 @@ function first_walk_stack(root: Node, h_space: number) {
     if (node.children[node.children.length - 1] === pre) {
       position_root(node);
       set_extreme(node);
-
       stack.pop();
       pre = node;
-
       continue;
     }
 
