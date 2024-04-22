@@ -107,7 +107,6 @@ function first_walk_stack(root: Node, h_space: number) {
 
   let pre = root;
   let pos_y_list_map: Map<string, LinkedYList> = new Map();
-  let child_index = 1;
 
   while (stack.length) {
     let node = stack[stack.length - 1];
@@ -124,7 +123,6 @@ function first_walk_stack(root: Node, h_space: number) {
       let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
       let pos_y_list = new LinkedYList(0, extreme_right_bottom);
       pos_y_list_map.set(node.id, pos_y_list);
-      child_index = 1;
     }
 
     if (pre.parent === node) {
