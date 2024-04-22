@@ -87,7 +87,7 @@ class TidyTree {
       // add node to linked list
       this.node_linked_list.push(node);
       // todo: node_array_list is only in testing
-      this.node_array_list.push(node);
+      // this.node_array_list.push(node);
     }
 
     // establish relationship between nodes
