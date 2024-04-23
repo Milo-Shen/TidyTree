@@ -10,6 +10,7 @@ import {
   pre_order_traverse_tree_with_depth,
 } from "../TreeUtils";
 import { set_extreme, separate, position_root, add_child_spacing, adjust_node_position } from "./TidyLayoutUtils";
+import { DoublyLinkedList } from "../DoublyLinkedList";
 
 function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean, depth_to_y: Array<number>) {
   let min_x = { value: Infinity };
@@ -96,7 +97,7 @@ function first_walk(node: Node, h_space: number) {
 }
 
 function first_walk_stack_without_recursion(root: Node, h_space: number) {
-  let stack: Node[] = [];
+  let stack: DoublyLinkedList<Node> = new DoublyLinkedList();
 
   let cur_node: Node | undefined = root;
   while (cur_node !== undefined) {
@@ -108,7 +109,7 @@ function first_walk_stack_without_recursion(root: Node, h_space: number) {
   let pos_y_list_map: Map<string, LinkedYList> = new Map();
 
   while (stack.length) {
-    let node = stack[stack.length - 1];
+    let node = stack.last()!;
 
     // empty children
     if (!node.children.length) {

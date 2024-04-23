@@ -24,6 +24,8 @@ export class TidyInfo {
     this.modifier_thread_right = 0;
     this.modifier_extreme_left = 0;
     this.modifier_extreme_right = 0;
+
+    // to accelerate the speed of second walk
     this.prev_modified_sum = 0;
   }
 }
