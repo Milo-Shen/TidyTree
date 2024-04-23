@@ -22,10 +22,11 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 
   // first walk
   // first_walk(root, h_space);
-  first_walk_stack(root, h_space);
+  first_walk_stack_without_recursion(root, h_space);
 
   // second walk
-  second_walk_stack(root, 0, min_x);
+  // second_walk(root, 0, min_x);
+  second_walk_without_recursion(root, 0, min_x);
 
   // adjust the position of orgchart
   let diff = min_x.value < 0 ? -min_x.value : 0;
@@ -77,7 +78,6 @@ function first_walk(node: Node, h_space: number) {
     return;
   }
 
-  // todo: enhance the performance here
   first_walk(node.children[0], h_space);
 
   let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
@@ -95,8 +95,7 @@ function first_walk(node: Node, h_space: number) {
   set_extreme(node);
 }
 
-// todo: still has issues
-function first_walk_stack(root: Node, h_space: number) {
+function first_walk_stack_without_recursion(root: Node, h_space: number) {
   let stack: Node[] = [];
 
   let cur_node: Node | undefined = root;
@@ -166,7 +165,7 @@ function second_walk(node: Node, modified_sum: number, min_x: { value: number })
   }
 }
 
-function second_walk_stack(root: Node, modified_sum: number, min_x: { value: number }) {
+function second_walk_without_recursion(root: Node, modified_sum: number, min_x: { value: number }) {
   pre_order_traverse_tree(root, (node) => {
     let prev_modified_sum = node.parent ? node.parent.tidy!.prev_modified_sum : modified_sum;
     let cur_modified_sum = prev_modified_sum + node.tidy?.modifier_to_subtree!;
