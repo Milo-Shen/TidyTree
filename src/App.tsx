@@ -36,7 +36,7 @@ function App() {
     let line_list = chart.calculate_line_pos(chart.root);
     console.log(`process time: ${performance.now() - now} ms`);
     // console.log(card_array_list);
-    // set_card_list({ card_list: card_list, line_list: line_list } as any);
+    set_card_list({ card_list: card_list, line_list: line_list } as any);
 
     return () => {
       is_fetch.current = true;

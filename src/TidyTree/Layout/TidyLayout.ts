@@ -126,12 +126,11 @@ function first_walk_stack_without_recursion(root: Node, h_space: number) {
     }
 
     if (pre.parent === node) {
-      let index = node.children.indexOf(pre)!;
-      if (index > 0) {
+      if (pre.index > 0) {
         let pos_y_list = pos_y_list_map.get(node.id);
         let max_y = pre.tidy!.extreme_left!.bottom();
-        pos_y_list = separate(node, index, pos_y_list!, h_space);
-        pos_y_list = pos_y_list.update(index, max_y);
+        pos_y_list = separate(node, pre.index, pos_y_list!, h_space);
+        pos_y_list = pos_y_list.update(pre.index, max_y);
         pos_y_list_map.set(node.id, pos_y_list);
       }
     }
@@ -144,7 +143,7 @@ function first_walk_stack_without_recursion(root: Node, h_space: number) {
       continue;
     }
 
-    let index = node.children.indexOf(pre)! + 1;
+    let index = pre.index + 1;
     let cur_node: Node | undefined = node.children[index];
     while (cur_node !== undefined) {
       stack.push(cur_node);
