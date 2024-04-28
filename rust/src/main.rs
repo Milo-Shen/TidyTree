@@ -2,7 +2,7 @@
 use std::time::Instant;
 
 //  use local types
-use tidy_tree::LayoutMode;
+use tidy_tree::{LayoutMode, TidyConfiguration};
 use utils::mock_org_chart_data;
 
 mod line;
@@ -18,6 +18,7 @@ fn main() {
     let duration = start_time.elapsed();
     println!("mock data: {:?}", duration);
     let start_time = Instant::now();
+    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
     let mut chart = tidy_tree::TidyTree::new(LayoutMode::Basic, 10.0, 40.0);
     let duration = start_time.elapsed();
     println!("init org chart: {:?}", duration);

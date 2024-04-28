@@ -11,10 +11,11 @@ use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traver
 
 // implementations
 impl TidyConfiguration {
-    pub fn new(h_space: f32, v_space: f32, is_layered: bool, depth_to_y: Vec<f32>) -> TidyConfiguration {
+    pub fn new(h_space: f32, v_space: f32, line_width: f32, is_layered: bool, depth_to_y: Vec<f32>) -> TidyConfiguration {
         TidyConfiguration {
             h_space,
             v_space,
+            line_width,
             is_layered,
             depth_to_y,
         }

@@ -16,11 +16,11 @@ pub enum LayoutMode {
 #[derive(Debug)]
 pub struct TidyTree {
     pub root: Option<Rc<RefCell<Node>>>,
-    pub h_space: f32,
-    pub v_space: f32,
     pub layout_mode: LayoutMode,
     pub map: HashMap<i64, Rc<RefCell<Node>>>,
     pub node_linked_list: Vec<Rc<RefCell<Node>>>,
+    pub h_space: f32,
+    pub v_space: f32,
 }
 
 pub struct TidyConfiguration {
@@ -28,6 +28,8 @@ pub struct TidyConfiguration {
     pub h_space: f32,
     // margin between child and parent node
     pub v_space: f32,
+    // set the line width between each node
+    pub line_width: f32,
     // all siblings node will be putted on a same pos y layer
     pub is_layered: bool,
     // this is only for layered mode
