@@ -94,6 +94,7 @@ class TidyTree {
     for (let i = 0; i < node_list_len; i++) {
       let { id, children } = node_list[i];
       let node = this.map.get(id)!;
+
       for (let j = 0; j < children.length; j++) {
         let child = this.map.get(children[j])!;
         child.parent = node;
