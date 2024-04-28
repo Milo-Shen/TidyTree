@@ -23,11 +23,9 @@ impl TidyConfiguration {
 }
 
 impl TidyTree {
-    pub fn new(layout_mode: LayoutMode, h_space: f32, v_space: f32, tidy_configuration: TidyConfiguration) -> TidyTree {
+    pub fn new(layout_mode: LayoutMode, tidy_configuration: TidyConfiguration) -> TidyTree {
         TidyTree {
             root: None,
-            h_space,
-            v_space,
             layout_mode,
             map: HashMap::new(),
             node_linked_list: vec![],
@@ -89,11 +87,11 @@ impl TidyTree {
             for child in &node.borrow().children {
                 let child_bounding_box_w = child.borrow().bounding_box_w;
                 child.borrow_mut().relative_x = temp_x + child_bounding_box_w / 2.0;
-                child.borrow_mut().relative_y = node_h + self.v_space;
-                temp_x += child_bounding_box_w + self.h_space;
+                child.borrow_mut().relative_y = node_h + self.tidy_configuration.v_space;
+                temp_x += child_bounding_box_w + self.tidy_configuration.h_space;
             }
 
-            let children_w = temp_x - self.h_space;
+            let children_w = temp_x - self.tidy_configuration.h_space;
             let shift_x = -children_w / 2.0;
 
             for child in &node.borrow().children {

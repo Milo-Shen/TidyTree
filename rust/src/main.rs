@@ -19,7 +19,7 @@ fn main() {
     println!("mock data: {:?}", duration);
     let start_time = Instant::now();
     let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
-    let mut chart = tidy_tree::TidyTree::new(LayoutMode::Basic, 10.0, 40.0, tidy_configuration);
+    let mut chart = tidy_tree::TidyTree::new(LayoutMode::Basic, tidy_configuration);
     let duration = start_time.elapsed();
     println!("init org chart: {:?}", duration);
     let start_time = Instant::now();
