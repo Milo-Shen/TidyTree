@@ -2,21 +2,7 @@ use rand::Rng;
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
-
-pub struct GenerateID {
-    id: i64,
-}
-
-impl GenerateID {
-    pub fn new() -> GenerateID {
-        GenerateID { id: -1 }
-    }
-
-    pub fn get_next_id(&mut self) -> i64 {
-        self.id += 1;
-        self.id
-    }
-}
+use crate::utils::generate_id::GenerateID;
 
 #[derive(Debug, Clone)]
 pub struct MockChartData {

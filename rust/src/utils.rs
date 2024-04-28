@@ -7,6 +7,7 @@ use std::rc::Rc;
 use crate::node::Node;
 
 pub mod mock_org_chart_data;
+mod generate_id;
 
 pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
     where
