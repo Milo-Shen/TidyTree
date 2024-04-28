@@ -23,14 +23,15 @@ impl TidyConfiguration {
 }
 
 impl TidyTree {
-    pub fn new(layout_mode: LayoutMode, h_space: f32, v_space: f32) -> TidyTree {
+    pub fn new(layout_mode: LayoutMode, h_space: f32, v_space: f32, tidy_configuration: TidyConfiguration) -> TidyTree {
         TidyTree {
             root: None,
             h_space,
             v_space,
-            layout_mode: LayoutMode::Basic,
+            layout_mode,
             map: HashMap::new(),
             node_linked_list: vec![],
+            tidy_configuration,
         }
     }
 
