@@ -1,9 +1,10 @@
 // Import React Framework
 import React, { useEffect, useRef, useState } from "react";
 
-// Import Types & Interfaces & Tidy Tree
+// Import Types & Interfaces of Tidy Tree
 import { chartRenderDefaultData, Node, TidyTree } from "./TidyTree/TidyTree";
 import { LayoutMode } from "./TidyTree/TidyTreeType";
+import { TidyConfiguration } from "./TidyTree/TidyTree";
 
 // Import Customized Component
 import Chart from "./Component/Chart/Chart";

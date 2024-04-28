@@ -26,7 +26,7 @@ class TidyConfiguration {
   // this is only for layered mode
   public depth_to_y: Array<number>;
 
-  constructor(h_space = 0, v_space = 0, is_layered = true, depth_to_y = []) {
+  constructor(h_space = 0, v_space = 0, is_layered = false, depth_to_y = []) {
     this.h_space = h_space;
     this.v_space = v_space;
     this.is_layered = is_layered;
@@ -50,13 +50,15 @@ class TidyTree {
   is_layered: boolean;
   // this is only for layered mode
   depth_to_y: Array<number>;
+  tidy_configuration: TidyConfiguration;
 
   constructor(
     layout_mode: LayoutMode = LayoutMode.Tidy,
     h_space: number = 10,
     v_space: number = 40,
     line_width: number = 2,
-    is_layered: boolean = false
+    is_layered: boolean = false,
+    tidy_configuration = new TidyConfiguration()
   ) {
     this.root = undefined;
     this.layout_mode = layout_mode;
@@ -70,6 +72,7 @@ class TidyTree {
     this.line_width = line_width;
     this.is_layered = is_layered;
     this.depth_to_y = [];
+    this.tidy_configuration = tidy_configuration;
   }
 
   initialize_tree_from_raw_data(node_list: Array<any>) {
