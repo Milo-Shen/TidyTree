@@ -29,7 +29,8 @@ function App() {
     let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
     console.log(`build mock data time: ${performance.now() - now} ms`);
     now = performance.now();
-    let chart = new TidyTree(LayoutMode.Tidy, 10, 40, 2, false);
+    let tidy_configuration = new TidyConfiguration();
+    let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
     chart.initialize_tree_from_raw_data(data);
     chart.generate_tidy_layout();
     let card_list = chart.get_node_linked_list();

@@ -21,14 +21,17 @@ class TidyConfiguration {
   public h_space: number;
   // margin between child and parent node
   public v_space: number;
+  // set the line width between each node
+  public line_width: number;
   // all siblings node will be putted on a same pos y layer
   public is_layered: boolean;
   // this is only for layered mode
   public depth_to_y: Array<number>;
 
-  constructor(h_space = 0, v_space = 0, is_layered = false, depth_to_y = []) {
+  constructor(h_space = 10, v_space = 40, line_width = 2, is_layered = false, depth_to_y = []) {
     this.h_space = h_space;
     this.v_space = v_space;
+    this.line_width = line_width;
     this.is_layered = is_layered;
     this.depth_to_y = depth_to_y;
   }
@@ -36,42 +39,22 @@ class TidyConfiguration {
 
 class TidyTree {
   root?: Node;
-  // margin between sibling nodes
-  h_space: number;
-  // margin between child and parent node
-  v_space: number;
   layout_mode: LayoutMode;
   map: Map<string, Node>;
   node_linked_list: DoublyLinkedList<Node>;
   // todo: node_linked_list is only in testing
   node_array_list: Array<Node>;
   line_list: Array<LineNode>;
-  line_width: number;
-  is_layered: boolean;
-  // this is only for layered mode
-  depth_to_y: Array<number>;
   tidy_configuration: TidyConfiguration;
 
-  constructor(
-    layout_mode: LayoutMode = LayoutMode.Tidy,
-    h_space: number = 10,
-    v_space: number = 40,
-    line_width: number = 2,
-    is_layered: boolean = false,
-    tidy_configuration = new TidyConfiguration()
-  ) {
+  constructor(layout_mode: LayoutMode = LayoutMode.Tidy, tidy_configuration = new TidyConfiguration()) {
     this.root = undefined;
     this.layout_mode = layout_mode;
     this.map = new Map();
-    this.h_space = h_space;
-    this.v_space = v_space;
     // todo: node_array_list is only in testing
     this.node_array_list = [];
     this.node_linked_list = new DoublyLinkedList();
     this.line_list = [];
-    this.line_width = line_width;
-    this.is_layered = is_layered;
-    this.depth_to_y = [];
     this.tidy_configuration = tidy_configuration;
   }
 
@@ -110,11 +93,17 @@ class TidyTree {
   }
 
   generate_basic_layout() {
-    basic_layout(this.root!, this.v_space, this.h_space);
+    basic_layout(this.root!, this.tidy_configuration.v_space, this.tidy_configuration.h_space);
   }
 
   generate_tidy_layout() {
-    tidy_layout(this.root!, this.v_space, this.h_space, this.is_layered, this.depth_to_y);
+    tidy_layout(
+      this.root!,
+      this.tidy_configuration.v_space,
+      this.tidy_configuration.h_space,
+      this.tidy_configuration.is_layered,
+      this.tidy_configuration.depth_to_y
+    );
   }
 
   calculate_line_pos(root: Node | undefined) {
@@ -133,9 +122,9 @@ class TidyTree {
       let child_y = node.children[0].y;
       // case one: one parent has one child
       if (children_len === 1) {
-        let x = node.x + (node.width - this.line_width) / 2;
+        let x = node.x + (node.width - this.tidy_configuration.line_width) / 2;
         let y = node.y + node.height;
-        let w = this.line_width;
+        let w = this.tidy_configuration.line_width;
         let h = child_y - y;
         let line_node = this.create_line_node(LineType.Line, x, y, w, h);
         this.line_list.push(line_node);
@@ -145,33 +134,33 @@ class TidyTree {
         let last = node.children[node.children.length - 1];
 
         // get the mid pos of a card
-        let start = first.x + (first.width - this.line_width) / 2;
-        let end = last.x + (last.width - this.line_width) / 2;
+        let start = first.x + (first.width - this.tidy_configuration.line_width) / 2;
+        let end = last.x + (last.width - this.tidy_configuration.line_width) / 2;
 
         // update line info
         let x = start;
-        let h = (this.v_space + this.line_width) / 2;
+        let h = (this.tidy_configuration.v_space + this.tidy_configuration.line_width) / 2;
         let y = first.y - h;
         let w = end - start;
         let square_node = this.create_line_node(LineType.Square, x, y, w, h);
         this.line_list.push(square_node);
 
         // case three: parent to category line
-        x = node.x + (node.width - this.line_width) / 2;
+        x = node.x + (node.width - this.tidy_configuration.line_width) / 2;
         y = node.y + node.height;
-        w = this.line_width;
-        // h = (this.v_space - this.line_width) / 2;
-        h = child_y - y - (this.v_space + this.line_width) / 2;
+        w = this.tidy_configuration.line_width;
+        // h = (this.tidy_configuration.v_space - this.line_width) / 2;
+        h = child_y - y - (this.tidy_configuration.v_space + this.tidy_configuration.line_width) / 2;
         let p_to_c_line = this.create_line_node(LineType.Line, x, y, w, h);
         this.line_list.push(p_to_c_line);
 
         // case four: parent to node line
         for (let i = 1; i < node.children.length - 1; i++) {
           let child = node.children[i];
-          let x = child.x + (child.width - this.line_width) / 2;
-          let y = child.y - (this.v_space + this.line_width) / 2;
-          let w = this.line_width;
-          let h = (this.v_space + this.line_width) / 2;
+          let x = child.x + (child.width - this.tidy_configuration.line_width) / 2;
+          let y = child.y - (this.tidy_configuration.v_space + this.tidy_configuration.line_width) / 2;
+          let w = this.tidy_configuration.line_width;
+          let h = (this.tidy_configuration.v_space + this.tidy_configuration.line_width) / 2;
           let p_to_n_line = this.create_line_node(LineType.Line, x, y, w, h);
           this.line_list.push(p_to_n_line);
         }
@@ -185,7 +174,7 @@ class TidyTree {
     let line_node = new LineNode();
     line_node.mode = type;
     line_node.color = "#6A6D70";
-    line_node.border_width = this.line_width;
+    line_node.border_width = this.tidy_configuration.line_width;
     line_node.border_radius = 12;
     line_node.pos_x = x;
     line_node.pos_y = y;
