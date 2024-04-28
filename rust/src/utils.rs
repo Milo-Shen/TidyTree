@@ -6,6 +6,8 @@ use std::rc::Rc;
 //  use local types
 use crate::node::Node;
 
+pub mod mock_org_chart_data;
+
 pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
     where
         F: FnMut(Rc<RefCell<Node>>) -> (),

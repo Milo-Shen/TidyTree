@@ -1,8 +1,8 @@
-use crate::tidy_tree::LayoutMode;
+use tidy_tree::LayoutMode;
 use std::time::Instant;
+use utils::mock_org_chart_data;
 
 mod line;
-mod mock_org_chart_data;
 mod tidy_tree;
 mod utils;
 mod contour;

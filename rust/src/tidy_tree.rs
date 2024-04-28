@@ -6,7 +6,7 @@ use std::rc::{Rc, Weak};
 //  use local types
 use crate::line::{LineNode, LineType};
 use crate::node::{Node, NodeType};
-use crate::mock_org_chart_data::MockChartData;
+use crate::utils::mock_org_chart_data::MockChartData;
 use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree};
 
 #[derive(Debug)]
