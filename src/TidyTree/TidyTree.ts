@@ -17,6 +17,8 @@ import { bfs_traverse_tree, is_leaf } from "./TreeUtils";
 export const chartRenderDefaultData = { card_list: [], line_list: [] };
 
 class TidyConfiguration {
+  // the layout mode of tidy tree
+  public layout_mode: LayoutMode;
   // margin between sibling nodes
   public h_space: number;
   // margin between child and parent node
@@ -28,7 +30,15 @@ class TidyConfiguration {
   // this is only for layered mode
   public depth_to_y: Array<number>;
 
-  constructor(h_space = 10, v_space = 40, line_width = 2, is_layered = false, depth_to_y = []) {
+  constructor(
+    layout_mode = LayoutMode.Tidy,
+    h_space = 10,
+    v_space = 40,
+    line_width = 2,
+    is_layered = false,
+    depth_to_y = []
+  ) {
+    this.layout_mode = layout_mode;
     this.h_space = h_space;
     this.v_space = v_space;
     this.line_width = line_width;
@@ -96,6 +106,16 @@ class TidyTree {
     if (this.layout_mode === LayoutMode.Basic) {
       basic_layout(this.root!, this.tidy_configuration.v_space, this.tidy_configuration.h_space);
       return;
+    }
+
+    if (this.layout_mode === LayoutMode.Tidy) {
+      tidy_layout(
+        this.root!,
+        this.tidy_configuration.v_space,
+        this.tidy_configuration.h_space,
+        this.tidy_configuration.is_layered,
+        this.tidy_configuration.depth_to_y
+      );
     }
   }
 
