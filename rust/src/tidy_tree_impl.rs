@@ -5,9 +5,21 @@ use std::collections::HashMap;
 
 //  use local types
 use crate::node::{Node, NodeType};
-use crate::tidy_tree::{LayoutMode, TidyTree};
+use crate::tidy_tree::{TidyTree, LayoutMode, TidyConfiguration};
 use crate::utils::mock_org_chart_data::MockChartData;
 use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree};
+
+// implementations
+impl TidyConfiguration {
+    pub fn new(h_space: f32, v_space: f32, is_layered: bool, depth_to_y: Vec<f32>) -> TidyConfiguration {
+        TidyConfiguration {
+            h_space,
+            v_space,
+            is_layered,
+            depth_to_y,
+        }
+    }
+}
 
 impl TidyTree {
     pub fn new(layout_mode: LayoutMode, h_space: f32, v_space: f32) -> TidyTree {
