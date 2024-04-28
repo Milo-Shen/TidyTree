@@ -1,5 +1,8 @@
-use tidy_tree::LayoutMode;
+// use rust std
 use std::time::Instant;
+
+//  use local types
+use tidy_tree::LayoutMode;
 use utils::mock_org_chart_data;
 
 mod line;
