@@ -3,10 +3,10 @@ use std::rc::{Rc, Weak};
 
 #[derive(Debug)]
 pub struct TidyInfo {
-    pub thread_left: Option<Node>,
-    pub thread_right: Option<Node>,
-    pub extreme_left: Option<Node>,
-    pub extreme_right: Option<Node>,
+    pub thread_left: Weak<RefCell<Node>>,
+    pub thread_right: Weak<RefCell<Node>>,
+    pub extreme_left: Weak<RefCell<Node>>,
+    pub extreme_right: Weak<RefCell<Node>>,
     pub shift_acceleration: f32,
     pub shift_change: f32,
     pub modifier_to_subtree: f32,
@@ -21,10 +21,10 @@ pub struct TidyInfo {
 impl TidyInfo {
     pub fn new() -> TidyInfo {
         TidyInfo {
-            thread_left: None,
-            thread_right: None,
-            extreme_left: None,
-            extreme_right: None,
+            thread_left: Weak::new(),
+            thread_right: Weak::new(),
+            extreme_left: Weak::new(),
+            extreme_right: Weak::new(),
             shift_acceleration: 0.0,
             shift_change: 0.0,
             modifier_to_subtree: 0.0,

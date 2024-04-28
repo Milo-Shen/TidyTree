@@ -60,9 +60,10 @@ impl TidyTree {
             let MockChartData { id, children, .. } = node;
             let node = self.map.get(id).unwrap();
 
-            for child_id in children {
+            for (index, child_id) in children.iter().enumerate() {
                 let child = self.map.get(child_id).unwrap();
                 child.borrow_mut().parent = Rc::downgrade(node);
+                child.borrow_mut().index = index as i64;
                 node.borrow_mut().children.push(Rc::clone(child));
             }
         }
