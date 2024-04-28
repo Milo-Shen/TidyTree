@@ -5,6 +5,7 @@ mod line;
 mod mock_org_chart_data;
 mod tidy_tree;
 mod utils;
+mod contour;
 
 fn main() {
     let start_time = Instant::now();

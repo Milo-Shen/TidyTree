@@ -24,6 +24,8 @@ export class TidyInfo {
     this.modifier_thread_right = 0;
     this.modifier_extreme_left = 0;
     this.modifier_extreme_right = 0;
+
+    // to accelerate the speed of second walk
     this.prev_modified_sum = 0;
   }
 }
@@ -34,6 +36,7 @@ export class Node {
   height: number;
   x: number;
   y: number;
+  index: number;
   relative_x: number;
   relative_y: number;
   bounding_box_w: number;
@@ -47,6 +50,7 @@ export class Node {
     this.height = h;
     this.x = 0;
     this.y = 0;
+    this.index = 0;
     this.relative_x = 0;
     this.relative_y = 0;
     this.bounding_box_w = 0;

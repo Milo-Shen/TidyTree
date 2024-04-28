@@ -10,6 +10,7 @@ import {
   pre_order_traverse_tree_with_depth,
 } from "../TreeUtils";
 import { set_extreme, separate, position_root, add_child_spacing, adjust_node_position } from "./TidyLayoutUtils";
+import { DoublyLinkedList } from "../DoublyLinkedList";
 
 function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: boolean, depth_to_y: Array<number>) {
   let min_x = { value: Infinity };
@@ -22,10 +23,11 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 
   // first walk
   // first_walk(root, h_space);
-  first_walk_stack(root, h_space);
+  first_walk_stack_without_recursion(root, h_space);
 
   // second walk
-  second_walk_stack(root, 0, min_x);
+  // second_walk(root, 0, min_x);
+  second_walk_without_recursion(root, 0, min_x);
 
   // adjust the position of orgchart
   let diff = min_x.value < 0 ? -min_x.value : 0;
@@ -77,7 +79,6 @@ function first_walk(node: Node, h_space: number) {
     return;
   }
 
-  // todo: enhance the performance here
   first_walk(node.children[0], h_space);
 
   let extreme_right_bottom = node.children[0].tidy!.extreme_right!.bottom();
@@ -95,9 +96,8 @@ function first_walk(node: Node, h_space: number) {
   set_extreme(node);
 }
 
-// todo: still has issues
-function first_walk_stack(root: Node, h_space: number) {
-  let stack: Node[] = [];
+function first_walk_stack_without_recursion(root: Node, h_space: number) {
+  let stack: DoublyLinkedList<Node> = new DoublyLinkedList();
 
   let cur_node: Node | undefined = root;
   while (cur_node !== undefined) {
@@ -109,7 +109,7 @@ function first_walk_stack(root: Node, h_space: number) {
   let pos_y_list_map: Map<string, LinkedYList> = new Map();
 
   while (stack.length) {
-    let node = stack[stack.length - 1];
+    let node = stack.last()!;
 
     // empty children
     if (!node.children.length) {
@@ -126,12 +126,11 @@ function first_walk_stack(root: Node, h_space: number) {
     }
 
     if (pre.parent === node) {
-      let index = node.children.indexOf(pre)!;
-      if (index > 0) {
+      if (pre.index > 0) {
         let pos_y_list = pos_y_list_map.get(node.id);
         let max_y = pre.tidy!.extreme_left!.bottom();
-        pos_y_list = separate(node, index, pos_y_list!, h_space);
-        pos_y_list = pos_y_list.update(index, max_y);
+        pos_y_list = separate(node, pre.index, pos_y_list!, h_space);
+        pos_y_list = pos_y_list.update(pre.index, max_y);
         pos_y_list_map.set(node.id, pos_y_list);
       }
     }
@@ -144,7 +143,7 @@ function first_walk_stack(root: Node, h_space: number) {
       continue;
     }
 
-    let index = node.children.indexOf(pre)! + 1;
+    let index = pre.index + 1;
     let cur_node: Node | undefined = node.children[index];
     while (cur_node !== undefined) {
       stack.push(cur_node);
@@ -166,7 +165,7 @@ function second_walk(node: Node, modified_sum: number, min_x: { value: number })
   }
 }
 
-function second_walk_stack(root: Node, modified_sum: number, min_x: { value: number }) {
+function second_walk_without_recursion(root: Node, modified_sum: number, min_x: { value: number }) {
   pre_order_traverse_tree(root, (node) => {
     let prev_modified_sum = node.parent ? node.parent.tidy!.prev_modified_sum : modified_sum;
     let cur_modified_sum = prev_modified_sum + node.tidy?.modifier_to_subtree!;
