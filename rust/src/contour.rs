@@ -1,5 +1,5 @@
 //  use local types
-use crate::tidy_tree::Node;
+use crate::node::Node;
 
 #[derive(Debug)]
 pub struct Contour {

@@ -4,11 +4,11 @@ use std::collections::VecDeque;
 use std::rc::Rc;
 
 //  use local types
-use crate::tidy_tree::Node;
+use crate::node::Node;
 
 pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-where
-    F: FnMut(Rc<RefCell<Node>>) -> (),
+    where
+        F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     if root.is_none() {
         return;
@@ -28,8 +28,8 @@ where
 }
 
 pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-where
-    F: FnMut(Rc<RefCell<Node>>) -> (),
+    where
+        F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     if root.is_none() {
         return;
@@ -55,8 +55,8 @@ where
 }
 
 pub fn bfs_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-where
-    F: FnMut(Rc<RefCell<Node>>) -> (),
+    where
+        F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     let mut queue = VecDeque::from([root.unwrap()]);
 

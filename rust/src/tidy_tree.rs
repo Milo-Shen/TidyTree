@@ -5,37 +5,15 @@ use std::rc::{Rc, Weak};
 
 //  use local types
 use crate::line::{LineNode, LineType};
+use crate::node::{Node, NodeType};
 use crate::mock_org_chart_data::MockChartData;
 use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree};
-
-#[derive(Debug)]
-pub enum NodeType {
-    NORMAL,
-    LITE,
-    BATCH,
-    EXTEND,
-}
 
 #[derive(Debug)]
 pub enum LayoutMode {
     Basic,
     Tidy,
     LayeredTidy,
-}
-
-#[derive(Debug)]
-pub struct Node {
-    pub id: i64,
-    pub width: f32,
-    pub height: f32,
-    pub x: f32,
-    pub y: f32,
-    pub relative_x: f32,
-    pub relative_y: f32,
-    pub bounding_box_w: f32,
-    pub parent: Weak<RefCell<Node>>,
-    pub children: Vec<Rc<RefCell<Node>>>,
-    pub mode: NodeType,
 }
 
 impl Node {
