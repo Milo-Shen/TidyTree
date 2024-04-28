@@ -92,6 +92,13 @@ class TidyTree {
     this.root = this.map.get(node_list[0].id);
   }
 
+  generate_layout() {
+    if (this.layout_mode === LayoutMode.Basic) {
+      basic_layout(this.root!, this.tidy_configuration.v_space, this.tidy_configuration.h_space);
+      return;
+    }
+  }
+
   generate_basic_layout() {
     basic_layout(this.root!, this.tidy_configuration.v_space, this.tidy_configuration.h_space);
   }

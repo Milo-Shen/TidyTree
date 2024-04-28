@@ -32,7 +32,7 @@ function App() {
     let tidy_configuration = new TidyConfiguration();
     let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
     chart.initialize_tree_from_raw_data(data);
-    chart.generate_tidy_layout();
+    chart.generate_layout();
     let card_list = chart.get_node_linked_list();
     // let card_array_list = chart.get_node_array_list();
     let line_list = chart.calculate_line_pos(chart.root);
