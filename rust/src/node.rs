@@ -81,4 +81,8 @@ impl Node {
             tidy: None,
         }
     }
+
+    pub fn bottom(&self) -> f32 {
+        self.height + self.y
+    }
 }
