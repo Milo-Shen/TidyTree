@@ -7,6 +7,7 @@ mod tidy_tree;
 mod utils;
 mod contour;
 mod node;
+mod tidy_tree_impl;
 
 fn main() {
     let start_time = Instant::now();
