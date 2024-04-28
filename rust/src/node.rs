@@ -53,10 +53,32 @@ pub struct Node {
     pub height: f32,
     pub x: f32,
     pub y: f32,
+    pub index: i64,
     pub relative_x: f32,
     pub relative_y: f32,
     pub bounding_box_w: f32,
     pub parent: Weak<RefCell<Node>>,
     pub children: Vec<Rc<RefCell<Node>>>,
     pub mode: NodeType,
+    pub tidy: Option<TidyInfo>,
+}
+
+impl Node {
+    pub fn new(id: i64, w: f32, h: f32, mode: NodeType) -> Node {
+        Node {
+            id,
+            children: Vec::new(),
+            parent: Weak::new(),
+            width: w,
+            height: h,
+            x: 0.0,
+            y: 0.0,
+            index: 0,
+            relative_x: 0.0,
+            relative_y: 0.0,
+            bounding_box_w: 0.0,
+            mode,
+            tidy: None,
+        }
+    }
 }

@@ -16,24 +16,6 @@ pub enum LayoutMode {
     LayeredTidy,
 }
 
-impl Node {
-    pub fn new(id: i64, w: f32, h: f32, mode: NodeType) -> Node {
-        Node {
-            id,
-            children: Vec::new(),
-            parent: Weak::new(),
-            width: w,
-            height: h,
-            x: 0.0,
-            y: 0.0,
-            relative_x: 0.0,
-            relative_y: 0.0,
-            bounding_box_w: 0.0,
-            mode,
-        }
-    }
-}
-
 pub struct TidyTree {
     pub root: Option<Rc<RefCell<Node>>>,
     h_space: f32,
