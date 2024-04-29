@@ -18,7 +18,7 @@ impl Contour {
 
         if node.is_some() {
             let tidy = node.borrow().tidy.as_ref();
-            
+
             if tidy.is_some() {
                 modifier_sum = tidy.unwrap().modifier_to_subtree;
             }
@@ -29,5 +29,9 @@ impl Contour {
             current: node,
             modifier_sum,
         }
+    }
+
+    pub fn get_current_node(&self) -> Rc<RefCell<Node>> {
+        Rc::clone(&self.current)
     }
 }
