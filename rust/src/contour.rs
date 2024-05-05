@@ -8,19 +8,19 @@ use crate::node::Node;
 #[derive(Debug)]
 pub struct Contour {
     is_left: bool,
-    current: Rc<RefCell<Node>>,
+    current: Option<Rc<RefCell<Node>>>,
     modifier_sum: f32,
 }
 
 impl Contour {
-    pub fn new(is_left: bool, node: Rc<RefCell<Node>>) -> Contour {
+    pub fn new(is_left: bool, node: Option<Rc<RefCell<Node>>>) -> Contour {
         let mut modifier_sum = 0.0;
 
         if node.is_some() {
-            let tidy = node.borrow().tidy.as_ref();
+            let is_tidy_available = node.as_ref().unwrap().borrow().tidy.as_ref().is_some();
 
-            if tidy.is_some() {
-                modifier_sum = tidy.unwrap().modifier_to_subtree;
+            if is_tidy_available {
+                modifier_sum = node.as_ref().unwrap().borrow().tidy.as_ref().unwrap().modifier_to_subtree
             }
         }
 
@@ -31,7 +31,7 @@ impl Contour {
         }
     }
 
-    pub fn get_current_node(&self) -> Rc<RefCell<Node>> {
-        Rc::clone(&self.current)
-    }
+    // pub fn get_current_node(&self) -> Option<Rc<RefCell<Node>>> {
+    //     self.current.clone()
+    // }
 }
