@@ -16,3 +16,5 @@ pub fn init_node(root: Option<Rc<RefCell<Node>>>) {
         node_mut.tidy = Some(TidyInfo::new());
     });
 }
+
+pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>) {}
