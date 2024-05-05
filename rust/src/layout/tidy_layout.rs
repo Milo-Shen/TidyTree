@@ -10,5 +10,7 @@ impl TidyTree {
         // set pos_y of nodes
         let TidyConfiguration { v_space, is_layered, .. } = &self.tidy_configuration;
         set_pos_y_of_nodes(self.root.clone(), *v_space, *is_layered, &mut self.tidy_configuration.depth_to_y);
+
+        // first walk
     }
 }

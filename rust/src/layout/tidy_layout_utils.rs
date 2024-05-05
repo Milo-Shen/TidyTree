@@ -28,5 +28,7 @@ pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_laye
                 node.borrow_mut().y = parent_bottom + v_space;
             }
         })
-    } else {}
+    } else {
+        depth_to_y.clear();
+    }
 }
