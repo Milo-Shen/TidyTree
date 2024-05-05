@@ -39,4 +39,11 @@ impl Contour {
         let width = node.unwrap().borrow().width;
         self.modifier_sum + relative_x - width / 2.0
     }
+
+    pub fn right(&self) -> f32 {
+        let node = self.current.as_ref();
+        let relative_x = node.unwrap().borrow().relative_x;
+        let width = node.unwrap().borrow().width;
+        self.modifier_sum + relative_x + width / 2.0
+    }
 }
