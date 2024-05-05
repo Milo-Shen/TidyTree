@@ -31,7 +31,7 @@ impl Contour {
         }
     }
 
-    // pub fn get_current_node(&self) -> Option<Rc<RefCell<Node>>> {
-    //     self.current.clone()
-    // }
+    pub fn get_current_node(&self) -> Option<Rc<RefCell<Node>>> {
+        self.current.clone()
+    }
 }
