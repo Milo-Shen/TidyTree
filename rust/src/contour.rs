@@ -77,17 +77,22 @@ impl Contour {
         }
 
         let node = node_opt.as_ref().unwrap().borrow();
-        let tidy = &node.tidy;
+        let tidy_opt = &node.tidy;
 
-        if tidy.is_none() {
+        if tidy_opt.is_none() {
             return;
         }
+
+        let tidy = tidy_opt.as_ref().unwrap();
 
         if self.is_left {
             let children = &node.children;
             if !children.is_empty() {
                 self.current = Some(Rc::clone(children.first().unwrap()));
-                self.modifier_sum = self.get_node().unwrap().borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+                self.modifier_sum += self.get_node().unwrap().borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+            } else {
+                self.modifier_sum += tidy.modifier_thread_left;
+                self.current = Some(Rc::clone(&tidy.thread_left.upgrade().unwrap()))
             }
         } else {}
     }
