@@ -22,6 +22,8 @@ impl Contour {
             if is_tidy_available {
                 modifier_sum = node.as_ref().unwrap().borrow().tidy.as_ref().unwrap().modifier_to_subtree
             }
+        } else {
+            panic!("node is not available in Contour");
         }
 
         Contour {
@@ -33,5 +35,11 @@ impl Contour {
 
     pub fn get_node(&self) -> Option<Rc<RefCell<Node>>> {
         self.current.clone()
+    }
+
+    pub fn left(&self) -> f32 {
+        let node = self.current.as_ref();
+
+        0.0
     }
 }
