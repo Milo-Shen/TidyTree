@@ -59,4 +59,8 @@ impl Contour {
 
         pos_y + height
     }
+
+    pub fn is_none(&self) -> bool {
+        self.current.is_none()
+    }
 }
