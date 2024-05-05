@@ -34,16 +34,16 @@ impl Contour {
     }
 
     pub fn left(&self) -> f32 {
-        let node = self.current.as_ref();
-        let relative_x = node.unwrap().borrow().relative_x;
-        let width = node.unwrap().borrow().width;
+        let node = self.current.as_ref().unwrap().borrow();
+        let relative_x = node.relative_x;
+        let width = node.width;
         self.modifier_sum + relative_x - width / 2.0
     }
 
     pub fn right(&self) -> f32 {
-        let node = self.current.as_ref();
-        let relative_x = node.unwrap().borrow().relative_x;
-        let width = node.unwrap().borrow().width;
+        let node = self.current.as_ref().unwrap().borrow();
+        let relative_x = node.relative_x;
+        let width = node.width;
         self.modifier_sum + relative_x + width / 2.0
     }
 
