@@ -17,16 +17,20 @@ impl Contour {
         let mut modifier_sum = 0.0;
 
         if node.is_some() {
-            let is_tidy_available = node.as_ref().unwrap().borrow().tidy.as_ref().is_some();
+            let tidy = &node.as_ref().unwrap().borrow().tidy;
 
-            if is_tidy_available {
-                modifier_sum = node.as_ref().unwrap().borrow().tidy.as_ref().unwrap().modifier_to_subtree
+            if tidy.is_some() {
+                modifier_sum = tidy.as_ref().unwrap().modifier_to_subtree;
             }
         } else {
             panic!("node is not available in Contour");
         }
 
-        Contour { is_left, current: node, modifier_sum }
+        Contour {
+            is_left,
+            current: node,
+            modifier_sum,
+        }
     }
 
     pub fn get_node(&self) -> Option<Rc<RefCell<Node>>> {
