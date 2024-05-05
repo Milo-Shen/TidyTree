@@ -63,4 +63,6 @@ impl Contour {
     pub fn is_none(&self) -> bool {
         self.current.is_none()
     }
+
+    pub fn next(&mut self) {}
 }
