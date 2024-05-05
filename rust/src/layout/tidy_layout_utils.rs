@@ -4,7 +4,7 @@ use std::rc::Rc;
 
 // use local types
 use crate::node::{Node, TidyInfo};
-use crate::utils::bfs_traverse_tree;
+use crate::utils::{bfs_traverse_tree, pre_order_traverse_tree};
 
 pub fn init_node(root: Option<Rc<RefCell<Node>>>) {
     bfs_traverse_tree(root, |node| {
@@ -17,4 +17,8 @@ pub fn init_node(root: Option<Rc<RefCell<Node>>>) {
     });
 }
 
-pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>) {}
+pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_layered: bool, depth_to_y: &Vec<f32>) {
+    if !is_layered {
+        pre_order_traverse_tree(root, |node| {})
+    } else {}
+}

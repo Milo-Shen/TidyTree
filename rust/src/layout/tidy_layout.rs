@@ -1,6 +1,5 @@
 // use local types
-use crate::tidy_tree::{TidyTree};
-use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree};
+use crate::tidy_tree::{TidyConfiguration, TidyTree};
 use crate::layout::tidy_layout_utils::{init_node, set_pos_y_of_nodes};
 
 impl TidyTree {
@@ -9,6 +8,7 @@ impl TidyTree {
         init_node(self.root.clone());
 
         // set pos_y of nodes
-        set_pos_y_of_nodes(self.root.clone());
+        let TidyConfiguration { v_space, is_layered, depth_to_y, .. } = &self.tidy_configuration;
+        set_pos_y_of_nodes(self.root.clone(), *v_space, *is_layered, depth_to_y);
     }
 }
