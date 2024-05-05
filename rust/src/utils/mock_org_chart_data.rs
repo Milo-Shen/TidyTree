@@ -1,8 +1,13 @@
-use crate::utils::generate_id::GenerateID;
-use rand::Rng;
+// use rust std
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
+
+// use third party lib
+use rand::Rng;
+
+//  use local types
+use crate::utils::generate_id::GenerateID;
 
 #[derive(Debug, Clone)]
 pub struct MockChartData {

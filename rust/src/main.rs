@@ -11,6 +11,7 @@ mod node;
 mod tidy_tree;
 mod tidy_tree_impl;
 mod utils;
+mod layout;
 
 fn main() {
     let start_time = Instant::now();
