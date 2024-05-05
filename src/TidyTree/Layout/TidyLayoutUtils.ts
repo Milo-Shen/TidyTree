@@ -26,6 +26,7 @@ function set_extreme(node: Node) {
 function separate(node: Node, child_index: number, pos_y_list: LinkedYList, h_space: number): LinkedYList {
   // right contour of the left node
   let left = new Contour(false, node.children[child_index - 1]);
+
   // left contour of the right node
   let right = new Contour(true, node.children[child_index]);
 
