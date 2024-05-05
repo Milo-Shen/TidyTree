@@ -70,16 +70,21 @@ impl Contour {
     }
 
     pub fn next(&mut self) {
-        let node = self.current.as_ref();
+        let node_opt = self.current.as_ref();
 
-        if node.is_none() {
+        if node_opt.is_none() {
             return;
         }
 
-        let tidy = &node.unwrap().borrow().tidy;
+        let node = node_opt.unwrap().borrow();
+        let tidy = &node.tidy;
 
         if tidy.is_none() {
             return;
+        }
+
+        if self.is_left {
+            // let node_child = node.unwrap()
         }
     }
 }
