@@ -1,8 +1,8 @@
+use crate::utils::generate_id::GenerateID;
 use rand::Rng;
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
-use crate::utils::generate_id::GenerateID;
 
 #[derive(Debug, Clone)]
 pub struct MockChartData {

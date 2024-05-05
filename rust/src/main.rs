@@ -5,12 +5,12 @@ use std::time::Instant;
 use tidy_tree::{LayoutMode, TidyConfiguration};
 use utils::mock_org_chart_data;
 
-mod line;
-mod tidy_tree;
-mod utils;
 mod contour;
+mod line;
 mod node;
+mod tidy_tree;
 mod tidy_tree_impl;
+mod utils;
 
 fn main() {
     let start_time = Instant::now();

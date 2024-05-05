@@ -1,10 +1,10 @@
 // use rust std
 use std::cell::RefCell;
-use std::collections::{HashMap};
-use std::rc::{Rc};
+use std::collections::HashMap;
+use std::rc::Rc;
 
 //  use local types
-use crate::node::{Node};
+use crate::node::Node;
 
 #[derive(Debug)]
 pub enum LayoutMode {

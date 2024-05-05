@@ -6,12 +6,12 @@ use std::rc::Rc;
 //  use local types
 use crate::node::Node;
 
-pub mod mock_org_chart_data;
 mod generate_id;
+pub mod mock_org_chart_data;
 
 pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-    where
-        F: FnMut(Rc<RefCell<Node>>) -> (),
+where
+    F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     if root.is_none() {
         return;
@@ -31,8 +31,8 @@ pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback:
 }
 
 pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-    where
-        F: FnMut(Rc<RefCell<Node>>) -> (),
+where
+    F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     if root.is_none() {
         return;
@@ -58,8 +58,8 @@ pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback
 }
 
 pub fn bfs_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-    where
-        F: FnMut(Rc<RefCell<Node>>) -> (),
+where
+    F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     let mut queue = VecDeque::from([root.unwrap()]);
 

@@ -1,11 +1,11 @@
 // use rust std
-use std::rc::Rc;
 use std::cell::RefCell;
 use std::collections::HashMap;
+use std::rc::Rc;
 
 //  use local types
 use crate::node::{Node, NodeType};
-use crate::tidy_tree::{TidyTree, LayoutMode, TidyConfiguration};
+use crate::tidy_tree::{LayoutMode, TidyConfiguration, TidyTree};
 use crate::utils::mock_org_chart_data::MockChartData;
 use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree};
 

@@ -26,11 +26,7 @@ impl Contour {
             panic!("node is not available in Contour");
         }
 
-        Contour {
-            is_left,
-            current: node,
-            modifier_sum,
-        }
+        Contour { is_left, current: node, modifier_sum }
     }
 
     pub fn get_node(&self) -> Option<Rc<RefCell<Node>>> {
@@ -39,7 +35,8 @@ impl Contour {
 
     pub fn left(&self) -> f32 {
         let node = self.current.as_ref();
-
-        0.0
+        let relative_x = node.unwrap().borrow().relative_x;
+        let width = node.unwrap().borrow().width;
+        self.modifier_sum + relative_x - width / 2.0
     }
 }
