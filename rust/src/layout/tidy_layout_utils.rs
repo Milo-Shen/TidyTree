@@ -17,8 +17,16 @@ pub fn init_node(root: Option<Rc<RefCell<Node>>>) {
     });
 }
 
-pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_layered: bool, depth_to_y: &Vec<f32>) {
+pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_layered: bool, depth_to_y: &mut Vec<f32>) {
     if !is_layered {
-        pre_order_traverse_tree(root, |node| {})
+        pre_order_traverse_tree(root, |node| {
+            node.borrow_mut().y = 0.0;
+
+            let parent_opt = node.borrow().parent.upgrade();
+            if parent_opt.is_some() {
+                let parent_bottom = parent_opt.unwrap().borrow().bottom();
+                node.borrow_mut().y = parent_bottom + v_space;
+            }
+        })
     } else {}
 }
