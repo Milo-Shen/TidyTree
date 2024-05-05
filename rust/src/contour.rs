@@ -70,13 +70,13 @@ impl Contour {
     }
 
     pub fn next(&mut self) {
-        let node_opt = self.current.as_ref();
+        let node_opt = self.current.clone();
 
         if node_opt.is_none() {
             return;
         }
 
-        let node = node_opt.unwrap().borrow();
+        let node = node_opt.as_ref().unwrap().borrow();
         let tidy = &node.tidy;
 
         if tidy.is_none() {
@@ -84,7 +84,11 @@ impl Contour {
         }
 
         if self.is_left {
-            // let node_child = node.unwrap()
-        }
+            let children = &node.children;
+            if !children.is_empty() {
+                self.current = Some(Rc::clone(children.first().unwrap()));
+                self.modifier_sum = self.get_node().unwrap().borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+            }
+        } else {}
     }
 }
