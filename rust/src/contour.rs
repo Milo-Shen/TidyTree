@@ -54,8 +54,9 @@ impl Contour {
             return 0.0;
         }
 
-        let pos_y = node.unwrap().borrow().y;
-        let height = node.unwrap().borrow().height;
+        let node_info = node.unwrap().borrow();
+        let pos_y = node_info.y;
+        let height = node_info.height;
 
         pos_y + height
     }
@@ -64,5 +65,17 @@ impl Contour {
         self.current.is_none()
     }
 
-    pub fn next(&mut self) {}
+    pub fn next(&mut self) {
+        let node = self.current.as_ref();
+
+        if node.is_none() {
+            return;
+        }
+
+        let tidy = &node.unwrap().borrow().tidy;
+
+        if tidy.is_none() {
+            return;
+        }
+    }
 }
