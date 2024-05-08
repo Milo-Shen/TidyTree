@@ -10,8 +10,8 @@ mod generate_id;
 pub mod mock_org_chart_data;
 
 pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-    where
-        F: FnMut(Rc<RefCell<Node>>) -> (),
+where
+    F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     if root.is_none() {
         return;
@@ -31,8 +31,8 @@ pub fn pre_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback:
 }
 
 pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-    where
-        F: FnMut(Rc<RefCell<Node>>) -> (),
+where
+    F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     if root.is_none() {
         return;
@@ -58,8 +58,8 @@ pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback
 }
 
 pub fn bfs_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-    where
-        F: FnMut(Rc<RefCell<Node>>) -> (),
+where
+    F: FnMut(Rc<RefCell<Node>>) -> (),
 {
     let mut queue = VecDeque::from([root.unwrap()]);
 
@@ -74,8 +74,8 @@ pub fn bfs_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
 }
 
 pub fn bfs_traverse_tree_with_depth<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
-    where
-        F: FnMut(Rc<RefCell<Node>>, i64) -> (),
+where
+    F: FnMut(Rc<RefCell<Node>>, i64) -> (),
 {
     let mut level = -1;
     let mut queue = VecDeque::from([root.unwrap()]);
@@ -87,7 +87,7 @@ pub fn bfs_traverse_tree_with_depth<F>(root: Option<Rc<RefCell<Node>>>, mut call
         for _ in 0..len {
             let node = queue.pop_front().unwrap();
             callback(Rc::clone(&node), level);
-            
+
             for child in &node.borrow().children {
                 queue.push_back(Rc::clone(child));
             }

@@ -1,6 +1,6 @@
 // use local types
-use crate::tidy_tree::{TidyConfiguration, TidyTree};
 use crate::layout::tidy_layout_utils::{init_node, set_pos_y_of_nodes};
+use crate::tidy_tree::{TidyConfiguration, TidyTree};
 
 impl TidyTree {
     pub fn generate_tidy_layout(&mut self) {

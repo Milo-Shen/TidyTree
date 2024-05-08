@@ -1,5 +1,5 @@
 // use local types
-use crate::tidy_tree::{TidyTree};
+use crate::tidy_tree::TidyTree;
 use crate::utils::{bfs_traverse_tree, post_order_traverse_tree, pre_order_traverse_tree};
 
 impl TidyTree {

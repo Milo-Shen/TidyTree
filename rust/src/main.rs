@@ -6,12 +6,12 @@ use tidy_tree::{LayoutMode, TidyConfiguration};
 use utils::mock_org_chart_data;
 
 mod contour;
+mod layout;
 mod line;
 mod node;
 mod tidy_tree;
 mod tidy_tree_impl;
 mod utils;
-mod layout;
 
 fn main() {
     let start_time = Instant::now();

@@ -26,11 +26,7 @@ impl Contour {
             panic!("node is not available in Contour");
         }
 
-        Contour {
-            is_left,
-            current: node,
-            modifier_sum,
-        }
+        Contour { is_left, current: node, modifier_sum }
     }
 
     pub fn get_node(&self) -> Option<Rc<RefCell<Node>>> {
