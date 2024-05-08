@@ -30,6 +30,29 @@ where
     }
 }
 
+pub fn pre_order_traverse_tree_with_depth<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
+where
+    F: FnMut(Rc<RefCell<Node>>, i64) -> (),
+{
+    if root.is_none() {
+        return;
+    }
+
+    let mut queue = VecDeque::from([(root.unwrap(), 0)]);
+
+    while !queue.is_empty() {
+        let (node, depth) = queue.pop_back().unwrap();
+        callback(Rc::clone(&node), depth);
+
+        let children = &node.borrow().children;
+        let children_len = children.len();
+
+        for i in (0..children_len).rev() {
+            queue.push_back((Rc::clone(&children[i]), depth + 1));
+        }
+    }
+}
+
 pub fn post_order_traverse_tree<F>(root: Option<Rc<RefCell<Node>>>, mut callback: F)
 where
     F: FnMut(Rc<RefCell<Node>>) -> (),
