@@ -4,7 +4,7 @@ use std::rc::Rc;
 
 // use local types
 use crate::node::{Node, TidyInfo};
-use crate::utils::{bfs_traverse_tree, pre_order_traverse_tree};
+use crate::utils::{bfs_traverse_tree, bfs_traverse_tree_with_depth, pre_order_traverse_tree, pre_order_traverse_tree_with_depth};
 
 pub fn init_node(root: Option<Rc<RefCell<Node>>>) {
     bfs_traverse_tree(root, |node| {
@@ -30,5 +30,23 @@ pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_laye
         })
     } else {
         depth_to_y.clear();
+
+        bfs_traverse_tree_with_depth(root.clone(), |node, depth| {
+            while depth >= depth_to_y.len() {
+                depth_to_y.push(0.0);
+            }
+
+            if node.borrow().parent.upgrade().is_none() || depth == 0 {
+                node.borrow_mut().y = 0.0;
+                return;
+            }
+
+            let parent_h = node.borrow().parent.upgrade().as_ref().unwrap().borrow().height;
+            depth_to_y[depth] = depth_to_y[depth].max(depth_to_y[depth - 1] + parent_h + v_space);
+        });
+
+        pre_order_traverse_tree_with_depth(root.clone(), |node, depth| {
+            node.borrow_mut().y = depth_to_y[depth];
+        })
     }
 }
