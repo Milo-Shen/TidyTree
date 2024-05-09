@@ -1,6 +1,6 @@
 // use rust std
 use std::cell::RefCell;
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 
 // use local types
 use crate::node::{Node, TidyInfo};
@@ -60,5 +60,38 @@ pub fn first_walk(root: Option<Rc<RefCell<Node>>>, h_space: f32) {
     let children = &node.borrow().children;
 
     // empty children
-    if children.is_empty() {}
+    if children.is_empty() {
+        set_extreme(node);
+        return;
+    }
+}
+
+pub fn set_extreme(node: &Rc<RefCell<Node>>) {
+    let tidy_opt = &mut node.borrow_mut().tidy;
+
+    if tidy_opt.is_none() {
+        return;
+    }
+
+    let mut tidy = tidy_opt.as_mut().unwrap();
+    let children = &node.borrow().children;
+
+    // leaf child
+    if children.is_empty() {
+        tidy.extreme_left = Rc::downgrade(node);
+        tidy.extreme_right = Rc::downgrade(node);
+        tidy.modifier_extreme_left = 0.0;
+        tidy.modifier_extreme_right = 0.0;
+    } else {
+        let first_child = children.first().unwrap();
+        let first_tidy_opt = &mut first_child.borrow_mut().tidy;
+        let first_tidy = first_tidy_opt.as_mut().unwrap();
+        tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
+        tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
+        let last_child = children.last().unwrap();
+        let last_child_opt = &mut last_child.borrow_mut().tidy;
+        let last_tidy = last_child_opt.as_mut().unwrap();
+        tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
+        tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
+    }
 }
