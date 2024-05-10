@@ -51,12 +51,7 @@ pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_laye
     }
 }
 
-pub fn first_walk(root: Option<Rc<RefCell<Node>>>, h_space: f32) {
-    if root.is_none() {
-        return;
-    }
-
-    let node = root.as_ref().unwrap();
+pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
     let children = &node.borrow().children;
 
     // empty children

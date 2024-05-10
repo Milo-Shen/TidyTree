@@ -13,6 +13,6 @@ impl TidyTree {
         set_pos_y_of_nodes(self.root.clone(), *v_space, *is_layered, &mut self.tidy_configuration.depth_to_y);
 
         // first walk
-        first_walk(self.root.clone(), h_space);
+        first_walk(self.root.as_ref().unwrap(), h_space);
     }
 }
