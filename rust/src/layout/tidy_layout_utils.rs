@@ -59,6 +59,9 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
         set_extreme(node);
         return;
     }
+
+    let first_child = children.first().unwrap();
+    first_walk(first_child, h_space);
 }
 
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
