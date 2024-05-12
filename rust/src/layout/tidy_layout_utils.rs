@@ -71,10 +71,14 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
         let child = &children[i];
         first_walk(child, h_space);
         let max_y = child.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
+        pos_y_list = separate(node, i, pos_y_list, h_space);
+        pos_y_list = pos_y_list.update(i, max_y);
     }
 }
 
-pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, pos_y_list: &LinkedYList, h_space: f32) {}
+pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: LinkedYList, h_space: f32) -> LinkedYList {
+    LinkedYList::new(0, 0.0)
+}
 
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
     let tidy_opt = &mut node.borrow_mut().tidy;
