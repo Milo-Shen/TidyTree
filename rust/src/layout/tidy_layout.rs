@@ -1,5 +1,5 @@
 // use local types
-use crate::layout::tidy_layout_utils::{first_walk, init_node, set_pos_y_of_nodes};
+use crate::layout::tidy_layout_utils::{first_walk, init_node, second_walk, set_pos_y_of_nodes};
 use crate::tidy_tree::{TidyConfiguration, TidyTree};
 
 impl TidyTree {
@@ -14,5 +14,9 @@ impl TidyTree {
 
         // first walk
         first_walk(self.root.as_ref().unwrap(), h_space);
+
+        // second walk
+        let mut min_x = 0.0;
+        second_walk(self.root.as_ref().unwrap(), &mut 0.0, &mut min_x);
     }
 }

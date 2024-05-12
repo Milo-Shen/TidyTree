@@ -79,7 +79,9 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
     set_extreme(node);
 }
 
-pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: f32, min_x: &mut f32) {}
+pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
+    *modified_sum = *modified_sum + node.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+}
 
 pub fn position_root(node: &Rc<RefCell<Node>>) {
     let children = &node.borrow().children;
