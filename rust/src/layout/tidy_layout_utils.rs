@@ -165,6 +165,8 @@ pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: 
     }
 }
 
+pub fn set_left_thread() {}
+
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
     let tidy_opt = &mut node.borrow_mut().tidy;
 
