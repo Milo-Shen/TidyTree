@@ -74,6 +74,8 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
     }
 }
 
+pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, pos_y_list: &LinkedYList, h_space: f32) {}
+
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
     let tidy_opt = &mut node.borrow_mut().tidy;
 

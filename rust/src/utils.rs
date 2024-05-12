@@ -42,7 +42,7 @@ pub fn pre_order_traverse_tree_with_depth<F>(root: Option<Rc<RefCell<Node>>>, mu
 
     while !queue.is_empty() {
         let (node, depth) = queue.pop_back().unwrap();
-        callback(Rc::clone(&node), depth as usize);
+        callback(Rc::clone(&node), depth);
 
         let children = &node.borrow().children;
         let children_len = children.len();
