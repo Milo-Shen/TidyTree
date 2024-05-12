@@ -80,8 +80,15 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
 }
 
 pub fn position_root(node: &Rc<RefCell<Node>>) {
-    let first = &node.borrow().children[0];
+    let children = &node.borrow().children;
+    let first = children.first().unwrap();
     let first_child_pos = first.borrow().relative_x + first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+    let last = children.last().unwrap();
+    let last_child_pos = last.borrow().relative_x + last.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+
+    let node_relative_x = (first_child_pos + last_child_pos) / 2.0;
+    node.borrow_mut().relative_x = node_relative_x;
+    node.borrow_mut().tidy.as_mut().unwrap().modifier_to_subtree = -node_relative_x;
 }
 
 pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: LinkedYList, h_space: f32) -> LinkedYList {
