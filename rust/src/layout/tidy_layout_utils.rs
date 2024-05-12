@@ -121,15 +121,28 @@ pub fn position_root(node: &Rc<RefCell<Node>>) {
 
 pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: LinkedYList, h_space: f32) -> LinkedYList {
     // right contour of the left node
-    let left = Contour::new(false, Some(Rc::clone(&node.borrow().children[child_index - 1])));
+    let mut left = Contour::new(false, Some(Rc::clone(&node.borrow().children[child_index - 1])));
 
     // right contour of the left node
-    let right = Contour::new(true, Some(Rc::clone(&node.borrow().children[child_index])));
+    let mut right = Contour::new(true, Some(Rc::clone(&node.borrow().children[child_index])));
 
     while !left.is_none() && !right.is_none() {
         let y_list_bottom = pos_y_list.bottom();
+
         if left.bottom() > y_list_bottom {
-            // let top = pos_y_list.pop();
+            let top = pos_y_list.pop();
+
+            if top.is_none() {
+                println!("error occurred in separate");
+            }
+
+            pos_y_list = top.unwrap();
+        }
+
+        let dist = left.right() - right.left() + h_space;
+        if dist > 0.0 {
+            // left node and right node are too close. move right part with distance of dist
+            right.modifier_sum += dist;
         }
     }
 

@@ -9,7 +9,7 @@ use crate::node::Node;
 pub struct Contour {
     is_left: bool,
     current: Option<Rc<RefCell<Node>>>,
-    modifier_sum: f32,
+    pub modifier_sum: f32,
 }
 
 impl Contour {
