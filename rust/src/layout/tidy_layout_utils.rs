@@ -79,7 +79,10 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
     set_extreme(node);
 }
 
-pub fn position_root(node: &Rc<RefCell<Node>>) {}
+pub fn position_root(node: &Rc<RefCell<Node>>) {
+    let first = &node.borrow().children[0];
+    let first_child_pos = first.borrow().relative_x + first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+}
 
 pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: LinkedYList, h_space: f32) -> LinkedYList {
     LinkedYList::new(0, 0.0)
