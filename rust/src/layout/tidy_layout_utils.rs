@@ -74,7 +74,12 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
         pos_y_list = separate(node, i, pos_y_list, h_space);
         pos_y_list = pos_y_list.update(i, max_y);
     }
+
+    position_root(node);
+    set_extreme(node);
 }
+
+pub fn position_root(node: &Rc<RefCell<Node>>) {}
 
 pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: LinkedYList, h_space: f32) -> LinkedYList {
     LinkedYList::new(0, 0.0)
