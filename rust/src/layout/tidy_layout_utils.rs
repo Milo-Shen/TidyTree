@@ -95,6 +95,9 @@ pub fn position_root(node: &Rc<RefCell<Node>>) {
 }
 
 pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: LinkedYList, h_space: f32) -> LinkedYList {
+    // right contour of the left node
+
+    
     LinkedYList::new(0, 0.0)
 }
 
