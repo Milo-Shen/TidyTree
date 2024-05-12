@@ -5,10 +5,10 @@ pub struct LinkedYList {
 }
 
 impl LinkedYList {
-    pub fn new(index: usize, y: f32) -> Self {
+    pub fn new(index: usize, pos_y: f32) -> Self {
         LinkedYList {
             index,
-            y,
+            y: pos_y,
             next: None,
         }
     }

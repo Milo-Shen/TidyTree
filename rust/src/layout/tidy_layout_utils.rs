@@ -1,6 +1,7 @@
 // use rust std
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
+use crate::layout::linked_y_list::LinkedYList;
 
 // use local types
 use crate::node::{Node, TidyInfo};
@@ -64,6 +65,12 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
     first_walk(first_child, h_space);
 
     let extreme_right_bottom = first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().as_ref().unwrap().borrow().bottom();
+    let mut pos_y_list = LinkedYList::new(0, extreme_right_bottom);
+
+    for i in 1..children.len() {
+        let child = &children[i];
+        first_walk(child, h_space);
+    }
 }
 
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
