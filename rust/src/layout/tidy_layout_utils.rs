@@ -81,7 +81,16 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
 
 pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
     *modified_sum = *modified_sum + node.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+    node.borrow_mut().x = node.borrow().relative_x + *modified_sum;
+    *min_x = f32::min(*min_x, node.borrow().x - node.borrow().width / 2.0);
+    add_child_spacing(node);
+
+    for child in &node.borrow().children {
+        second_walk(child, modified_sum, min_x);
+    }
 }
+
+pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {}
 
 pub fn position_root(node: &Rc<RefCell<Node>>) {
     let children = &node.borrow().children;
