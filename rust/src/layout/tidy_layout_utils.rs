@@ -88,6 +88,9 @@ pub fn position_root(node: &Rc<RefCell<Node>>) {
 
     let node_relative_x = (first_child_pos + last_child_pos) / 2.0;
     node.borrow_mut().relative_x = node_relative_x;
+
+    // make modifier_to_subtree + relative_x = 0
+    // there will always be collision in `separation()`'s first loop
     node.borrow_mut().tidy.as_mut().unwrap().modifier_to_subtree = -node_relative_x;
 }
 
