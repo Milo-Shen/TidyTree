@@ -90,7 +90,18 @@ pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut
     }
 }
 
-pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {}
+pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {
+    let mut speed = 0.0;
+    let mut delta = 0.0;
+
+    for child in &node.borrow().children {
+        speed += child.borrow().tidy.as_ref().unwrap().shift_acceleration;
+        delta += speed + child.borrow().tidy.as_ref().unwrap().shift_change;
+        child.borrow_mut().tidy.as_mut().unwrap().modifier_to_subtree += delta;
+        child.borrow_mut().tidy.as_mut().unwrap().shift_acceleration = 0.0;
+        child.borrow_mut().tidy.as_mut().unwrap().shift_change = 0.0;
+    }
+}
 
 pub fn position_root(node: &Rc<RefCell<Node>>) {
     let children = &node.borrow().children;
