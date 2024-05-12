@@ -126,6 +126,13 @@ pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Li
     // right contour of the left node
     let right = Contour::new(true, Some(Rc::clone(&node.borrow().children[child_index])));
 
+    while !left.is_none() && !right.is_none() {
+        let y_list_bottom = pos_y_list.bottom();
+        if left.bottom() > y_list_bottom {
+            // let top = pos_y_list.pop();
+        }
+    }
+
     LinkedYList::new(0, 0.0)
 }
 
