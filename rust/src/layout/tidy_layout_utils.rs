@@ -70,6 +70,7 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
     for i in 1..children.len() {
         let child = &children[i];
         first_walk(child, h_space);
+        let max_y = child.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
     }
 }
 
