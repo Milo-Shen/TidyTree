@@ -1,7 +1,7 @@
 pub struct LinkedYList {
     pub index: usize,
-    pub y: f32,
-    pub next: Option<Box<LinkedYList>>,
+    y: f32,
+    next: Option<Box<LinkedYList>>,
 }
 
 impl LinkedYList {
