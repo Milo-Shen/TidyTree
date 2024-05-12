@@ -62,6 +62,8 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
 
     let first_child = children.first().unwrap();
     first_walk(first_child, h_space);
+
+    let extreme_right_bottom = first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().as_ref().unwrap().borrow().bottom();
 }
 
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
