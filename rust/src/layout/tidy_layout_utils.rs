@@ -167,7 +167,16 @@ pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Li
     pos_y_list
 }
 
-pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {}
+pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
+    let children = &node.borrow().children;
+    let first = &children[0];
+    let current = &children[current_index];
+    let diff = modifier - first.borrow().tidy.as_ref().unwrap().modifier_extreme_left - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+
+    let first_tidy_opt = &mut first.borrow_mut().tidy;
+    let first_tidy = first_tidy_opt.as_mut().unwrap();
+    first_tidy.thread_left = Rc::downgrade(&target.unwrap());
+}
 
 pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {}
 
