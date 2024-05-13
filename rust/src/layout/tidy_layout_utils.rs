@@ -173,9 +173,8 @@ pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: O
     let current = &children[current_index];
     let diff = modifier - first.borrow().tidy.as_ref().unwrap().modifier_extreme_left - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
 
-    let first_tidy_opt = &mut first.borrow_mut().tidy;
-    let first_tidy = first_tidy_opt.as_mut().unwrap();
-    first_tidy.thread_left = Rc::downgrade(&target.unwrap());
+    first.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().thread_left = Rc::downgrade(&target.unwrap());
+    first.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().modifier_thread_left = diff;
 }
 
 pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {}
