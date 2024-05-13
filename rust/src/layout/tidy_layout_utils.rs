@@ -175,6 +175,7 @@ pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: O
 
     first.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().thread_left = Rc::downgrade(&target.unwrap());
     first.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().modifier_thread_left = diff;
+    first.borrow_mut().tidy.as_mut().unwrap().extreme_left = Weak::clone(&current.borrow().tidy.as_ref().unwrap().extreme_left);
 }
 
 pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {}
