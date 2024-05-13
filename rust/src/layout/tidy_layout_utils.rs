@@ -145,7 +145,20 @@ pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Li
             right.modifier_sum += dist;
             move_subtree(node, child_index, pos_y_list.index, dist);
         }
+
+        let left_bottom = left.bottom();
+        let right_bottom = right.bottom();
+
+        if left_bottom <= right_bottom {
+            left.next();
+        }
+
+        if left_bottom >= right_bottom {
+            right.next();
+        }
     }
+
+    if left.is_none() && !right.is_none() {} else if !left.is_none() && right.is_none() {}
 
     LinkedYList::new(0, 0.0)
 }
