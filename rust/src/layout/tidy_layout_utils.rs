@@ -158,14 +158,18 @@ pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Li
         }
     }
 
-    if left.is_none() && !right.is_none() {} else if !left.is_none() && right.is_none() {}
+    if left.is_none() && !right.is_none() {
+        set_left_thread(node, child_index, right.get_node(), right.modifier_sum);
+    } else if !left.is_none() && right.is_none() {
+        set_right_thread(node, child_index, left.get_node(), left.modifier_sum);
+    }
 
-    LinkedYList::new(0, 0.0)
+    pos_y_list
 }
 
-pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: &Rc<RefCell<Node>>, modifier: f32) {}
+pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {}
 
-pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: &Rc<RefCell<Node>>, modifier: f32) {}
+pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {}
 
 pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
     let child = &node.borrow().children[current_index];
