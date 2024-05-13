@@ -163,6 +163,10 @@ pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Li
     LinkedYList::new(0, 0.0)
 }
 
+pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: &Rc<RefCell<Node>>, modifier: f32) {}
+
+pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: &Rc<RefCell<Node>>, modifier: f32) {}
+
 pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
     let child = &node.borrow().children[current_index];
     let child_tidy_opt = &mut child.borrow_mut().tidy;
@@ -177,8 +181,6 @@ pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: 
         node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
     }
 }
-
-pub fn set_left_thread() {}
 
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
     let tidy_opt = &mut node.borrow_mut().tidy;
