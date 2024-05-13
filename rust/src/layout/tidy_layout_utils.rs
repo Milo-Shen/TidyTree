@@ -188,7 +188,11 @@ pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: 
     current.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().thread_right = Rc::downgrade(&target.unwrap());
     current.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().modifier_thread_right = diff;
 
-    let prev = &children[current_index - 1];
+    let prev_node = &children[current_index - 1];
+    let prev_tidy = &prev_node.borrow().tidy;
+    current.borrow_mut().tidy.as_mut().unwrap().extreme_right = Weak::clone(&prev_tidy.as_ref().unwrap().extreme_right);
+    let modifier_extreme_right = prev_node.borrow().tidy.as_ref().unwrap().modifier_extreme_right + prev_node.borrow().tidy.as_ref().unwrap().modifier_to_subtree - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+    current.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_right = modifier_extreme_right;
 }
 
 pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
