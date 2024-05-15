@@ -211,31 +211,29 @@ pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: 
 }
 
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
-    if node.borrow().tidy.is_none() {
-        return;
-    }
+    // if node.borrow().tidy.is_none() {
+    //     return;
+    // }
 
-    // let mut tidy = tidy_opt.as_mut().unwrap();
-    let children = &node.borrow().children;
-    let tidy_opt = &node.borrow_mut().tidy;
-    let tidy = tidy_opt.as_mut().unwrap();
+    // let children = &node.borrow().children;
+    node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
 
     // leaf child
-    if children.is_empty() {
-        tidy.extreme_left = Rc::downgrade(node);
-        tidy.extreme_right = Rc::downgrade(node);
-        tidy.modifier_extreme_left = 0.0;
-        tidy.modifier_extreme_right = 0.0;
-    } else {
-        let first_child = children.first().unwrap();
-        let first_tidy_opt = &first_child.borrow().tidy;
-        let first_tidy = first_tidy_opt.as_ref().unwrap();
-        tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
-        tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
-        let last_child = children.last().unwrap();
-        let last_child_opt = &last_child.borrow().tidy;
-        let last_tidy = last_child_opt.as_ref().unwrap();
-        tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
-        tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
-    }
+    // if children.is_empty() {
+    //     node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
+    //     tidy.extreme_right = Rc::downgrade(node);
+    //     tidy.modifier_extreme_left = 0.0;
+    //     tidy.modifier_extreme_right = 0.0;
+    // } else {
+    //     let first_child = children.first().unwrap();
+    //     let first_tidy_opt = &first_child.borrow().tidy;
+    //     let first_tidy = first_tidy_opt.as_ref().unwrap();
+    //     tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
+    //     tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
+    //     let last_child = children.last().unwrap();
+    //     let last_child_opt = &last_child.borrow().tidy;
+    //     let last_tidy = last_child_opt.as_ref().unwrap();
+    //     tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
+    //     tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
+    // }
 }
