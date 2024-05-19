@@ -66,11 +66,21 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         stack.push_back(Rc::clone(&node));
 
         let children = node.borrow().children.first().map(|x| Rc::clone(x));
-        cur_node = children
+        cur_node = children;
     }
 
     let mut pre = root.unwrap();
     let mut pos_y_list_map: HashMap<i64, LinkedYList> = HashMap::new();
+
+    while !stack.is_empty() {
+        let node = stack.back().unwrap();
+        let node_children = &node.borrow().children;
+
+        // empty children
+        if node_children.is_empty() {
+            set_extreme(Rc::clone(node));
+        }
+    }
 }
 
 pub fn set_extreme(node: Rc<RefCell<Node>>) {
