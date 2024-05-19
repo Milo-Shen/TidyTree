@@ -124,30 +124,30 @@ pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: &Li
             pos_y_list = top.unwrap();
         }
 
-        let dist = left.right() - right.left() + h_space;
-        if dist > 0.0 {
-            // left node and right node are too close. move right part with distance of dist
-            right.modifier_sum += dist;
-            move_subtree(node, child_index, pos_y_list.index, dist);
-        }
-
-        let left_bottom = left.bottom();
-        let right_bottom = right.bottom();
-
-        if left_bottom <= right_bottom {
-            left.next();
-        }
-
-        if left_bottom >= right_bottom {
-            right.next();
-        }
+        // let dist = left.right() - right.left() + h_space;
+        // if dist > 0.0 {
+        //     // left node and right node are too close. move right part with distance of dist
+        //     right.modifier_sum += dist;
+        //     move_subtree(node, child_index, pos_y_list.index, dist);
+        // }
+        //
+        // let left_bottom = left.bottom();
+        // let right_bottom = right.bottom();
+        //
+        // if left_bottom <= right_bottom {
+        //     left.next();
+        // }
+        //
+        // if left_bottom >= right_bottom {
+        //     right.next();
+        // }
     }
 
-    if left.is_none() && !right.is_none() {
-        set_left_thread(node, child_index, right.get_node(), right.modifier_sum);
-    } else if !left.is_none() && right.is_none() {
-        set_right_thread(node, child_index, left.get_node(), left.modifier_sum);
-    }
+    // if left.is_none() && !right.is_none() {
+    //     set_left_thread(node, child_index, right.get_node(), right.modifier_sum);
+    // } else if !left.is_none() && right.is_none() {
+    //     set_right_thread(node, child_index, left.get_node(), left.modifier_sum);
+    // }
 
     pos_y_list
 }
