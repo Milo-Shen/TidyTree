@@ -1,5 +1,6 @@
 // use rust std
 use std::cell::RefCell;
+use std::collections::VecDeque;
 use std::rc::{Rc, Weak};
 use crate::contour::Contour;
 use crate::layout::linked_y_list::LinkedYList;
@@ -53,31 +54,36 @@ pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_laye
     }
 }
 
-pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
-    let children = &node.borrow().children;
+pub fn first_walk_stack_without_recursion(node: &Rc<RefCell<Node>>, h_space: f32) {
+    let stack = VecDeque::new();
+}
 
-    // empty children
-    if children.is_empty() {
-        set_extreme(node);
+pub fn set_extreme(node: &Rc<RefCell<Node>>) {
+    if node.borrow().tidy.is_none() {
         return;
     }
 
-    // let first_child = children.first().unwrap();
-    // first_walk(first_child, h_space);
-    //
-    // let extreme_right_bottom = first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().as_ref().unwrap().borrow().bottom();
-    // let mut pos_y_list = LinkedYList::new(0, extreme_right_bottom);
-    //
-    // for i in 1..children.len() {
-    //     let child = &children[i];
-    //     first_walk(child, h_space);
-    //     let max_y = child.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
-    //     pos_y_list = separate(node, i, pos_y_list, h_space);
-    //     pos_y_list = pos_y_list.update(i, max_y);
+    // let children = &node.borrow().children;
+    node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
+
+    // // leaf child
+    // if children.is_empty() {
+    //     node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
+    //     tidy.extreme_right = Rc::downgrade(node);
+    //     tidy.modifier_extreme_left = 0.0;
+    //     tidy.modifier_extreme_right = 0.0;
+    // } else {
+    //     let first_child = children.first().unwrap();
+    //     let first_tidy_opt = &first_child.borrow().tidy;
+    //     let first_tidy = first_tidy_opt.as_ref().unwrap();
+    //     tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
+    //     tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
+    //     let last_child = children.last().unwrap();
+    //     let last_child_opt = &last_child.borrow().tidy;
+    //     let last_tidy = last_child_opt.as_ref().unwrap();
+    //     tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
+    //     tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
     // }
-    //
-    // position_root(node);
-    // set_extreme(node);
 }
 
 pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
@@ -212,30 +218,3 @@ pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: 
     }
 }
 
-pub fn set_extreme(node: &Rc<RefCell<Node>>) {
-    if node.borrow().tidy.is_none() {
-        return;
-    }
-
-    let children = &node.borrow().children;
-    node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
-
-    // // leaf child
-    // if children.is_empty() {
-    //     node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
-    //     tidy.extreme_right = Rc::downgrade(node);
-    //     tidy.modifier_extreme_left = 0.0;
-    //     tidy.modifier_extreme_right = 0.0;
-    // } else {
-    //     let first_child = children.first().unwrap();
-    //     let first_tidy_opt = &first_child.borrow().tidy;
-    //     let first_tidy = first_tidy_opt.as_ref().unwrap();
-    //     tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
-    //     tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
-    //     let last_child = children.last().unwrap();
-    //     let last_child_opt = &last_child.borrow().tidy;
-    //     let last_tidy = last_child_opt.as_ref().unwrap();
-    //     tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
-    //     tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
-    // }
-}
