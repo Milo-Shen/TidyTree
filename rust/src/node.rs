@@ -54,7 +54,7 @@ pub struct Node {
     pub height: f32,
     pub x: f32,
     pub y: f32,
-    pub index: i64,
+    pub index: usize,
     pub relative_x: f32,
     pub relative_y: f32,
     pub bounding_box_w: f32,

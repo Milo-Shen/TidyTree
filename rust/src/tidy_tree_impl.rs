@@ -58,7 +58,7 @@ impl TidyTree {
             for (index, child_id) in children.iter().enumerate() {
                 let child = self.map.get(child_id).unwrap();
                 child.borrow_mut().parent = Rc::downgrade(node);
-                child.borrow_mut().index = index as i64;
+                child.borrow_mut().index = index;
                 node.borrow_mut().children.push(Rc::clone(child));
             }
         }

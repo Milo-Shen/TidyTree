@@ -75,6 +75,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
     while !stack.is_empty() {
         let node = Rc::clone(stack.back().unwrap());
         let is_empty_children = node.borrow().children.is_empty();
+        let node_id = node.borrow().id;
 
         // empty children
         if is_empty_children {
@@ -88,8 +89,67 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         if node_first_child.borrow().id == pre.borrow().id {
             let extreme_right_bottom = node_first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().unwrap().borrow().bottom();
             let pos_y_list = LinkedYList::new(0, extreme_right_bottom);
+            pos_y_list_map.insert(node_id, pos_y_list);
+        }
+
+        if pre.borrow().parent.upgrade().as_ref().unwrap().borrow().id == node_id {
+            let pre_index = pre.borrow().index;
+
+            if pre_index > 0 {
+                let mut pos_y_list = pos_y_list_map.get(&node_id).unwrap();
+                let max_y = pre.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
+                pos_y_list = separate(Rc::clone(&node), pre_index, pos_y_list, h_space);
+            }
         }
     }
+}
+
+pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: &LinkedYList, h_space: f32) -> &LinkedYList {
+    // right contour of the left node
+    let mut left = Contour::new(false, Some(Rc::clone(&node.borrow().children[child_index - 1])));
+
+    // right contour of the left node
+    let mut right = Contour::new(true, Some(Rc::clone(&node.borrow().children[child_index])));
+
+    while !left.is_none() && !right.is_none() {
+        let y_list_bottom = pos_y_list.bottom();
+
+        if left.bottom() > y_list_bottom {
+            let top = pos_y_list.pop();
+
+            if top.is_none() {
+                println!("error occurred in separate");
+            }
+
+            pos_y_list = top.unwrap();
+        }
+
+        let dist = left.right() - right.left() + h_space;
+        if dist > 0.0 {
+            // left node and right node are too close. move right part with distance of dist
+            right.modifier_sum += dist;
+            move_subtree(node, child_index, pos_y_list.index, dist);
+        }
+
+        let left_bottom = left.bottom();
+        let right_bottom = right.bottom();
+
+        if left_bottom <= right_bottom {
+            left.next();
+        }
+
+        if left_bottom >= right_bottom {
+            right.next();
+        }
+    }
+
+    if left.is_none() && !right.is_none() {
+        set_left_thread(node, child_index, right.get_node(), right.modifier_sum);
+    } else if !left.is_none() && right.is_none() {
+        set_right_thread(node, child_index, left.get_node(), left.modifier_sum);
+    }
+
+    pos_y_list
 }
 
 pub fn set_extreme(node: Rc<RefCell<Node>>) {
@@ -161,54 +221,6 @@ pub fn position_root(node: &Rc<RefCell<Node>>) {
     // make modifier_to_subtree + relative_x = 0
     // there will always be collision in `separation()`'s first loop
     node.borrow_mut().tidy.as_mut().unwrap().modifier_to_subtree = -node_relative_x;
-}
-
-pub fn separate(node: &Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: LinkedYList, h_space: f32) -> LinkedYList {
-    // right contour of the left node
-    let mut left = Contour::new(false, Some(Rc::clone(&node.borrow().children[child_index - 1])));
-
-    // right contour of the left node
-    let mut right = Contour::new(true, Some(Rc::clone(&node.borrow().children[child_index])));
-
-    while !left.is_none() && !right.is_none() {
-        let y_list_bottom = pos_y_list.bottom();
-
-        if left.bottom() > y_list_bottom {
-            let top = pos_y_list.pop();
-
-            if top.is_none() {
-                println!("error occurred in separate");
-            }
-
-            pos_y_list = top.unwrap();
-        }
-
-        let dist = left.right() - right.left() + h_space;
-        if dist > 0.0 {
-            // left node and right node are too close. move right part with distance of dist
-            right.modifier_sum += dist;
-            move_subtree(node, child_index, pos_y_list.index, dist);
-        }
-
-        let left_bottom = left.bottom();
-        let right_bottom = right.bottom();
-
-        if left_bottom <= right_bottom {
-            left.next();
-        }
-
-        if left_bottom >= right_bottom {
-            right.next();
-        }
-    }
-
-    if left.is_none() && !right.is_none() {
-        set_left_thread(node, child_index, right.get_node(), right.modifier_sum);
-    } else if !left.is_none() && right.is_none() {
-        set_right_thread(node, child_index, left.get_node(), left.modifier_sum);
-    }
-
-    pos_y_list
 }
 
 pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
