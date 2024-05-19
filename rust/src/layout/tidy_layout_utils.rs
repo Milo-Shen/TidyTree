@@ -83,6 +83,12 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
             pre = node;
             continue;
         }
+
+        let node_first_child = Rc::clone(node.borrow().children.first().unwrap());
+        if node_first_child.borrow().id == pre.borrow().id {
+            let extreme_right_bottom = node_first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().unwrap().borrow().bottom();
+            let pos_y_list = LinkedYList::new(0, extreme_right_bottom);
+        }
     }
 }
 
