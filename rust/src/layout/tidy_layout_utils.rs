@@ -1,7 +1,9 @@
 // use rust std
 use std::cell::RefCell;
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 use std::rc::{Rc, Weak};
+
+// use local types
 use crate::contour::Contour;
 use crate::layout::linked_y_list::LinkedYList;
 
@@ -57,7 +59,7 @@ pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_laye
 pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_space: f32) {
     let mut stack = VecDeque::new();
 
-    let mut cur_node = root;
+    let mut cur_node = root.clone();
 
     while cur_node.is_some() {
         let node = cur_node.unwrap();
@@ -66,15 +68,18 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         let children = node.borrow().children.first().map(|x| Rc::clone(x));
         cur_node = children
     }
+
+    let mut pre = root.unwrap();
+    let mut pos_y_list_map: HashMap<i64, LinkedYList> = HashMap::new();
 }
 
-pub fn set_extreme(node: &Rc<RefCell<Node>>) {
+pub fn set_extreme(node: Rc<RefCell<Node>>) {
     if node.borrow().tidy.is_none() {
         return;
     }
 
     // let children = &node.borrow().children;
-    node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
+    node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(&node);
 
     // // leaf child
     // if children.is_empty() {
