@@ -54,19 +54,18 @@ pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_laye
     }
 }
 
-pub fn first_walk_stack_without_recursion(root: &Rc<RefCell<Node>>, h_space: f32) {
+pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_space: f32) {
     let mut stack = VecDeque::new();
 
-
-    let mut cur_node = Some(root);
+    let mut cur_node = root;
 
     while cur_node.is_some() {
         let node = cur_node.unwrap();
-        stack.push_back(Rc::clone(node));
+        stack.push_back(Rc::clone(&node));
 
-        let children = &node.borrow().children;
-        let first_child = children.first();
-        cur_node = first_child;
+        let children = node.borrow().children[0].clone();
+        // let first_child = children.first()
+        cur_node = Some(children);
     }
 }
 
