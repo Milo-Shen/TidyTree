@@ -62,22 +62,22 @@ pub fn first_walk(node: &Rc<RefCell<Node>>, h_space: f32) {
         return;
     }
 
-    let first_child = children.first().unwrap();
-    first_walk(first_child, h_space);
-
-    let extreme_right_bottom = first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().as_ref().unwrap().borrow().bottom();
-    let mut pos_y_list = LinkedYList::new(0, extreme_right_bottom);
-
-    for i in 1..children.len() {
-        let child = &children[i];
-        first_walk(child, h_space);
-        let max_y = child.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
-        pos_y_list = separate(node, i, pos_y_list, h_space);
-        pos_y_list = pos_y_list.update(i, max_y);
-    }
-
-    position_root(node);
-    set_extreme(node);
+    // let first_child = children.first().unwrap();
+    // first_walk(first_child, h_space);
+    //
+    // let extreme_right_bottom = first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().as_ref().unwrap().borrow().bottom();
+    // let mut pos_y_list = LinkedYList::new(0, extreme_right_bottom);
+    //
+    // for i in 1..children.len() {
+    //     let child = &children[i];
+    //     first_walk(child, h_space);
+    //     let max_y = child.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
+    //     pos_y_list = separate(node, i, pos_y_list, h_space);
+    //     pos_y_list = pos_y_list.update(i, max_y);
+    // }
+    //
+    // position_root(node);
+    // set_extreme(node);
 }
 
 pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
