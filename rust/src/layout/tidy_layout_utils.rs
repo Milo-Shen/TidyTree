@@ -97,27 +97,29 @@ pub fn set_extreme(node: Rc<RefCell<Node>>) {
         return;
     }
 
-    // let children = &node.borrow().children;
-    node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(&node);
+    let empty_children = node.borrow().children.is_empty();
+    let tidy_opt = &mut node.borrow_mut().tidy;
+    let tidy = tidy_opt.as_mut().unwrap();
 
-    // // leaf child
-    // if children.is_empty() {
-    //     node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
-    //     tidy.extreme_right = Rc::downgrade(node);
-    //     tidy.modifier_extreme_left = 0.0;
-    //     tidy.modifier_extreme_right = 0.0;
-    // } else {
-    //     let first_child = children.first().unwrap();
-    //     let first_tidy_opt = &first_child.borrow().tidy;
-    //     let first_tidy = first_tidy_opt.as_ref().unwrap();
-    //     tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
-    //     tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
-    //     let last_child = children.last().unwrap();
-    //     let last_child_opt = &last_child.borrow().tidy;
-    //     let last_tidy = last_child_opt.as_ref().unwrap();
-    //     tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
-    //     tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
-    // }
+    // leaf child
+    if empty_children {
+        tidy.extreme_left = Rc::downgrade(&node);
+        tidy.extreme_right = Rc::downgrade(&node);
+        tidy.modifier_extreme_left = 0.0;
+        tidy.modifier_extreme_right = 0.0;
+    } else {
+        let children = &node.borrow().children;
+        let first_child = children.first().unwrap();
+        let first_tidy_opt = &first_child.borrow().tidy;
+        let first_tidy = first_tidy_opt.as_ref().unwrap();
+        tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
+        tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
+        let last_child = children.last().unwrap();
+        let last_child_opt = &last_child.borrow().tidy;
+        let last_tidy = last_child_opt.as_ref().unwrap();
+        tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
+        tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
+    }
 }
 
 pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
