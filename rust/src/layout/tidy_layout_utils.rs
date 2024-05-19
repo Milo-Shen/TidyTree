@@ -73,12 +73,15 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
     let mut pos_y_list_map: HashMap<i64, LinkedYList> = HashMap::new();
 
     while !stack.is_empty() {
-        let node = stack.back().unwrap();
+        let node = Rc::clone(stack.back().unwrap());
         let is_empty_children = node.borrow().children.is_empty();
 
         // empty children
         if is_empty_children {
-            set_extreme(Rc::clone(node));
+            set_extreme(Rc::clone(&node));
+            stack.pop_back();
+            pre = node;
+            continue;
         }
     }
 }
