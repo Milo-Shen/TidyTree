@@ -96,7 +96,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
             let pre_index = pre.borrow().index;
 
             if pre_index > 0 {
-                let mut pos_y_list = pos_y_list_map.get(&node_id).unwrap();
+                let mut pos_y_list = pos_y_list_map.get_mut(&node_id).unwrap();
                 let max_y = pre.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
                 pos_y_list = separate(Rc::clone(&node), pre_index, pos_y_list, h_space);
             }
@@ -104,7 +104,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
     }
 }
 
-pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: &LinkedYList, h_space: f32) -> &LinkedYList {
+pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, pos_y_list: &mut LinkedYList, h_space: f32) -> &mut LinkedYList {
     // right contour of the left node
     let mut left = Contour::new(false, Some(Rc::clone(&node.borrow().children[child_index - 1])));
 
