@@ -74,10 +74,10 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
 
     while !stack.is_empty() {
         let node = stack.back().unwrap();
-        let node_children = &node.borrow().children;
+        let is_empty_children = node.borrow().children.is_empty();
 
         // empty children
-        if node_children.is_empty() {
+        if is_empty_children {
             set_extreme(Rc::clone(node));
         }
     }
