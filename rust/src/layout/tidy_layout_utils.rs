@@ -211,14 +211,14 @@ pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: 
 }
 
 pub fn set_extreme(node: &Rc<RefCell<Node>>) {
-    // if node.borrow().tidy.is_none() {
-    //     return;
-    // }
+    if node.borrow().tidy.is_none() {
+        return;
+    }
 
-    // let children = &node.borrow().children;
+    let children = &node.borrow().children;
     node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
 
-    // leaf child
+    // // leaf child
     // if children.is_empty() {
     //     node.borrow_mut().tidy.as_mut().unwrap().extreme_left = Rc::downgrade(node);
     //     tidy.extreme_right = Rc::downgrade(node);
