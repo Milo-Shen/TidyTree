@@ -63,9 +63,8 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         let node = cur_node.unwrap();
         stack.push_back(Rc::clone(&node));
 
-        let children = node.borrow().children[0].clone();
-        // let first_child = children.first()
-        cur_node = Some(children);
+        let children = node.borrow().children.first().map(|x| Rc::clone(x));
+        cur_node = children
     }
 }
 
