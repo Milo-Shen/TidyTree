@@ -104,7 +104,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
     }
 }
 
-pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, pos_y_list: &mut LinkedYList, h_space: f32) -> &mut LinkedYList {
+pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: &mut LinkedYList, h_space: f32) -> &mut LinkedYList {
     // right contour of the left node
     let mut left = Contour::new(false, Some(Rc::clone(&node.borrow().children[child_index - 1])));
 
@@ -121,7 +121,7 @@ pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, pos_y_list: &mut Li
                 println!("error occurred in separate");
             }
 
-            pos_y_list = top.unwrap();
+            pos_y_list = &mut top.unwrap();
         }
 
         // let dist = left.right() - right.left() + h_space;
