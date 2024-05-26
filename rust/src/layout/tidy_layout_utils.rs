@@ -143,28 +143,13 @@ pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Lin
         }
     }
 
-    // if left.is_none() && !right.is_none() {
-    //     set_left_thread(node, child_index, right.get_node(), right.modifier_sum);
-    // } else if !left.is_none() && right.is_none() {
-    //     set_right_thread(node, child_index, left.get_node(), left.modifier_sum);
-    // }
+    if left.is_none() && !right.is_none() {
+        set_left_thread(Rc::clone(&node), child_index, right.get_node(), right.modifier_sum);
+    } else if !left.is_none() && right.is_none() {
+        set_right_thread(Rc::clone(&node), child_index, left.get_node(), left.modifier_sum);
+    }
 
     pos_y_list
-}
-
-pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
-    let child = &node.borrow().children[current_index];
-    let child_tidy_opt = &mut child.borrow_mut().tidy;
-    let child_tidy = child_tidy_opt.as_mut().unwrap();
-    child_tidy.modifier_to_subtree += distance;
-
-    // distribute extra space to nodes between from_index to current_index
-    if from_index != current_index - 1 {
-        let index_diff = current_index - from_index;
-        node.borrow().children[from_index + 1].borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
-        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_acceleration -= distance / index_diff as f32;
-        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
-    }
 }
 
 pub fn set_extreme(node: Rc<RefCell<Node>>) {
@@ -238,7 +223,7 @@ pub fn position_root(node: &Rc<RefCell<Node>>) {
     node.borrow_mut().tidy.as_mut().unwrap().modifier_to_subtree = -node_relative_x;
 }
 
-pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
+pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
     let children = &node.borrow().children;
     let first = &children[0];
     let current = &children[current_index];
@@ -251,7 +236,7 @@ pub fn set_left_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: O
     first.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_left = modifier_extreme_left;
 }
 
-pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
+pub fn set_right_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
     let children = &node.borrow().children;
     let current = &children[current_index];
 
@@ -266,4 +251,18 @@ pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: 
     current.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_right = modifier_extreme_right;
 }
 
+pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
+    let child = &node.borrow().children[current_index];
+    let child_tidy_opt = &mut child.borrow_mut().tidy;
+    let child_tidy = child_tidy_opt.as_mut().unwrap();
+    child_tidy.modifier_to_subtree += distance;
+
+    // distribute extra space to nodes between from_index to current_index
+    if from_index != current_index - 1 {
+        let index_diff = current_index - from_index;
+        node.borrow().children[from_index + 1].borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
+        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_acceleration -= distance / index_diff as f32;
+        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
+    }
+}
 
