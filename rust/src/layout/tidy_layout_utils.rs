@@ -72,7 +72,12 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
     let mut pre = root.unwrap();
     let mut pos_y_list_map: HashMap<i64, LinkedYList> = HashMap::new();
 
+    let mut pre_id_1 = pre.borrow().id;
+    let stack_ids: Vec<_> = stack.iter().map(|x| x.borrow().id).collect();
+
     while !stack.is_empty() {
+        let stack_ids_1: Vec<_> = stack.iter().map(|x| x.borrow().id).collect();
+
         let node = Rc::clone(stack.back().unwrap());
         let is_empty_children = node.borrow().children.is_empty();
         let node_id = node.borrow().id;
@@ -97,7 +102,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         if pre.borrow().parent.upgrade().as_ref().unwrap().borrow().id == node_id {
             if pre_index > 0 {
                 let mut pos_y_list = pos_y_list_map.remove(&node_id).unwrap();
-                let max_y = pre.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
+                let max_y = pre.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().unwrap().borrow().bottom();
                 pos_y_list = separate(Rc::clone(&node), pre_index, pos_y_list, h_space);
                 pos_y_list = pos_y_list.update(pre_index, max_y);
                 pos_y_list_map.insert(node_id, pos_y_list);
@@ -116,7 +121,8 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         let index = pre_index + 1;
 
         let mut cur_node = node.borrow().children.get(index).map(|x| Rc::clone(x));
-        
+        let c = cur_node.clone().unwrap().borrow().id;
+
         while cur_node.is_some() {
             let node = cur_node.unwrap();
             stack.push_back(Rc::clone(&node));
@@ -124,6 +130,8 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
             let children = node.borrow().children.first().map(|x| Rc::clone(x));
             cur_node = children;
         }
+
+        let stack_ids_2: Vec<_> = stack.iter().map(|x| x.borrow().id).collect();
 
         pre = node;
     }
@@ -178,16 +186,19 @@ pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Lin
 }
 
 pub fn set_extreme(node: Rc<RefCell<Node>>) {
+    // todo: for testing
+    let node_id = node.borrow().id;
+
     if node.borrow().tidy.is_none() {
         return;
     }
 
     let empty_children = node.borrow().children.is_empty();
-    let tidy_opt = &mut node.borrow_mut().tidy;
-    let tidy = tidy_opt.as_mut().unwrap();
 
     // leaf child
     if empty_children {
+        let tidy_opt = &mut node.borrow_mut().tidy;
+        let tidy = tidy_opt.as_mut().unwrap();
         tidy.extreme_left = Rc::downgrade(&node);
         tidy.extreme_right = Rc::downgrade(&node);
         tidy.modifier_extreme_left = 0.0;
@@ -197,13 +208,19 @@ pub fn set_extreme(node: Rc<RefCell<Node>>) {
         let first_child = children.first().unwrap();
         let first_tidy_opt = &first_child.borrow().tidy;
         let first_tidy = first_tidy_opt.as_ref().unwrap();
-        tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
-        tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
+
         let last_child = children.last().unwrap();
         let last_child_opt = &last_child.borrow().tidy;
         let last_tidy = last_child_opt.as_ref().unwrap();
-        tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
-        tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
+
+        let tidy_opt = &mut node.borrow_mut().tidy;
+        // let tidy = tidy_opt.as_mut().unwrap();
+        //
+        // tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
+        // tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
+        //
+        // tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
+        // tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
     }
 }
 
@@ -234,6 +251,8 @@ pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {
 }
 
 pub fn position_root(node: Rc<RefCell<Node>>) {
+    return;
+
     let children = &node.borrow().children;
     let first = children.first().unwrap();
     let first_child_pos = first.borrow().relative_x + first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
