@@ -251,8 +251,6 @@ pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {
 }
 
 pub fn position_root(node: Rc<RefCell<Node>>) {
-    return;
-
     let children = &node.borrow().children;
     let first = children.first().unwrap();
     let first_child_pos = first.borrow().relative_x + first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
