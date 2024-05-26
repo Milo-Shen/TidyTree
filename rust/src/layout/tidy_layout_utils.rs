@@ -265,6 +265,8 @@ pub fn position_root(node: Rc<RefCell<Node>>) {
 }
 
 pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
+    return;
+    
     let children = &node.borrow().children;
     let first = &children[0];
     let current = &children[current_index];
