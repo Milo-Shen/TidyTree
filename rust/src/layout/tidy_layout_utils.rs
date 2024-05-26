@@ -112,7 +112,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         let node_last_child = Rc::clone(node.borrow().children.last().unwrap());
         if node_last_child.borrow().id == pre_id {
             position_root(Rc::clone(&node));
-            // set_extreme(Rc::clone(&node));
+            set_extreme(Rc::clone(&node));
             stack.pop_back();
             pre = node;
             continue;
@@ -204,23 +204,22 @@ pub fn set_extreme(node: Rc<RefCell<Node>>) {
         tidy.modifier_extreme_left = 0.0;
         tidy.modifier_extreme_right = 0.0;
     } else {
-        let children = &node.borrow().children;
-        let first_child = children.first().unwrap();
+        let first_child = Rc::clone(node.borrow().children.first().unwrap());
         let first_tidy_opt = &first_child.borrow().tidy;
         let first_tidy = first_tidy_opt.as_ref().unwrap();
 
-        let last_child = children.last().unwrap();
+        let last_child = Rc::clone(node.borrow().children.last().unwrap());
         let last_child_opt = &last_child.borrow().tidy;
         let last_tidy = last_child_opt.as_ref().unwrap();
 
         let tidy_opt = &mut node.borrow_mut().tidy;
-        // let tidy = tidy_opt.as_mut().unwrap();
-        //
-        // tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
-        // tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
-        //
-        // tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
-        // tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
+        let tidy = tidy_opt.as_mut().unwrap();
+
+        tidy.extreme_left = Weak::clone(&first_tidy.extreme_left);
+        tidy.modifier_extreme_left = first_tidy.modifier_to_subtree + first_tidy.modifier_extreme_left;
+
+        tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
+        tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
     }
 }
 
