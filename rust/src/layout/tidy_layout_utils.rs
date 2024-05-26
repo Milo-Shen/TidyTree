@@ -99,6 +99,8 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
                 let mut pos_y_list = pos_y_list_map.remove(&node_id).unwrap();
                 let max_y = pre.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
                 pos_y_list = separate(Rc::clone(&node), pre_index, pos_y_list, h_space);
+                pos_y_list = pos_y_list.update(pre_index, max_y);
+                pos_y_list_map.set(node_id, pos_y_list);
             }
         }
     }
