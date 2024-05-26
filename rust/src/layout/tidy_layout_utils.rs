@@ -265,11 +265,9 @@ pub fn position_root(node: Rc<RefCell<Node>>) {
 }
 
 pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
-    return;
-    
-    let children = &node.borrow().children;
-    let first = &children[0];
-    let current = &children[current_index];
+    // let children = &node.borrow().children;
+    let first = Rc::clone(node.borrow().children.first().unwrap());
+    let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
     let diff = modifier - first.borrow().tidy.as_ref().unwrap().modifier_extreme_left - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
 
     first.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().thread_left = Rc::downgrade(&target.unwrap());
@@ -284,17 +282,17 @@ pub fn set_right_thread(node: Rc<RefCell<Node>>, current_index: usize, target: O
 
     let diff = modifier - current.borrow().tidy.as_ref().unwrap().modifier_extreme_right - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
     current.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow_mut().tidy.as_mut().unwrap().thread_right = Rc::downgrade(&target.unwrap());
-    // current.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().modifier_thread_right = diff;
+    current.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().modifier_thread_right = diff;
 
-    // let prev_node = Rc::clone(node.borrow().children.get(current_index - 1).unwrap());
-    // let prev_tidy = &prev_node.borrow().tidy;
-    // current.borrow_mut().tidy.as_mut().unwrap().extreme_right = Weak::clone(&prev_tidy.as_ref().unwrap().extreme_right);
-    // let modifier_extreme_right = prev_node.borrow().tidy.as_ref().unwrap().modifier_extreme_right + prev_node.borrow().tidy.as_ref().unwrap().modifier_to_subtree - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
-    // current.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_right = modifier_extreme_right;
+    let prev_node = Rc::clone(node.borrow().children.get(current_index - 1).unwrap());
+    let prev_tidy = &prev_node.borrow().tidy;
+    current.borrow_mut().tidy.as_mut().unwrap().extreme_right = Weak::clone(&prev_tidy.as_ref().unwrap().extreme_right);
+    let modifier_extreme_right = prev_node.borrow().tidy.as_ref().unwrap().modifier_extreme_right + prev_node.borrow().tidy.as_ref().unwrap().modifier_to_subtree - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+    current.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_right = modifier_extreme_right;
 }
 
 pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
-    let child = &node.borrow().children[current_index];
+    let child = Rc::clone(node.borrow().children.get(current_index).unwrap());
     let child_tidy_opt = &mut child.borrow_mut().tidy;
     let child_tidy = child_tidy_opt.as_mut().unwrap();
     child_tidy.modifier_to_subtree += distance;
