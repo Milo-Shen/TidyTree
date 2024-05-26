@@ -1,6 +1,7 @@
 // use rust std
 use std::cell::RefCell;
 use std::collections::{HashMap, VecDeque};
+use std::f32::consts::E;
 use std::rc::{Rc, Weak};
 
 // use local types
@@ -277,14 +278,13 @@ pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Op
 }
 
 pub fn set_right_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
-    let children = &node.borrow().children;
-    let current = &children[current_index];
+    let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
 
     let diff = modifier - current.borrow().tidy.as_ref().unwrap().modifier_extreme_right - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
     current.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().thread_right = Rc::downgrade(&target.unwrap());
     current.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().modifier_thread_right = diff;
 
-    let prev_node = &children[current_index - 1];
+    let prev_node = Rc::clone(node.borrow().children.get(current_index - 1).unwrap());
     let prev_tidy = &prev_node.borrow().tidy;
     current.borrow_mut().tidy.as_mut().unwrap().extreme_right = Weak::clone(&prev_tidy.as_ref().unwrap().extreme_right);
     let modifier_extreme_right = prev_node.borrow().tidy.as_ref().unwrap().modifier_extreme_right + prev_node.borrow().tidy.as_ref().unwrap().modifier_to_subtree - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
