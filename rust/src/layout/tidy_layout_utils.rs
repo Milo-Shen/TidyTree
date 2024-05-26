@@ -112,7 +112,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         let node_last_child = Rc::clone(node.borrow().children.last().unwrap());
         if node_last_child.borrow().id == pre_id {
             position_root(Rc::clone(&node));
-            set_extreme(Rc::clone(&node));
+            // set_extreme(Rc::clone(&node));
             stack.pop_back();
             pre = node;
             continue;
@@ -251,10 +251,9 @@ pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {
 }
 
 pub fn position_root(node: Rc<RefCell<Node>>) {
-    let children = &node.borrow().children;
-    let first = children.first().unwrap();
+    let first = Rc::clone(node.borrow().children.first().unwrap());
     let first_child_pos = first.borrow().relative_x + first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
-    let last = children.last().unwrap();
+    let last = Rc::clone(node.borrow().children.last().unwrap());
     let last_child_pos = last.borrow().relative_x + last.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
 
     let node_relative_x = (first_child_pos + last_child_pos) / 2.0;
