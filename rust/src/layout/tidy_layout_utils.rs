@@ -124,23 +124,23 @@ pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Lin
             pos_y_list = top.unwrap();
         }
 
-        // let dist = left.right() - right.left() + h_space;
-        // if dist > 0.0 {
-        //     // left node and right node are too close. move right part with distance of dist
-        //     right.modifier_sum += dist;
-        //     move_subtree(node, child_index, pos_y_list.index, dist);
-        // }
-        //
-        // let left_bottom = left.bottom();
-        // let right_bottom = right.bottom();
-        //
-        // if left_bottom <= right_bottom {
-        //     left.next();
-        // }
-        //
-        // if left_bottom >= right_bottom {
-        //     right.next();
-        // }
+        let dist = left.right() - right.left() + h_space;
+        if dist > 0.0 {
+            // left node and right node are too close. move right part with distance of dist
+            right.modifier_sum += dist;
+            move_subtree(Rc::clone(&node), child_index, pos_y_list.index, dist);
+        }
+
+        let left_bottom = left.bottom();
+        let right_bottom = right.bottom();
+
+        if left_bottom <= right_bottom {
+            left.next();
+        }
+
+        if left_bottom >= right_bottom {
+            right.next();
+        }
     }
 
     // if left.is_none() && !right.is_none() {
@@ -150,6 +150,21 @@ pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Lin
     // }
 
     pos_y_list
+}
+
+pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
+    let child = &node.borrow().children[current_index];
+    let child_tidy_opt = &mut child.borrow_mut().tidy;
+    let child_tidy = child_tidy_opt.as_mut().unwrap();
+    child_tidy.modifier_to_subtree += distance;
+
+    // distribute extra space to nodes between from_index to current_index
+    if from_index != current_index - 1 {
+        let index_diff = current_index - from_index;
+        node.borrow().children[from_index + 1].borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
+        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_acceleration -= distance / index_diff as f32;
+        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
+    }
 }
 
 pub fn set_extreme(node: Rc<RefCell<Node>>) {
@@ -251,18 +266,4 @@ pub fn set_right_thread(node: &Rc<RefCell<Node>>, current_index: usize, target: 
     current.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_right = modifier_extreme_right;
 }
 
-pub fn move_subtree(node: &Rc<RefCell<Node>>, current_index: usize, from_index: usize, distance: f32) {
-    let child = &node.borrow().children[current_index];
-    let child_tidy_opt = &mut child.borrow_mut().tidy;
-    let child_tidy = child_tidy_opt.as_mut().unwrap();
-    child_tidy.modifier_to_subtree += distance;
-
-    // distribute extra space to nodes between from_index to current_index
-    if from_index != current_index - 1 {
-        let index_diff = current_index - from_index;
-        node.borrow().children[from_index + 1].borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
-        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_acceleration -= distance / index_diff as f32;
-        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
-    }
-}
 
