@@ -77,6 +77,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         let is_empty_children = node.borrow().children.is_empty();
         let node_id = node.borrow().id;
         let pre_id = pre.borrow().id;
+        let pre_index = pre.borrow().index;
 
         // empty children
         if is_empty_children {
@@ -94,8 +95,6 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         }
 
         if pre.borrow().parent.upgrade().as_ref().unwrap().borrow().id == node_id {
-            let pre_index = pre.borrow().index;
-
             if pre_index > 0 {
                 let mut pos_y_list = pos_y_list_map.remove(&node_id).unwrap();
                 let max_y = pre.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap().borrow().bottom();
@@ -113,6 +112,20 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
             pre = node;
             continue;
         }
+
+        let index = pre_index + 1;
+
+        let mut cur_node = node.borrow().children.get(index).map(|x| Rc::clone(x));
+        
+        while cur_node.is_some() {
+            let node = cur_node.unwrap();
+            stack.push_back(Rc::clone(&node));
+
+            let children = node.borrow().children.first().map(|x| Rc::clone(x));
+            cur_node = children;
+        }
+
+        pre = node;
     }
 }
 
