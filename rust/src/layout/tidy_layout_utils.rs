@@ -265,7 +265,6 @@ pub fn position_root(node: Rc<RefCell<Node>>) {
 }
 
 pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
-    // let children = &node.borrow().children;
     let first = Rc::clone(node.borrow().children.first().unwrap());
     let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
     let diff = modifier - first.borrow().tidy.as_ref().unwrap().modifier_extreme_left - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
