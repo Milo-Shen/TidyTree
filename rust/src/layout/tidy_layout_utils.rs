@@ -76,6 +76,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         let node = Rc::clone(stack.back().unwrap());
         let is_empty_children = node.borrow().children.is_empty();
         let node_id = node.borrow().id;
+        let pre_id = pre.borrow().id;
 
         // empty children
         if is_empty_children {
@@ -86,7 +87,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         }
 
         let node_first_child = Rc::clone(node.borrow().children.first().unwrap());
-        if node_first_child.borrow().id == pre.borrow().id {
+        if node_first_child.borrow().id == pre_id {
             let extreme_right_bottom = node_first_child.borrow().tidy.as_ref().unwrap().extreme_right.upgrade().unwrap().borrow().bottom();
             let pos_y_list = LinkedYList::new(0, extreme_right_bottom);
             pos_y_list_map.insert(node_id, pos_y_list);
@@ -102,6 +103,15 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
                 pos_y_list = pos_y_list.update(pre_index, max_y);
                 pos_y_list_map.set(node_id, pos_y_list);
             }
+        }
+
+        let node_last_child = Rc::clone(node.borrow().children.last().unwrap());
+        if node_last_child.borrow().id == pre_id {
+            position_root(Rc::clone(&node));
+            set_extreme(Rc::clone(&node));
+            stack.pop_back();
+            pre = node;
+            continue;
         }
     }
 }
@@ -210,7 +220,7 @@ pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {
     }
 }
 
-pub fn position_root(node: &Rc<RefCell<Node>>) {
+pub fn position_root(node: Rc<RefCell<Node>>) {
     let children = &node.borrow().children;
     let first = children.first().unwrap();
     let first_child_pos = first.borrow().relative_x + first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
