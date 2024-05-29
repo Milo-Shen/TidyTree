@@ -269,8 +269,10 @@ pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Op
     let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
     let diff = modifier - first.borrow().tidy.as_ref().unwrap().modifier_extreme_left - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
 
-    first.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().thread_left = Rc::downgrade(&target.unwrap());
-    first.borrow_mut().tidy.as_mut().unwrap().extreme_left.upgrade().as_mut().unwrap().borrow_mut().tidy.as_mut().unwrap().modifier_thread_left = diff;
+    let first_tidy_extreme_left_tidy = Rc::clone(first.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap());
+    first_tidy_extreme_left_tidy.borrow_mut().tidy.as_mut().unwrap().thread_left = Rc::downgrade(&target.unwrap());
+    first_tidy_extreme_left_tidy.borrow_mut().tidy.as_mut().unwrap().modifier_thread_left = diff;
+    
     first.borrow_mut().tidy.as_mut().unwrap().extreme_left = Weak::clone(&current.borrow().tidy.as_ref().unwrap().extreme_left);
     let modifier_extreme_left = current.borrow().tidy.as_ref().unwrap().modifier_extreme_left + current.borrow().tidy.as_ref().unwrap().modifier_to_subtree - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
     first.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_left = modifier_extreme_left;
