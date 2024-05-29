@@ -17,6 +17,6 @@ impl TidyTree {
 
         // second walk
         let mut min_x = 0.0;
-        // second_walk(self.root.as_ref().unwrap(), &mut 0.0, &mut min_x);
+        second_walk(self.root.as_ref().unwrap(), &mut 0.0, &mut min_x);
     }
 }
