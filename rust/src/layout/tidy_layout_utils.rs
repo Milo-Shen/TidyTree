@@ -224,20 +224,20 @@ pub fn set_extreme(node: Rc<RefCell<Node>>) {
     }
 }
 
-pub fn second_walk(node: &Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
+pub fn second_walk(node: Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
     *modified_sum = *modified_sum + node.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
     let node_relative_x = node.borrow().relative_x;
 
     node.borrow_mut().x = node_relative_x + *modified_sum;
     *min_x = f32::min(*min_x, node.borrow().x - node.borrow().width / 2.0);
-    add_child_spacing(node);
+    add_child_spacing(Rc::clone(&node));
 
     for child in &node.borrow().children {
-        second_walk(child, modified_sum, min_x);
+        second_walk(Rc::clone(child), modified_sum, min_x);
     }
 }
 
-pub fn add_child_spacing(node: &Rc<RefCell<Node>>) {
+pub fn add_child_spacing(node: Rc<RefCell<Node>>) {
     let mut speed = 0.0;
     let mut delta = 0.0;
 
@@ -272,7 +272,7 @@ pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Op
     let first_tidy_extreme_left_tidy = Rc::clone(first.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap());
     first_tidy_extreme_left_tidy.borrow_mut().tidy.as_mut().unwrap().thread_left = Rc::downgrade(&target.unwrap());
     first_tidy_extreme_left_tidy.borrow_mut().tidy.as_mut().unwrap().modifier_thread_left = diff;
-    
+
     first.borrow_mut().tidy.as_mut().unwrap().extreme_left = Weak::clone(&current.borrow().tidy.as_ref().unwrap().extreme_left);
     let modifier_extreme_left = current.borrow().tidy.as_ref().unwrap().modifier_extreme_left + current.borrow().tidy.as_ref().unwrap().modifier_to_subtree - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
     first.borrow_mut().tidy.as_mut().unwrap().modifier_extreme_left = modifier_extreme_left;
