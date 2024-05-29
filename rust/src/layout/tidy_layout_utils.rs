@@ -237,6 +237,28 @@ pub fn second_walk(node: Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut 
     }
 }
 
+pub fn second_walk_without_recursion(root: Option<Rc<RefCell<Node>>>, modified_sum: f32, min_x: &mut f32) {
+    pre_order_traverse_tree(root, |node| {
+        let parent_opt = node.borrow().parent.upgrade();
+        let mut prev_modified_sum = modified_sum;
+
+        if parent_opt.is_some() {
+            prev_modified_sum = parent_opt.as_ref().unwrap().borrow().tidy.as_ref().unwrap().prev_modified_sum;
+        }
+
+        let cur_modified_sum = prev_modified_sum + node.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
+        let node_relative_x = node.borrow().relative_x;
+        let node_width = node.borrow().width;
+
+        let new_node_x = node_relative_x + cur_modified_sum;
+        node.borrow_mut().x = new_node_x;
+        node.borrow_mut().tidy.as_mut().unwrap().prev_modified_sum = cur_modified_sum;
+
+        *min_x = f32::min(*min_x, new_node_x - node_width / 2.0);
+        add_child_spacing(Rc::clone(&node));
+    })
+}
+
 pub fn add_child_spacing(node: Rc<RefCell<Node>>) {
     let mut speed = 0.0;
     let mut delta = 0.0;
