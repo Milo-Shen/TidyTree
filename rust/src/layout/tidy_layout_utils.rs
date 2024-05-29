@@ -272,6 +272,14 @@ pub fn add_child_spacing(node: Rc<RefCell<Node>>) {
     }
 }
 
+pub fn adjust_node_position(root: Option<Rc<RefCell<Node>>>, diff: f32) {
+    pre_order_traverse_tree(root, |node| {
+        let node_x = node.borrow().x;
+        let node_w = node.borrow().width;
+        node.borrow_mut().x = node_x - node_w / 2.0 + diff;
+    })
+}
+
 pub fn position_root(node: Rc<RefCell<Node>>) {
     let first = Rc::clone(node.borrow().children.first().unwrap());
     let first_child_pos = first.borrow().relative_x + first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;

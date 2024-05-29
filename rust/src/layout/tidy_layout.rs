@@ -1,6 +1,6 @@
 use std::rc::Rc;
 // use local types
-use crate::layout::tidy_layout_utils::{add_child_spacing, first_walk_stack_without_recursion, init_node, second_walk, second_walk_without_recursion, set_pos_y_of_nodes};
+use crate::layout::tidy_layout_utils::{adjust_node_position, first_walk_stack_without_recursion, init_node, second_walk_without_recursion, set_pos_y_of_nodes};
 use crate::tidy_tree::{TidyConfiguration, TidyTree};
 
 impl TidyTree {
@@ -22,6 +22,6 @@ impl TidyTree {
 
         // adjust the position of orgchart
         let diff = if min_x < 0.0 { -min_x } else { 0.0 };
-        add_child_spacing(Rc::clone(self.root.as_ref().unwrap()));
+        adjust_node_position(self.root.clone(), diff);
     }
 }
