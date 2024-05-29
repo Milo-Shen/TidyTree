@@ -15,7 +15,7 @@ mod utils;
 
 fn main() {
     let start_time = Instant::now();
-    let mock_data = mock_org_chart_data::mock_org_chart_data(5, 2, false, 200.0, 100.0);
+    let mock_data = mock_org_chart_data::mock_org_chart_data(200, 10, true, 200.0, 100.0);
     let duration = start_time.elapsed();
     println!("mock data: {:?}", duration);
     let start_time = Instant::now();

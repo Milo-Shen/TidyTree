@@ -1,7 +1,6 @@
 // use rust std
 use std::cell::RefCell;
 use std::collections::{HashMap, VecDeque};
-use std::f32::consts::E;
 use std::rc::{Rc, Weak};
 
 // use local types
@@ -295,6 +294,8 @@ pub fn position_root(node: Rc<RefCell<Node>>) {
 }
 
 pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
+    println!("set_left_thread");
+
     let first = Rc::clone(node.borrow().children.first().unwrap());
     let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
     let diff = modifier - first.borrow().tidy.as_ref().unwrap().modifier_extreme_left - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
@@ -309,6 +310,8 @@ pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Op
 }
 
 pub fn set_right_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
+    println!("set_right_thread");
+
     let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
 
     let diff = modifier - current.borrow().tidy.as_ref().unwrap().modifier_extreme_right - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
@@ -332,9 +335,13 @@ pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: u
     // distribute extra space to nodes between from_index to current_index
     if from_index != current_index - 1 {
         let index_diff = current_index - from_index;
-        node.borrow().children[from_index + 1].borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
-        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_acceleration -= distance / index_diff as f32;
-        node.borrow().children[current_index].borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
+
+        let node_child_from = Rc::clone(node.borrow().children.get(from_index + 1).unwrap());
+        let node_child_current = Rc::clone(node.borrow().children.get(current_index).unwrap());
+        
+        node_child_from.borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
+        node_child_current.borrow_mut().tidy.as_mut().unwrap().shift_acceleration -= distance / index_diff as f32;
+        node_child_current.borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
     }
 }
 
