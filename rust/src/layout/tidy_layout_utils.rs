@@ -310,3 +310,5 @@ pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: u
         node_child_from.borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
     }
 }
+
+pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, count: usize) {}
