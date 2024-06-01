@@ -58,7 +58,6 @@ pub fn set_pos_y_of_nodes(root: Option<Rc<RefCell<Node>>>, v_space: f32, is_laye
 
 pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_space: f32) {
     let mut stack = VecDeque::new();
-
     let mut cur_node = root.clone();
 
     while cur_node.is_some() {
@@ -72,12 +71,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
     let mut pre = root.unwrap();
     let mut pos_y_list_map: HashMap<i64, LinkedYList> = HashMap::new();
 
-    let mut pre_id_1 = pre.borrow().id;
-    let stack_ids: Vec<_> = stack.iter().map(|x| x.borrow().id).collect();
-
     while !stack.is_empty() {
-        let stack_ids_1: Vec<_> = stack.iter().map(|x| x.borrow().id).collect();
-
         let node = Rc::clone(stack.back().unwrap());
         let is_empty_children = node.borrow().children.is_empty();
         let node_id = node.borrow().id;
@@ -119,9 +113,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
         }
 
         let index = pre_index + 1;
-
         let mut cur_node = node.borrow().children.get(index).map(|x| Rc::clone(x));
-        let c = cur_node.clone().unwrap().borrow().id;
 
         while cur_node.is_some() {
             let node = cur_node.unwrap();
@@ -130,8 +122,6 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
             let children = node.borrow().children.first().map(|x| Rc::clone(x));
             cur_node = children;
         }
-
-        let stack_ids_2: Vec<_> = stack.iter().map(|x| x.borrow().id).collect();
 
         pre = node;
     }
@@ -186,9 +176,6 @@ pub fn separate(node: Rc<RefCell<Node>>, child_index: usize, mut pos_y_list: Lin
 }
 
 pub fn set_extreme(node: Rc<RefCell<Node>>) {
-    // todo: for testing
-    let node_id = node.borrow().id;
-
     if node.borrow().tidy.is_none() {
         return;
     }
@@ -220,19 +207,6 @@ pub fn set_extreme(node: Rc<RefCell<Node>>) {
 
         tidy.extreme_right = Weak::clone(&last_tidy.extreme_right);
         tidy.modifier_extreme_right = last_tidy.modifier_to_subtree + last_tidy.modifier_extreme_right;
-    }
-}
-
-pub fn second_walk(node: Rc<RefCell<Node>>, modified_sum: &mut f32, min_x: &mut f32) {
-    *modified_sum = *modified_sum + node.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
-    let node_relative_x = node.borrow().relative_x;
-
-    node.borrow_mut().x = node_relative_x + *modified_sum;
-    *min_x = f32::min(*min_x, node.borrow().x - node.borrow().width / 2.0);
-    add_child_spacing(Rc::clone(&node));
-
-    for child in &node.borrow().children {
-        second_walk(Rc::clone(child), modified_sum, min_x);
     }
 }
 
@@ -294,8 +268,6 @@ pub fn position_root(node: Rc<RefCell<Node>>) {
 }
 
 pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
-    println!("set_left_thread");
-
     let first = Rc::clone(node.borrow().children.first().unwrap());
     let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
     let diff = modifier - first.borrow().tidy.as_ref().unwrap().modifier_extreme_left - first.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
@@ -310,10 +282,7 @@ pub fn set_left_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Op
 }
 
 pub fn set_right_thread(node: Rc<RefCell<Node>>, current_index: usize, target: Option<Rc<RefCell<Node>>>, modifier: f32) {
-    println!("set_right_thread");
-
     let current = Rc::clone(node.borrow().children.get(current_index).unwrap());
-
     let diff = modifier - current.borrow().tidy.as_ref().unwrap().modifier_extreme_right - current.borrow().tidy.as_ref().unwrap().modifier_to_subtree;
     let current_tidy_extreme_left_tidy = Rc::clone(current.borrow().tidy.as_ref().unwrap().extreme_left.upgrade().as_ref().unwrap());
     current_tidy_extreme_left_tidy.borrow_mut().tidy.as_mut().unwrap().thread_right = Rc::downgrade(&target.unwrap());
@@ -334,7 +303,6 @@ pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: u
 
     // distribute extra space to nodes between from_index to current_index
     if from_index != current_index - 1 {
-        println!("move_subtree");
         let index_diff = current_index - from_index;
         let node_child_from = Rc::clone(node.borrow().children.get(from_index + 1).unwrap());
         child_tidy.shift_acceleration -= distance / index_diff as f32;
@@ -342,4 +310,3 @@ pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: u
         node_child_from.borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
     }
 }
-
