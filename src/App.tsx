@@ -38,7 +38,7 @@ function App() {
     let card_array_list = chart.get_node_array_list();
     let line_list = chart.calculate_line_pos(chart.root);
     console.log(`process time: ${performance.now() - now} ms`);
-    console.log(card_array_list);
+    console.log(card_array_list, line_list);
     set_card_list({ card_list: card_list, line_list: line_list } as any);
 
     return () => {
