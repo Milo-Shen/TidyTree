@@ -1,6 +1,6 @@
 pub enum LineType {
-    LINE,
-    Square,
+    LINE = 1,
+    Square = 2,
 }
 
 pub struct LineNode {
