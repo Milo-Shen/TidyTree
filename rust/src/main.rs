@@ -30,6 +30,6 @@ fn main() {
     let duration = start_time.elapsed();
     println!("build org chart time {:?}", duration);
     let print: Vec<_> = data.iter().map(|x| (x.borrow().id, x.borrow().x, x.borrow().y)).collect();
-    println!("{:#?}", print);
+    // println!("{:#?}", print);
     println!("Hello, world!");
 }

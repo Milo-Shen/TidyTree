@@ -334,14 +334,12 @@ pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: u
 
     // distribute extra space to nodes between from_index to current_index
     if from_index != current_index - 1 {
+        println!("move_subtree");
         let index_diff = current_index - from_index;
-
         let node_child_from = Rc::clone(node.borrow().children.get(from_index + 1).unwrap());
-        let node_child_current = Rc::clone(node.borrow().children.get(current_index).unwrap());
-        
+        child_tidy.shift_acceleration -= distance / index_diff as f32;
+        child_tidy.shift_change -= distance - distance / index_diff as f32;
         node_child_from.borrow_mut().tidy.as_mut().unwrap().shift_acceleration += distance / index_diff as f32;
-        node_child_current.borrow_mut().tidy.as_mut().unwrap().shift_acceleration -= distance / index_diff as f32;
-        node_child_current.borrow_mut().tidy.as_mut().unwrap().shift_change -= distance - distance / index_diff as f32;
     }
 }
 
