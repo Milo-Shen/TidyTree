@@ -14,23 +14,47 @@ mod tidy_tree_impl;
 mod utils;
 
 fn main() {
+    // create mock data
     let start_time = Instant::now();
     let mock_data = mock_org_chart_data::mock_org_chart_data(15, 5, false, 200.0, 100.0);
-    let duration = start_time.elapsed();
-    println!("mock data: {:?}", duration);
+    println!("mock data: {:?}", start_time.elapsed());
+
+    // init basic tree time
     let start_time = Instant::now();
     let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
-    let mut chart = tidy_tree::TidyTree::new(LayoutMode::Tidy, tidy_configuration);
-    let duration = start_time.elapsed();
-    println!("init org chart: {:?}", duration);
+    let mut basic_chart = tidy_tree::TidyTree::new(LayoutMode::Basic, tidy_configuration);
+    println!("init tree: {:?}", start_time.elapsed());
+
+    // build basic tree time
     let start_time = Instant::now();
-    chart.initialize_tree_from_raw_data(mock_data);
-    chart.generate_tidy_layout();
-    let node_data = chart.get_node_linked_list();
-    let line_data = chart.get_line_linked_list();
-    let duration = start_time.elapsed();
-    println!("build org chart time {:?}", duration);
-    println!("{:#?}", node_data);
-    println!("{:#?}", line_data);
-    println!("Hello, world!");
+    basic_chart.initialize_tree_from_raw_data(mock_data);
+    basic_chart.generate_tidy_layout();
+    let basic_node_data = basic_chart.get_node_linked_list();
+    let basic_line_data = basic_chart.get_line_linked_list();
+    println!("build tree time {:?}", start_time.elapsed());
+    // println!("{:#?}", basic_node_data);
+    // println!("{:#?}", basic_line_data);
+
+    println!("------------------------------------");
+
+    // create mock data
+    let start_time = Instant::now();
+    let mock_data = mock_org_chart_data::mock_org_chart_data(15, 5, false, 200.0, 100.0);
+    println!("mock data: {:?}", start_time.elapsed());
+
+    // init tidy tree time
+    let start_time = Instant::now();
+    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
+    let mut tidy_chart = tidy_tree::TidyTree::new(LayoutMode::Tidy, tidy_configuration);
+    println!("init tree: {:?}", start_time.elapsed());
+
+    // build tidy tree time
+    let start_time = Instant::now();
+    tidy_chart.initialize_tree_from_raw_data(mock_data);
+    tidy_chart.generate_tidy_layout();
+    let tidy_node_data = tidy_chart.get_node_linked_list();
+    let tidy_line_data = tidy_chart.get_line_linked_list();
+    println!("build tree time {:?}", start_time.elapsed());
+    println!("{:#?}", tidy_node_data);
+    println!("{:#?}", tidy_line_data);
 }
