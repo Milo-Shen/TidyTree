@@ -1,4 +1,3 @@
-use std::rc::Rc;
 // use local types
 use crate::layout::tidy_layout_utils::{adjust_node_position, first_walk_stack_without_recursion, init_node, second_walk_without_recursion, set_pos_y_of_nodes};
 use crate::tidy_tree::{TidyConfiguration, TidyTree};
