@@ -1,5 +1,5 @@
 // use local types
-use crate::layout::tidy_layout_utils::{adjust_node_position, first_walk_stack_without_recursion, init_node, second_walk_without_recursion, set_pos_y_of_nodes};
+use crate::layout::tidy_layout_utils::{adjust_node_position, calculate_line_pos, first_walk_stack_without_recursion, init_node, second_walk_without_recursion, set_pos_y_of_nodes};
 use crate::tidy_tree::{TidyConfiguration, TidyTree};
 
 impl TidyTree {
@@ -22,5 +22,10 @@ impl TidyTree {
         // adjust the position of orgchart
         let diff = if min_x < 0.0 { -min_x } else { 0.0 };
         adjust_node_position(self.root.clone(), diff);
+
+        // calculate the line position
+        let line_width = self.tidy_configuration.line_width;
+        let v_space = self.tidy_configuration.v_space;
+        calculate_line_pos(self.root.clone(), &mut self.line_linked_list, line_width, v_space);
     }
 }

@@ -2,14 +2,16 @@
 use std::cell::RefCell;
 use std::collections::{HashMap, VecDeque};
 use std::rc::{Rc, Weak};
+use rand::distributions::uniform::SampleBorrow;
 
 // use local types
 use crate::contour::Contour;
 use crate::layout::linked_y_list::LinkedYList;
+use crate::line::LineType;
 
 // use local types
 use crate::node::{Node, TidyInfo};
-use crate::utils::{bfs_traverse_tree, bfs_traverse_tree_with_depth, pre_order_traverse_tree, pre_order_traverse_tree_with_depth};
+use crate::utils::{bfs_traverse_tree, bfs_traverse_tree_with_depth, is_leaf, pre_order_traverse_tree, pre_order_traverse_tree_with_depth};
 
 pub fn init_node(root: Option<Rc<RefCell<Node>>>) {
     bfs_traverse_tree(root, |node| {
@@ -311,4 +313,73 @@ pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: u
     }
 }
 
-pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, count: usize) {}
+pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, line_linked_list: &mut Vec<(f32, f32, f32, f32, f32, LineType)>, line_width: f32, v_space: f32) {
+    bfs_traverse_tree(root, |node| {
+        if is_leaf(Rc::clone(&node)) {
+            return;
+        }
+
+        // create line node
+        let children_len = node.borrow().children.len();
+
+        if children_len <= 0 {
+            return;
+        }
+
+        let first_child = Rc::clone(node.borrow().children.first().unwrap());
+        let first_child_x = first_child.borrow().x;
+        let first_child_y = first_child.borrow().y;
+        let first_child_w = first_child.borrow().width;
+
+        let last_node = Rc::clone(node.borrow().children.last().unwrap());
+        let last_node_x = last_node.borrow().x;
+        let last_node_w = last_node.borrow().width;
+
+        // node info
+        let node_x = node.borrow().x;
+        let node_y = node.borrow().y;
+        let node_w = node.borrow().width;
+        let node_h = node.borrow().height;
+
+        // case one: one parent has one child
+        if children_len == 1 {
+            let x = node_x + (node_w - line_width) / 2.0;
+            let y = node_y + node_h;
+            let w = line_width;
+            let h = first_child_y - y;
+            line_linked_list.push((x, y, w, h, line_width, LineType::LINE));
+        } else {
+            // case two: one parent has multi children
+            // get the mid pos of a card
+            let start = first_child_x + (first_child_w - line_width) / 2.0;
+            let end = last_node_x + (last_node_w - line_width) / 2.0;
+
+            // update line info
+            let x = start;
+            let h = (v_space + line_width) / 2.0;
+            let y = first_child_y - h;
+            let w = end - start;
+            line_linked_list.push((x, y, w, h, line_width, LineType::Square));
+
+            // case three: parent to category line
+            let x = node_x + (node_w - line_width) / 2.0;
+            let y = node_y + node_h;
+            let w = line_width;
+            let h = first_child_y - y - (v_space + line_width) / 2.0;
+            line_linked_list.push((x, y, w, h, line_width, LineType::LINE));
+
+            // case four: parent to node line
+            for i in 1..(children_len - 1) {
+                let child = &node.borrow().children[i];
+                let child_x = child.borrow().x;
+                let child_y = child.borrow().y;
+                let child_w = child.borrow().width;
+                let x = child_x + (child_w - line_width) / 2.0;
+                let y = child_y - (v_space + line_width) / 2.0;
+                let w = line_width;
+                let h = (v_space + line_width) / 2.0;
+                line_linked_list.push((x, y, w, h, line_width, LineType::LINE));
+            }
+        }
+    })
+}

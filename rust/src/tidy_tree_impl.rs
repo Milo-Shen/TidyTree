@@ -74,7 +74,7 @@ impl TidyTree {
         return &self.node_linked_list;
     }
 
-    pub fn get_line_linked_list(&self) -> &Vec(f32, f32, f32, f32, f32, LineType) {
+    pub fn get_line_linked_list(&self) -> &Vec<(f32, f32, f32, f32, f32, LineType)> {
         return &self.line_linked_list;
     }
 }

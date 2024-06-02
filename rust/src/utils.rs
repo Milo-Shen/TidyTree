@@ -118,7 +118,7 @@ pub fn bfs_traverse_tree_with_depth<F>(root: Option<Rc<RefCell<Node>>>, mut call
     }
 }
 
-pub fn is_leaf(node: &Rc<RefCell<Node>>) -> bool {
+pub fn is_leaf(node: Rc<RefCell<Node>>) -> bool {
     node.borrow().children.is_empty()
 }
 
