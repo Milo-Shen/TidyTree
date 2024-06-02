@@ -2,7 +2,6 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
-use crate::line::LineType;
 
 //  use local types
 use crate::node::{Node, NodeType};

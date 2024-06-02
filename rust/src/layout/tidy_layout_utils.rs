@@ -2,7 +2,6 @@
 use std::cell::RefCell;
 use std::collections::{HashMap, VecDeque};
 use std::rc::{Rc, Weak};
-use rand::distributions::uniform::SampleBorrow;
 
 // use local types
 use crate::contour::Contour;

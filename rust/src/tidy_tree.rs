@@ -4,7 +4,6 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 //  use local types
-use crate::line::LineType;
 use crate::node::Node;
 
 pub enum LayoutMode {
