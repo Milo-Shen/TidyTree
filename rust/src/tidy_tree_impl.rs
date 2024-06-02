@@ -2,6 +2,7 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
+use crate::line::LineType;
 
 //  use local types
 use crate::node::{Node, NodeType};
@@ -71,5 +72,9 @@ impl TidyTree {
 
     pub fn get_node_linked_list(&self) -> &Vec<(i64, f32, f32, f32, f32)> {
         return &self.node_linked_list;
+    }
+
+    pub fn get_line_linked_list(&self) -> &Vec(f32, f32, f32, f32, f32, LineType) {
+        return &self.line_linked_list;
     }
 }
