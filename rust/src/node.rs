@@ -2,7 +2,6 @@
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
-#[derive(Debug)]
 pub struct TidyInfo {
     pub thread_left: Weak<RefCell<Node>>,
     pub thread_right: Weak<RefCell<Node>>,
@@ -39,7 +38,6 @@ impl TidyInfo {
     }
 }
 
-#[derive(Debug)]
 pub enum NodeType {
     NORMAL,
     LITE,
@@ -47,7 +45,6 @@ pub enum NodeType {
     EXTEND,
 }
 
-#[derive(Debug)]
 pub struct Node {
     pub id: i64,
     pub width: f32,
@@ -88,6 +85,6 @@ impl Node {
     }
 
     pub fn to_array(&self) -> (i64, f32, f32, f32, f32) {
-        (self.id, self.width, self.height, self.x, self.y)
+        (self.id, self.x, self.y, self.width, self.height)
     }
 }

@@ -5,7 +5,6 @@ use std::rc::Rc;
 //  use local types
 use crate::node::Node;
 
-#[derive(Debug)]
 pub struct Contour {
     is_left: bool,
     current: Option<Rc<RefCell<Node>>>,

@@ -28,6 +28,7 @@ impl TidyTree {
             layout_mode,
             map: HashMap::new(),
             node_linked_list: vec![],
+            line_linked_list: vec![],
             tidy_configuration,
         }
     }
@@ -39,6 +40,7 @@ impl TidyTree {
         }
 
         self.node_linked_list = Vec::with_capacity(node_list_len);
+        self.line_linked_list = Vec::with_capacity(node_list_len);
 
         // build card node map
         for node in &node_list {

@@ -4,16 +4,15 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 //  use local types
+use crate::line::LineType;
 use crate::node::Node;
 
-#[derive(Debug)]
 pub enum LayoutMode {
     Basic,
     Tidy,
     LayeredTidy,
 }
 
-#[derive(Debug)]
 pub struct TidyConfiguration {
     // margin between sibling nodes
     pub h_space: f32,
@@ -27,11 +26,13 @@ pub struct TidyConfiguration {
     pub depth_to_y: Vec<f32>,
 }
 
-#[derive(Debug)]
 pub struct TidyTree {
     pub root: Option<Rc<RefCell<Node>>>,
     pub layout_mode: LayoutMode,
     pub map: HashMap<i64, Rc<RefCell<Node>>>,
+    // id, x, y, width, height
     pub node_linked_list: Vec<(i64, f32, f32, f32, f32)>,
+    // x, y, width, height, border width, mode
+    pub line_linked_list: Vec<(f32, f32, f32, f32, f32, LineType)>,
     pub tidy_configuration: TidyConfiguration,
 }
