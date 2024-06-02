@@ -4,7 +4,8 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 //  use local types
-use crate::node::{Node, NodeType};
+use crate::node::{Node, NodeType, NodeTupleData};
+use crate::line::LineTupleData;
 use crate::tidy_tree::{LayoutMode, TidyConfiguration, TidyTree};
 use crate::utils::mock_org_chart_data::MockChartData;
 
@@ -69,11 +70,11 @@ impl TidyTree {
         self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 
-    pub fn get_node_linked_list(&self) -> &Vec<(i64, f32, f32, f32, f32)> {
+    pub fn get_node_linked_list(&self) -> &Vec<NodeTupleData> {
         return &self.node_linked_list;
     }
 
-    pub fn get_line_linked_list(&self) -> &Vec<(f32, f32, f32, f32, f32, i32)> {
+    pub fn get_line_linked_list(&self) -> &Vec<LineTupleData> {
         return &self.line_linked_list;
     }
 }

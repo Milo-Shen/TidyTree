@@ -4,7 +4,8 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 //  use local types
-use crate::node::Node;
+use crate::node::{Node, NodeTupleData};
+use crate::line::LineTupleData;
 
 pub enum LayoutMode {
     Basic,
@@ -30,8 +31,8 @@ pub struct TidyTree {
     pub layout_mode: LayoutMode,
     pub map: HashMap<i64, Rc<RefCell<Node>>>,
     // id, x, y, width, height
-    pub node_linked_list: Vec<(i64, f32, f32, f32, f32)>,
+    pub node_linked_list: Vec<NodeTupleData>,
     // x, y, width, height, border width, mode
-    pub line_linked_list: Vec<(f32, f32, f32, f32, f32, i32)>,
+    pub line_linked_list: Vec<LineTupleData>,
     pub tidy_configuration: TidyConfiguration,
 }

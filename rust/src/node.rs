@@ -2,6 +2,8 @@
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
+pub type NodeTupleData = (i64, f32, f32, f32, f32);
+
 pub struct TidyInfo {
     pub thread_left: Weak<RefCell<Node>>,
     pub thread_right: Weak<RefCell<Node>>,

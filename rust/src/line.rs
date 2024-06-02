@@ -1,3 +1,5 @@
+pub type LineTupleData = (f32, f32, f32, f32, f32, i32);
+
 pub enum LineType {
     LINE = 1,
     Square = 2,
