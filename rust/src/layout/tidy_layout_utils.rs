@@ -313,7 +313,7 @@ pub fn move_subtree(node: Rc<RefCell<Node>>, current_index: usize, from_index: u
     }
 }
 
-pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, line_linked_list: &mut Vec<(f32, f32, f32, f32, f32, LineType)>, line_width: f32, v_space: f32) {
+pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, line_linked_list: &mut Vec<(f32, f32, f32, f32, f32, i32)>, line_width: f32, v_space: f32) {
     bfs_traverse_tree(root, |node| {
         if is_leaf(Rc::clone(&node)) {
             return;
@@ -347,7 +347,7 @@ pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, line_linked_list: &mu
             let y = node_y + node_h;
             let w = line_width;
             let h = first_child_y - y;
-            line_linked_list.push((x, y, w, h, line_width, LineType::LINE));
+            line_linked_list.push((x, y, w, h, line_width, LineType::LINE as i32));
         } else {
             // case two: one parent has multi children
             // get the mid pos of a card
@@ -359,14 +359,14 @@ pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, line_linked_list: &mu
             let h = (v_space + line_width) / 2.0;
             let y = first_child_y - h;
             let w = end - start;
-            line_linked_list.push((x, y, w, h, line_width, LineType::Square));
+            line_linked_list.push((x, y, w, h, line_width, LineType::Square as i32));
 
             // case three: parent to category line
             let x = node_x + (node_w - line_width) / 2.0;
             let y = node_y + node_h;
             let w = line_width;
             let h = first_child_y - y - (v_space + line_width) / 2.0;
-            line_linked_list.push((x, y, w, h, line_width, LineType::LINE));
+            line_linked_list.push((x, y, w, h, line_width, LineType::LINE as i32));
 
             // case four: parent to node line
             for i in 1..(children_len - 1) {
@@ -378,7 +378,7 @@ pub fn calculate_line_pos(root: Option<Rc<RefCell<Node>>>, line_linked_list: &mu
                 let y = child_y - (v_space + line_width) / 2.0;
                 let w = line_width;
                 let h = (v_space + line_width) / 2.0;
-                line_linked_list.push((x, y, w, h, line_width, LineType::LINE));
+                line_linked_list.push((x, y, w, h, line_width, LineType::LINE as i32));
             }
         }
     })

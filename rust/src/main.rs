@@ -15,7 +15,7 @@ mod utils;
 
 fn main() {
     let start_time = Instant::now();
-    let mock_data = mock_org_chart_data::mock_org_chart_data(20, 5, false, 200.0, 100.0);
+    let mock_data = mock_org_chart_data::mock_org_chart_data(15, 5, false, 200.0, 100.0);
     let duration = start_time.elapsed();
     println!("mock data: {:?}", duration);
     let start_time = Instant::now();
@@ -26,9 +26,11 @@ fn main() {
     let start_time = Instant::now();
     chart.initialize_tree_from_raw_data(mock_data);
     chart.generate_tidy_layout();
-    let data = chart.get_node_linked_list();
+    let node_data = chart.get_node_linked_list();
+    let line_data = chart.get_line_linked_list();
     let duration = start_time.elapsed();
     println!("build org chart time {:?}", duration);
-    println!("{:#?}", data);
+    println!("{:#?}", node_data);
+    println!("{:#?}", line_data);
     println!("Hello, world!");
 }

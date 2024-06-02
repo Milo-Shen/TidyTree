@@ -33,6 +33,6 @@ pub struct TidyTree {
     // id, x, y, width, height
     pub node_linked_list: Vec<(i64, f32, f32, f32, f32)>,
     // x, y, width, height, border width, mode
-    pub line_linked_list: Vec<(f32, f32, f32, f32, f32, LineType)>,
+    pub line_linked_list: Vec<(f32, f32, f32, f32, f32, i32)>,
     pub tidy_configuration: TidyConfiguration,
 }
