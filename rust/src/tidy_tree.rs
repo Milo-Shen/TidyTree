@@ -32,6 +32,6 @@ pub struct TidyTree {
     pub root: Option<Rc<RefCell<Node>>>,
     pub layout_mode: LayoutMode,
     pub map: HashMap<i64, Rc<RefCell<Node>>>,
-    pub node_linked_list: Vec<Rc<RefCell<Node>>>,
+    pub node_linked_list: Vec<(i64, f32, f32, f32, f32)>,
     pub tidy_configuration: TidyConfiguration,
 }

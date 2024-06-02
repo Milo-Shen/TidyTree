@@ -47,7 +47,7 @@ impl TidyTree {
             self.map.insert(*id, Rc::clone(&node));
 
             // add node to linked list
-            self.node_linked_list.push(Rc::clone(&node));
+            self.node_linked_list.push(node.borrow().to_array());
         }
 
         // establish relationship between nodes
@@ -67,7 +67,7 @@ impl TidyTree {
         self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 
-    pub fn get_node_linked_list(&self) -> &Vec<Rc<RefCell<Node>>> {
+    pub fn get_node_linked_list(&self) -> &Vec<(i64, f32, f32, f32, f32)> {
         return &self.node_linked_list;
     }
 }

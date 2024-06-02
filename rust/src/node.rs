@@ -86,4 +86,8 @@ impl Node {
     pub fn bottom(&self) -> f32 {
         self.height + self.y
     }
+
+    pub fn to_array(&self) -> (i64, f32, f32, f32, f32) {
+        (self.id, self.width, self.height, self.x, self.y)
+    }
 }
