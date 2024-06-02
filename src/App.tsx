@@ -24,11 +24,13 @@ function App() {
       return;
     }
 
-    // todo: test it
+    // create mock data
     let now = performance.now();
     // let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
     let data = mock_org_chart_data(15, 5, false, 200.0, 100.0);
     console.log(`build mock data time: ${performance.now() - now} ms`);
+
+    // build tidy data
     now = performance.now();
     let tidy_configuration = new TidyConfiguration();
     let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
@@ -38,6 +40,8 @@ function App() {
     let card_array_list = chart.get_node_array_list();
     let line_list = chart.calculate_line_pos(chart.root);
     console.log(`process time: ${performance.now() - now} ms`);
+
+    // set to react dom
     console.log(card_array_list, line_list);
     set_card_list({ card_list: card_list, line_list: line_list } as any);
 
