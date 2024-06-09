@@ -27,7 +27,7 @@ function App() {
     // create mock data
     let now = performance.now();
     // let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
-    let data = mock_org_chart_data(5, 2, false, 200.0, 100.0);
+    let data = mock_org_chart_data(15, 5, false, 200.0, 100.0);
     console.log(`build mock data time: ${performance.now() - now} ms`);
 
     // build tidy data
