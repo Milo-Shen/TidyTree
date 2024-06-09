@@ -85,8 +85,8 @@ impl TidyTree {
             let id = ids[i];
             let width = width[i];
             let height = height[i];
-            let node = Rc::new(RefCell::new(Node::new(*id, *width, *height, NodeType::NORMAL)));
-            self.map.insert(*id, Rc::clone(&node));
+            let node = Rc::new(RefCell::new(Node::new(id, width, height, NodeType::NORMAL)));
+            self.map.insert(id, Rc::clone(&node));
 
             // add node to linked list
             self.node_linked_list.push(node.borrow().to_array());
@@ -106,7 +106,7 @@ impl TidyTree {
             let index = parent_node.borrow().children.len();
             current_node.borrow_mut().parent = Rc::downgrade(&parent_node);
             current_node.borrow_mut().index = index;
-            current_node.borrow_mut().children.push(Rc::clone(&current_node));
+            parent_node.borrow_mut().children.push(current_node);
         }
 
         let first_node_id = ids[0];
