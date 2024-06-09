@@ -4,13 +4,13 @@ import { DoublyLinkedList } from "../TidyTree/DoublyLinkedList";
 
 export interface MockCard {
   id: number;
-  parent?: number;
+  parent: number;
   children: string[];
   width?: number;
   height?: number;
 }
 
-function build_card(width: number | Array<number>, height: number | Array<number>): MockCard {
+function build_card(width: number | Array<number>, height: number | Array<number>, parent: number = -1): MockCard {
   let _width = width instanceof Array ? range(width[0], width[1]) : width;
   let _height = height instanceof Array ? range(height[0], height[1]) : height;
   let id = generate_id();
@@ -19,6 +19,7 @@ function build_card(width: number | Array<number>, height: number | Array<number
     children: [],
     width: _width,
     height: _height,
+    parent,
   };
 }
 
@@ -51,7 +52,7 @@ export function mock_org_chart_data(
     }
 
     for (let i = 0; i < children_count; i++) {
-      let card = build_card(width, height);
+      let card = build_card(width, height, node.id);
       children.push(card.id);
       queue.push(card);
       result.push(card);
