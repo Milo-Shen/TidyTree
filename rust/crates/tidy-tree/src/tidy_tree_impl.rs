@@ -46,11 +46,11 @@ impl TidyTree {
         // build card node map
         for node in &node_list {
             let MockChartData { id, width, height, .. } = node;
-            let node = Rc::new(RefCell::new(Node::new(*id, *width, *height, NodeType::NORMAL)));
-            self.map.insert(*id, Rc::clone(&node));
+            let new_node = Rc::new(RefCell::new(Node::new(*id, *width, *height, NodeType::NORMAL)));
+            self.map.insert(*id, Rc::clone(&new_node));
 
             // add node to linked list
-            self.node_linked_list.push(node.borrow().to_array());
+            self.node_linked_list.push(Rc::clone(&new_node));
         }
 
         // establish relationship between nodes
@@ -70,7 +70,7 @@ impl TidyTree {
         self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 
-    pub fn initialize_tree_from_js_code(&mut self, ids: &[i32], width: &[f32], height: &[f32], parents: &[i32]){
+    pub fn initialize_tree_from_js_code(&mut self, ids: &[i32], width: &[f32], height: &[f32], parents: &[i32]) {
         let node_list_len = ids.len();
 
         if node_list_len == 0 {
@@ -89,7 +89,7 @@ impl TidyTree {
             self.map.insert(id, Rc::clone(&node));
 
             // add node to linked list
-            self.node_linked_list.push(node.borrow().to_array());
+            self.node_linked_list.push(Rc::clone(&node));
         }
 
         // establish relationship between nodes by parent information
@@ -113,8 +113,15 @@ impl TidyTree {
         self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 
-    pub fn get_node_linked_list(&self) -> &Vec<NodeTupleData> {
-        return &self.node_linked_list;
+    pub fn get_node_linked_list(&self) -> Vec<NodeTupleData> {
+        let len = self.node_linked_list.len();
+        let mut result = Vec::with_capacity(len);
+
+        for node in &self.node_linked_list {
+            result.push(node.borrow().to_array())
+        }
+
+        result
     }
 
     pub fn get_line_linked_list(&self) -> &Vec<LineTupleData> {
