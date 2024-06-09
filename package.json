@@ -5,7 +5,8 @@
   "homepage": "/",
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "cross-env PUBLIC_URL=/OrgChart node scripts/build.js",
+    "build:wasm": "cd rust && make build",
+    "build": "npm run build:wasm && cross-env PUBLIC_URL=/OrgChart node scripts/build.js",
     "test": "node scripts/test.js",
     "deploy": "npm run build && gh-pages -d build"
   },
