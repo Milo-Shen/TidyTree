@@ -55,6 +55,22 @@ fn main() {
     let tidy_node_data = tidy_chart.get_node_linked_list();
     let tidy_line_data = tidy_chart.get_line_linked_list();
     println!("build tree time {:?}", start_time.elapsed());
+    // println!("{:#?}", tidy_node_data);
+    // println!("{:#?}", tidy_line_data);
+
+    println!("------------------------------------");
+    let start_time = Instant::now();
+    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
+    let mut tidy_chart = tidy_tree::TidyTree::new(LayoutMode::Tidy, tidy_configuration);
+    let ids = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+    let width = [200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0];
+    let height = [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0];
+    let parents = [-1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2];
+    tidy_chart.initialize_tree_from_js_code(&ids, &width, &height, &parents);
+    tidy_chart.generate_tidy_layout();
+    let tidy_node_data = tidy_chart.get_node_linked_list();
+    let tidy_line_data = tidy_chart.get_line_linked_list();
+    println!("build tree time {:?}", start_time.elapsed());
     println!("{:#?}", tidy_node_data);
     println!("{:#?}", tidy_line_data);
 }
