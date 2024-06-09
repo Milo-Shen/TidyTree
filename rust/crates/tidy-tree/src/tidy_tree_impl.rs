@@ -70,7 +70,7 @@ impl TidyTree {
         self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 
-    pub fn initialize_tree_from_js_code(&mut self, ids: &[usize], width: &[f32], height: &[f32], parents: &[usize]){
+    pub fn initialize_tree_from_js_code(&mut self, ids: &[i32], width: &[f32], height: &[f32], parents: &[i32]){
         let node_list_len = ids.len();
 
         if node_list_len == 0 {
@@ -93,6 +93,24 @@ impl TidyTree {
         }
 
         // establish relationship between nodes by parent information
+        for i in 0..node_list_len {
+            let id = ids[i];
+            let parent = parents[i];
+
+            if parent == -1 {
+                continue;
+            }
+
+            let current_node = Rc::clone(self.map.get(&id).unwrap());
+            let parent_node = Rc::clone(self.map.get(&parent).unwrap());
+            let index = parent_node.borrow().children.len();
+            current_node.borrow_mut().parent = Rc::downgrade(&parent_node);
+            current_node.borrow_mut().index = index;
+            current_node.borrow_mut().children.push(Rc::clone(&current_node));
+        }
+
+        let first_node_id = ids[0];
+        self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 
     pub fn get_node_linked_list(&self) -> &Vec<NodeTupleData> {
