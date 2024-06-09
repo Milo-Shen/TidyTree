@@ -11,7 +11,8 @@ use crate::utils::mock_org_chart_data::MockChartData;
 
 // implementations
 impl TidyConfiguration {
-    pub fn new(h_space: f32, v_space: f32, line_width: f32, is_layered: bool, depth_to_y: Vec<f32>) -> TidyConfiguration {
+    pub fn new(h_space: f32, v_space: f32, line_width: f32, is_layered: bool) -> TidyConfiguration {
+        let depth_to_y = Vec::new();
         TidyConfiguration {
             h_space,
             v_space,

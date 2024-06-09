@@ -21,7 +21,7 @@ fn main() {
 
     // init basic tree time
     let start_time = Instant::now();
-    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
+    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false);
     let mut basic_chart = tidy_tree::TidyTree::new(LayoutMode::Basic, tidy_configuration);
     println!("init tree: {:?}", start_time.elapsed());
 
@@ -44,7 +44,7 @@ fn main() {
 
     // init tidy tree time
     let start_time = Instant::now();
-    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
+    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false);
     let mut tidy_chart = tidy_tree::TidyTree::new(LayoutMode::Tidy, tidy_configuration);
     println!("init tree: {:?}", start_time.elapsed());
 
@@ -60,7 +60,7 @@ fn main() {
 
     println!("------------------------------------");
     let start_time = Instant::now();
-    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false, vec![]);
+    let tidy_configuration = TidyConfiguration::new(10.0, 40.0, 2.0, false);
     let mut tidy_chart = tidy_tree::TidyTree::new(LayoutMode::Tidy, tidy_configuration);
     let ids = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     let width = [200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0];
