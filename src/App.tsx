@@ -26,15 +26,16 @@ function App() {
 
     // create mock data
     let now = performance.now();
-    // let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
-    let data = mock_org_chart_data(15, 5, false, 200.0, 100.0);
+    let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
+    // let data = mock_org_chart_data(5, 2, false, 200.0, 100.0);
     console.log(`build mock data time: ${performance.now() - now} ms`, data);
 
     // build tidy data
     now = performance.now();
     let tidy_configuration = new TidyConfiguration();
     let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
-    chart.initialize_tree_from_raw_data(data);
+    // chart.initialize_tree_from_raw_data(data);
+    chart.initialize_tree_from_raw_data_with_parent(data);
     chart.generate_layout();
     let card_list = chart.get_node_linked_list();
     let card_array_list = chart.get_node_array_list();

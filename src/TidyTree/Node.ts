@@ -65,6 +65,7 @@ export class Node {
     node.height = this.height;
     node.x = this.x;
     node.y = this.y;
+    node.index = this.index;
     node.relative_x = this.relative_x;
     node.relative_y = this.relative_y;
     node.bounding_box_w = this.bounding_box_w;

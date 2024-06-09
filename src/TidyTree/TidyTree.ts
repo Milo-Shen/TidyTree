@@ -69,7 +69,7 @@ class TidyTree {
   }
 
   initialize_tree_from_raw_data(node_list: Array<any>) {
-    let node_list_len = node_list.length;
+    let node_list_len = node_list?.length;
     if (!node_list || node_list_len === 0) {
       return;
     }
@@ -97,6 +97,44 @@ class TidyTree {
         child.index = j;
         node.children.push(child!);
       }
+    }
+
+    this.root = this.map.get(node_list[0].id);
+  }
+
+  initialize_tree_from_raw_data_with_parent(node_list: Array<any>) {
+    let node_list_len = node_list?.length;
+    if (!node_list || node_list_len === 0) {
+      return;
+    }
+
+    // build card node map
+    for (let i = 0; i < node_list_len; i++) {
+      let { id, width, height } = node_list[i];
+      let node = new Node(id, width, height);
+      this.map.set(id, node);
+
+      // add node to linked list
+      this.node_linked_list.push(node);
+      // todo: node_array_list is only in testing
+      this.node_array_list.push(node);
+    }
+
+    // establish relationship between nodes by parent information
+    for (let i = 0; i < node_list_len; i++) {
+      let { id, parent } = node_list[i];
+      if (parent === -1) {
+        continue;
+      }
+
+      let current_node = this.map.get(id)!;
+      let parent_node = this.map.get(parent)!;
+      current_node.parent = parent_node;
+      current_node.index = parent_node.children.length;
+
+      // console.log(parent_node.children.find((x) => x === current_node));
+
+      parent_node.children.push(current_node);
     }
 
     this.root = this.map.get(node_list[0].id);
