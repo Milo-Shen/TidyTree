@@ -3,7 +3,8 @@ import { generate_id, range } from "./generate_id";
 import { DoublyLinkedList } from "../TidyTree/DoublyLinkedList";
 
 export interface MockCard {
-  id: string;
+  id: number;
+  parent?: number;
   children: string[];
   width?: number;
   height?: number;
@@ -43,7 +44,7 @@ export function mock_org_chart_data(
 
   while (!queue.is_empty()) {
     let node = queue.shift();
-    let children: string[] = [];
+    let children: number[] = [];
     let children_count = Math.min(max_child, remain_count);
     if (is_range) {
       children_count = range(0, children_count);
