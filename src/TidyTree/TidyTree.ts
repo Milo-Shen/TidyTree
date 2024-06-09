@@ -131,9 +131,6 @@ class TidyTree {
       let parent_node = this.map.get(parent)!;
       current_node.parent = parent_node;
       current_node.index = parent_node.children.length;
-
-      // console.log(parent_node.children.find((x) => x === current_node));
-
       parent_node.children.push(current_node);
     }
 
