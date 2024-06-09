@@ -106,7 +106,7 @@ function first_walk_stack_without_recursion(root: Node, h_space: number) {
   }
 
   let pre = root;
-  let pos_y_list_map: Map<string, LinkedYList> = new Map();
+  let pos_y_list_map: Map<number, LinkedYList> = new Map();
 
   while (stack.length) {
     let node = stack.last()!;

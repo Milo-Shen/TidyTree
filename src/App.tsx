@@ -26,24 +26,29 @@ function App() {
 
     // create mock data
     let now = performance.now();
-    let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
-    // let data = mock_org_chart_data(5, 2, false, 200.0, 100.0);
+    // let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
+    let data = mock_org_chart_data(5, 2, false, 200.0, 100.0);
     console.log(`build mock data time: ${performance.now() - now} ms`);
 
     // build tidy data
     now = performance.now();
     let tidy_configuration = new TidyConfiguration();
     let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
-    // chart.initialize_tree_from_raw_data(data);
-    chart.initialize_tree_from_raw_data_with_parent(data);
+    chart.initialize_tree_from_raw_data(data);
+    // chart.initialize_tree_from_raw_data_with_parent(data);
     chart.generate_layout();
     let card_list = chart.get_node_linked_list();
     let card_array_list = chart.get_node_array_list();
     let line_list = chart.calculate_line_pos(chart.root);
     console.log(`process time: ${performance.now() - now} ms`);
 
+    // build rust data
+    now = performance.now();
+    let rust_data = chart.convertToRustData();
+    console.log(`build rust data time: ${performance.now() - now} ms`);
+
     // set to react dom
-    console.log(card_array_list, line_list);
+    console.log(card_array_list, line_list, rust_data);
     set_card_list({ card_list: card_list, line_list: line_list } as any);
 
     return () => {

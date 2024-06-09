@@ -50,7 +50,7 @@ class TidyConfiguration {
 class TidyTree {
   root?: Node;
   layout_mode: LayoutMode;
-  map: Map<string, Node>;
+  map: Map<number, Node>;
   node_linked_list: DoublyLinkedList<Node>;
   // todo: node_linked_list is only in testing
   node_array_list: Array<Node>;
@@ -135,6 +135,27 @@ class TidyTree {
     }
 
     this.root = this.map.get(node_list[0].id);
+  }
+
+  convertToRustData() {
+    const ids: number[] = [];
+    const width: number[] = [];
+    const height: number[] = [];
+    const parents: number[] = [];
+
+    bfs_traverse_tree(this.root, (node) => {
+      ids.push(node.id);
+      width.push(node.width);
+      height.push(node.height);
+      parents.push(node.parent?.id || -1);
+    });
+
+    return {
+      ids: new Uint32Array(ids),
+      width: new Float64Array(width),
+      height: new Float64Array(height),
+      parents: new Uint32Array(parents),
+    };
   }
 
   generate_layout() {

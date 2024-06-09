@@ -31,7 +31,7 @@ export class TidyInfo {
 }
 
 export class Node {
-  id: string;
+  id: number;
   width: number;
   height: number;
   x: number;
@@ -44,7 +44,7 @@ export class Node {
   children: Array<Node>;
   tidy?: TidyInfo;
 
-  constructor(id: string, w: number = 0, h: number = 0) {
+  constructor(id: number, w: number = 0, h: number = 0) {
     this.id = id;
     this.width = w;
     this.height = h;
@@ -105,7 +105,7 @@ export class Node {
     );
   }
 
-  remove_child(id: string) {
+  remove_child(id: number) {
     let index = this.children.findIndex((x) => x.id === id);
 
     if (index !== -1) {
