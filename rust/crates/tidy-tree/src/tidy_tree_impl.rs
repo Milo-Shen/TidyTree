@@ -70,6 +70,31 @@ impl TidyTree {
         self.root = Some(Rc::clone(self.map.get(&first_node_id).unwrap()))
     }
 
+    pub fn initialize_tree_from_js_code(&mut self, ids: &[usize], width: &[f32], height: &[f32], parents: &[usize]){
+        let node_list_len = ids.len();
+
+        if node_list_len == 0 {
+            return;
+        }
+
+        self.node_linked_list = Vec::with_capacity(node_list_len);
+        self.line_linked_list = Vec::with_capacity(node_list_len);
+
+        // build card node map
+        for i in 0..node_list_len {
+            let id = ids[i];
+            let width = width[i];
+            let height = height[i];
+            let node = Rc::new(RefCell::new(Node::new(*id, *width, *height, NodeType::NORMAL)));
+            self.map.insert(*id, Rc::clone(&node));
+
+            // add node to linked list
+            self.node_linked_list.push(node.borrow().to_array());
+        }
+
+        // establish relationship between nodes by parent information
+    }
+
     pub fn get_node_linked_list(&self) -> &Vec<NodeTupleData> {
         return &self.node_linked_list;
     }

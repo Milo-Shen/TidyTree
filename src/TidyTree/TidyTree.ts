@@ -147,14 +147,14 @@ class TidyTree {
       ids.push(node.id);
       width.push(node.width);
       height.push(node.height);
-      parents.push(node.parent?.id || -1);
+      parents.push(node.parent?.id ?? -1);
     });
 
     return {
-      ids: new Uint32Array(ids),
+      ids: new Int32Array(ids),
       width: new Float64Array(width),
       height: new Float64Array(height),
-      parents: new Uint32Array(parents),
+      parents: new Int32Array(parents),
     };
   }
 
