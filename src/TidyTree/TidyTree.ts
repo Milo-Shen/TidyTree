@@ -152,8 +152,8 @@ class TidyTree {
 
     return {
       ids: new Int32Array(ids),
-      width: new Float64Array(width),
-      height: new Float64Array(height),
+      width: new Float32Array(width),
+      height: new Float32Array(height),
       parents: new Int32Array(parents),
     };
   }

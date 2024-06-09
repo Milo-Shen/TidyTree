@@ -14,6 +14,9 @@ import SimpleOrgChart from "./Component/SimpleOrgChart";
 import { mock_org_chart_data } from "./Utils/mock_org_chart_data";
 import { range } from "./Utils/generate_id";
 
+// Import WASM
+import _initWasm, { Tidy as TidyWasm } from "./wasm_dist/wasm";
+
 function App() {
   let is_fetch = useRef(false);
 
@@ -24,32 +27,45 @@ function App() {
       return;
     }
 
-    // create mock data
-    let now = performance.now();
-    // let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
-    let data = mock_org_chart_data(15, 5, false, 200.0, 100.0);
-    console.log(`build mock data time: ${performance.now() - now} ms`);
+    (async () => {
+      // create mock data
+      let now = performance.now();
+      // let data = mock_org_chart_data(range(1, 30), range(0, 5), true, [100, 200], [50, 100]);
+      let data = mock_org_chart_data(5, 2, false, 200.0, 100.0);
+      console.log(`build mock data time: ${performance.now() - now} ms`);
 
-    // build tidy data
-    now = performance.now();
-    let tidy_configuration = new TidyConfiguration();
-    let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
-    chart.initialize_tree_from_raw_data(data);
-    // chart.initialize_tree_from_raw_data_with_parent(data);
-    chart.generate_layout();
-    let card_list = chart.get_node_linked_list();
-    let card_array_list = chart.get_node_array_list();
-    let line_list = chart.calculate_line_pos(chart.root);
-    console.log(`process time: ${performance.now() - now} ms`);
+      // build tidy data
+      now = performance.now();
+      let tidy_configuration = new TidyConfiguration();
+      let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
+      chart.initialize_tree_from_raw_data(data);
+      // chart.initialize_tree_from_raw_data_with_parent(data);
+      chart.generate_layout();
+      let card_list = chart.get_node_linked_list();
+      let card_array_list = chart.get_node_array_list();
+      let line_list = chart.calculate_line_pos(chart.root);
+      console.log(`process time: ${performance.now() - now} ms`);
 
-    // build rust data
-    now = performance.now();
-    let rust_data = chart.convertToRustData();
-    console.log(`build rust data time: ${performance.now() - now} ms`);
+      // build rust data
+      await _initWasm();
+      now = performance.now();
+      let rust_data = chart.convertToRustData();
+      console.log(`convert data to rust type time: ${performance.now() - now} ms`);
 
-    // set to react dom
-    console.log(card_array_list, line_list, rust_data);
-    set_card_list({ card_list: card_list, line_list: line_list } as any);
+      // rust process time
+      now = performance.now();
+      let tidy_wasm = TidyWasm.with_tidy_layout(10.0, 40.0, 2.0);
+      tidy_wasm.initialize_tree_from_js_code(rust_data.ids, rust_data.width, rust_data.height, rust_data.parents);
+      tidy_wasm.generate_tidy_layout();
+      let wasm_node_list = tidy_wasm.get_node_linked_list();
+      let wasm_line_list = tidy_wasm.get_line_linked_list();
+      console.log(`process rust data time: ${performance.now() - now} ms`);
+
+      // set to react dom
+      console.log(card_array_list, line_list, rust_data);
+      console.log(wasm_node_list, wasm_line_list);
+      set_card_list({ card_list: card_list, line_list: line_list } as any);
+    })();
 
     return () => {
       is_fetch.current = true;
