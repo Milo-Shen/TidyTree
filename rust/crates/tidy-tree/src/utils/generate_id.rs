@@ -1,5 +1,5 @@
 pub struct GenerateID {
-    id: i64,
+    id: i32,
 }
 
 impl GenerateID {
@@ -7,7 +7,7 @@ impl GenerateID {
         GenerateID { id: -1 }
     }
 
-    pub fn get_next_id(&mut self) -> i64 {
+    pub fn get_next_id(&mut self) -> i32 {
         self.id += 1;
         self.id
     }

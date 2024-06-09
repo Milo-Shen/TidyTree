@@ -11,10 +11,10 @@ use crate::utils::generate_id::GenerateID;
 
 #[derive(Debug, Clone)]
 pub struct MockChartData {
-    pub id: i64,
+    pub id: i32,
     pub width: f32,
     pub height: f32,
-    pub children: Vec<i64>,
+    pub children: Vec<i32>,
 }
 
 pub fn build_card(generate_id: &mut GenerateID, width: f32, height: f32) -> MockChartData {

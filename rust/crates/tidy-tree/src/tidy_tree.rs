@@ -29,7 +29,7 @@ pub struct TidyConfiguration {
 pub struct TidyTree {
     pub root: Option<Rc<RefCell<Node>>>,
     pub layout_mode: LayoutMode,
-    pub map: HashMap<i64, Rc<RefCell<Node>>>,
+    pub map: HashMap<i32, Rc<RefCell<Node>>>,
     // id, x, y, width, height
     pub node_linked_list: Vec<NodeTupleData>,
     // x, y, width, height, border width, mode

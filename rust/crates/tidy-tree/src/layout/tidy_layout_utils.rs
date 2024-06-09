@@ -70,7 +70,7 @@ pub fn first_walk_stack_without_recursion(root: Option<Rc<RefCell<Node>>>, h_spa
     }
 
     let mut pre = root.unwrap();
-    let mut pos_y_list_map: HashMap<i64, LinkedYList> = HashMap::new();
+    let mut pos_y_list_map: HashMap<i32, LinkedYList> = HashMap::new();
 
     while !stack.is_empty() {
         let node = Rc::clone(stack.back().unwrap());

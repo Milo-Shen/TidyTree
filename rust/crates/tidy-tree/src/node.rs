@@ -2,7 +2,7 @@
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
-pub type NodeTupleData = (i64, f32, f32, f32, f32);
+pub type NodeTupleData = (i32, f32, f32, f32, f32);
 
 pub struct TidyInfo {
     pub thread_left: Weak<RefCell<Node>>,
@@ -48,7 +48,7 @@ pub enum NodeType {
 }
 
 pub struct Node {
-    pub id: i64,
+    pub id: i32,
     pub width: f32,
     pub height: f32,
     pub x: f32,
@@ -64,7 +64,7 @@ pub struct Node {
 }
 
 impl Node {
-    pub fn new(id: i64, w: f32, h: f32, mode: NodeType) -> Node {
+    pub fn new(id: i32, w: f32, h: f32, mode: NodeType) -> Node {
         Node {
             id,
             children: Vec::new(),
@@ -86,7 +86,7 @@ impl Node {
         self.height + self.y
     }
 
-    pub fn to_array(&self) -> (i64, f32, f32, f32, f32) {
+    pub fn to_array(&self) -> (i32, f32, f32, f32, f32) {
         (self.id, self.x, self.y, self.width, self.height)
     }
 }
