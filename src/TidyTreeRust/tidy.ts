@@ -55,13 +55,13 @@ export class TidyLayout extends Disposable {
 
     // todo:
     let result = [];
-    for (let i = 0; i < nodeLinkedList.length; i += 5) {
-      const id = nodeLinkedList[i] | 0;
-      const node = this.idToNode.get(id)!;
-      node.x = nodeLinkedList[i + 1];
-      node.y = nodeLinkedList[i + 2];
-      result.push(node);
-    }
+    // for (let i = 0; i < nodeLinkedList.length; i += 5) {
+    //   const id = nodeLinkedList[i] | 0;
+    //   const node = this.idToNode.get(id)!;
+    //   node.x = nodeLinkedList[i + 1];
+    //   node.y = nodeLinkedList[i + 2];
+    //   result.push(node);
+    // }
   }
 
   load_data(raw_data: Array<MockCard>) {

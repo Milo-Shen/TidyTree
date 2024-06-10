@@ -1,5 +1,5 @@
 // Import React Framework
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 
 // Import Types & Interfaces of Tidy Tree
 import { chartRenderDefaultData, Node, TidyTree } from "./TidyTree/TidyTree";
@@ -58,6 +58,11 @@ function App() {
     };
   }, []);
 
+  const tidyComponentMemo = useMemo(
+    () => <TidyComponent rawData={raw_data} layoutType={LayoutType.Tidy} />,
+    [raw_data]
+  );
+
   return (
     <div className="App">
       <div>
@@ -78,9 +83,7 @@ function App() {
           )}
         />
       </div>
-      <div>
-        <TidyComponent rawData={raw_data} layoutType={LayoutType.Tidy} />
-      </div>
+      <div>{tidyComponentMemo}</div>
     </div>
   );
 }
