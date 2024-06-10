@@ -49,13 +49,13 @@ export class TidyLayout extends Disposable {
     });
   }
 
-  layout(updated = false) {
+  layout() {
     const nodeLinkedList = this.tidy.get_node_linked_list();
     const lineLinkedList = this.tidy.get_line_linked_list();
 
     // todo:
     let result = [];
-    for (let i = 0; i < nodeLinkedList.length; i += 3) {
+    for (let i = 0; i < nodeLinkedList.length; i += 5) {
       const id = nodeLinkedList[i] | 0;
       const node = this.idToNode.get(id)!;
       node.x = nodeLinkedList[i + 1];

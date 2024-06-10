@@ -1,82 +1,63 @@
 // Import React Framework
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
+// Import Tidy
 import { LayoutType, TidyLayout } from "./tidy";
 
-export enum LayoutTypeStr {
-  Tidy = "tidy",
-  Basic = "basic",
-  LayeredTidy = "layeredTidy",
-}
-
 interface Props {
-  root: Node;
-  layoutType?: LayoutTypeStr;
-  updateTrigger?: number;
-  style?: React.CSSProperties;
-  theme?: ThemeProps;
+  rawData: any;
+  layoutType: LayoutType;
 }
 
-function getLayoutType(type?: LayoutTypeStr) {
-  if (type == null) {
-    return LayoutType.Tidy;
-  }
-
+function getLayoutType(type?: LayoutType) {
   switch (type) {
-    case LayoutTypeStr.Basic:
+    case LayoutType.Basic:
       return LayoutType.Basic;
-    case LayoutTypeStr.Tidy:
+    case LayoutType.Tidy:
       return LayoutType.Tidy;
-    case LayoutTypeStr.LayeredTidy:
+    case LayoutType.LayeredTidy:
       return LayoutType.LayeredTidy;
     default:
-      throw new Error();
+      throw new Error("tidy type is missing");
   }
 }
 
-export const TidyComponent = ({ root, layoutType, updateTrigger, theme, style }: Props) => {
-  const renderRef = useRef<Renderer>();
+const TidyComponent = ({ rawData, layoutType }: Props) => {
+  // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const layoutRef = useRef<TidyLayout>();
-  const type = getLayoutType(layoutType);
-  useLayoutEffect(() => {
-    if (!layoutRef.current || !renderRef.current) {
-      return;
-    }
 
-    layoutRef.current.changeLayoutType(type);
-    layoutRef.current.layout(true);
-    renderRef.current.update();
-  }, [updateTrigger, type]);
-  useLayoutEffect(() => {
+  // Hooks
+  useEffect(() => {
     let done = false;
-    const func = async () => {
-      renderRef.current = new Renderer(containerRef.current!, theme);
+    const type = getLayoutType(layoutType);
+
+    (async () => {
+      let now = performance.now();
       layoutRef.current = await TidyLayout.create(type);
+      console.log(`init rust environment time: ${performance.now() - now} ms`);
+
       if (done) {
         return;
       }
 
-      const innerRoot = layoutRef.current.set_root(root);
-      layoutRef.current.layout();
-      renderRef.current.init(innerRoot);
-      console.log(innerRoot);
-    };
+      now = performance.now();
+      layoutRef.current.load_data(rawData);
+      console.log(`convert data to rust type time: ${performance.now() - now} ms`);
 
-    func();
+      now = performance.now();
+      layoutRef.current.layout();
+      console.log(`process rust data time: ${performance.now() - now} ms`);
+    })();
+
     return () => {
       done = true;
       layoutRef.current?.dispose();
       layoutRef.current = undefined;
-      renderRef.current?.clear();
     };
-  }, [root]);
-  useEffect(() => {
-    return () => {
-      renderRef.current?.dispose();
-      renderRef.current = undefined;
-    };
-  }, []);
+  }, [layoutType, rawData]);
 
-  return <div ref={containerRef} style={{ width: "100%", height: "100%", ...style }} />;
+  return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 };
+
+export default TidyComponent;
