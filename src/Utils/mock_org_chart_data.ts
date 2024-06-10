@@ -6,8 +6,8 @@ export interface MockCard {
   id: number;
   parent: number;
   children: string[];
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
 }
 
 function build_card(width: number | Array<number>, height: number | Array<number>, parent: number = -1): MockCard {

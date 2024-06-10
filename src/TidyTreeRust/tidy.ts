@@ -1,14 +1,12 @@
-import _initWasm, {
-  InitInput,
-  InitOutput,
-  Tidy,
-  Tidy as TidyWasm,
-  WasmLayoutType as LayoutType,
-} from "../wasm_dist/wasm";
-import { Disposable } from "./dispose";
-import { visit } from "./utils";
+// Import WebAssembly
+import _initWasm, { InitInput, InitOutput, Tidy as TidyWasm, WasmLayoutType as LayoutType } from "../wasm_dist/wasm";
 
-export { LayoutType };
+// Import Interface
+import { Node } from "../TidyTree/Node";
+
+// Import Utils
+import { Disposable } from "./dispose";
+import { MockCard } from "../Utils/mock_org_chart_data";
 
 let promise: Promise<InitOutput> | undefined;
 
@@ -20,133 +18,80 @@ export function initWasm(module_or_path?: InitInput | Promise<InitInput>): Promi
   return promise;
 }
 
-export interface Node {
-  id?: number;
-  width: number;
-  height: number;
-  parentId?: number;
-  x: number;
-  y: number;
-  children: Node[];
-}
-
-export interface InnerNode {
-  id: number;
-  width: number;
-  height: number;
-  parentId?: number;
-  x: number;
-  y: number;
-  children: InnerNode[];
-}
-
-let nullId = -1;
-const NULL_ID = () => {
-  if (nullId === -1) {
-    nullId = Tidy.null_id();
-  }
-  return nullId;
-};
 export class TidyLayout extends Disposable {
   private tidy: TidyWasm;
   private nextId = 1;
-  private root: InnerNode | undefined;
-  private idToNode: Map<number, InnerNode> = new Map();
-  static async create(type: LayoutType = LayoutType.Tidy, parent_child_margin = 40, peer_margin = 10) {
+  private root: Node | undefined;
+  private idToNode: Map<number, Node> = new Map();
+
+  static async create(type: LayoutType = LayoutType.Tidy, v_space = 40, h_space = 10, line_width: number = 2) {
     await initWasm();
-    return new TidyLayout(type, parent_child_margin, peer_margin);
+    return new TidyLayout(type, v_space, h_space, line_width);
   }
 
-  private constructor(type: LayoutType = LayoutType.Tidy, parent_child_margin: number, peer_margin: number) {
+  private constructor(type: LayoutType = LayoutType.Tidy, v_space: number, h_space: number, line_width: number) {
     super();
+
     if (type === LayoutType.Basic) {
-      this.tidy = TidyWasm.with_basic_layout(parent_child_margin, peer_margin);
+      this.tidy = TidyWasm.with_basic_layout(h_space, v_space, line_width);
     } else if (type === LayoutType.Tidy) {
-      this.tidy = TidyWasm.with_tidy_layout(parent_child_margin, peer_margin);
+      this.tidy = TidyWasm.with_tidy_layout(h_space, v_space, line_width);
     } else if (type === LayoutType.LayeredTidy) {
-      this.tidy = TidyWasm.with_layered_tidy(parent_child_margin, peer_margin);
+      this.tidy = TidyWasm.with_layered_tidy(h_space, v_space, line_width);
     } else {
       throw new Error("not implemented");
     }
+
     this._register({
       dispose: () => {
-        // this.tidy.free();
+        this.tidy.free();
       },
     });
   }
 
-  changeLayoutType(type: LayoutType) {
-    this.tidy.change_layout(type);
-  }
-
   layout(updated = false) {
-    if (updated) {
-      this.update();
-    }
+    const nodeLinkedList = this.tidy.get_node_linked_list();
+    const lineLinkedList = this.tidy.get_line_linked_list();
 
-    this.tidy.layout();
-    const positions = this.tidy.get_pos();
     // todo:
     let result = [];
-    for (let i = 0; i < positions.length; i += 3) {
-      const id = positions[i] | 0;
+    for (let i = 0; i < nodeLinkedList.length; i += 3) {
+      const id = nodeLinkedList[i] | 0;
       const node = this.idToNode.get(id)!;
-      node.x = positions[i + 1];
-      node.y = positions[i + 2];
+      node.x = nodeLinkedList[i + 1];
+      node.y = nodeLinkedList[i + 2];
       result.push(node);
     }
-    console.log(result.sort((a, b) => a.id - b.id));
   }
 
-  update() {
-    const removedNodeId = new Set(this.idToNode.keys());
-    visit(this.root!, (node) => {
-      removedNodeId.delete(node.id);
-      if (this.idToNode.has(node.id)) {
-        return;
-      }
-
-      this.idToNode.set(node.id, node);
-      this.tidy.add_node(node.id, node.width, node.height, node.parentId ?? NULL_ID());
-    });
-
-    for (const nodeId of removedNodeId) {
-      this.tidy.remove_node(nodeId);
-      this.idToNode.delete(nodeId);
+  load_data(raw_data: Array<MockCard>) {
+    if (!this.tidy) {
+      return;
     }
-  }
 
-  set_root(root: Node): InnerNode {
-    debugger;
-    //TODO: Free old nodes
-    const stack = [root];
     const ids: number[] = [];
     const width: number[] = [];
     const height: number[] = [];
     const parents: number[] = [];
-    while (stack.length) {
-      const node = stack.pop()!;
-      if (node.id == null) {
-        node.id = this.nextId++;
-      }
 
-      ids.push(node.id!);
+    const len = raw_data.length;
+
+    for (let i = 0; i < len; i++) {
+      let node = raw_data[i];
+      ids.push(node.id);
       width.push(node.width);
       height.push(node.height);
-      parents.push(node.parentId ?? NULL_ID());
-      this.idToNode.set(node.id!, node as InnerNode);
-      for (const child of node.children.concat().reverse()) {
-        if (child.parentId == null) {
-          child.parentId = node.id;
-        }
-
-        stack.push(child);
-      }
+      parents.push(node.parent ?? -1);
     }
 
-    this.root = root as InnerNode;
-    this.tidy.data(new Uint32Array(ids), new Float64Array(width), new Float64Array(height), new Uint32Array(parents));
+    let r_ids = new Int32Array(ids);
+    let r_width = new Float32Array(width);
+    let r_height = new Float32Array(height);
+    let r_parents = new Int32Array(parents);
 
-    return this.root;
+    this.tidy.initialize_tree_from_js_code(r_ids, r_width, r_height, r_parents);
+    this.tidy.generate_layout();
   }
 }
+
+export { LayoutType };
