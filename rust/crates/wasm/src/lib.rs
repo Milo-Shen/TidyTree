@@ -16,9 +16,21 @@ pub enum WasmLayoutType {
 
 #[wasm_bindgen]
 impl Tidy {
+    pub fn with_basic_layout(h_space: f32, v_space: f32, line_width: f32) -> Self {
+        let tidy_configuration = TidyConfiguration::new(h_space, v_space, line_width, false);
+        let tidy_chart = TidyTree::new(LayoutMode::Basic, tidy_configuration);
+        Tidy(tidy_chart)
+    }
+
     pub fn with_tidy_layout(h_space: f32, v_space: f32, line_width: f32) -> Self {
         let tidy_configuration = TidyConfiguration::new(h_space, v_space, line_width, false);
         let tidy_chart = TidyTree::new(LayoutMode::Tidy, tidy_configuration);
+        Tidy(tidy_chart)
+    }
+
+    pub fn with_layered_tidy(h_space: f32, v_space: f32, line_width: f32) -> Self {
+        let tidy_configuration = TidyConfiguration::new(h_space, v_space, line_width, true);
+        let tidy_chart = TidyTree::new(LayoutMode::LayeredTidy, tidy_configuration);
         Tidy(tidy_chart)
     }
 
@@ -26,8 +38,8 @@ impl Tidy {
         self.0.initialize_tree_from_js_code(ids, width, height, parents)
     }
 
-    pub fn generate_tidy_layout(&mut self) {
-        self.0.generate_tidy_layout();
+    pub fn generate_layout(&mut self) {
+        self.0.generate_layout();
     }
 
     pub fn get_node_linked_list(&self) -> Vec<f32> {
