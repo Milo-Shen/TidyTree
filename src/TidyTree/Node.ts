@@ -44,12 +44,12 @@ export class Node {
   children: Array<Node>;
   tidy?: TidyInfo;
 
-  constructor(id: number, w: number = 0, h: number = 0) {
+  constructor(id: number, w: number = 0, h: number = 0, x: number = 0, y: number = 0) {
     this.id = id;
     this.width = w;
     this.height = h;
-    this.x = 0;
-    this.y = 0;
+    this.x = x;
+    this.y = y;
     this.index = 0;
     this.relative_x = 0;
     this.relative_y = 0;

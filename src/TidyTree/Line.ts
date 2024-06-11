@@ -19,9 +19,9 @@ export class LineNode {
     w = 0,
     h = 0,
     mode = LineType.Line,
-    color = "#6A6D70",
     border_width = 0,
-    border_radius = 0
+    border_radius = 0,
+    color = "#6A6D70"
   ) {
     this.pos_x = x;
     this.pos_y = y;
