@@ -25,7 +25,7 @@ function App() {
   // state hook
   let [card_js_list, set_js_card_list] = useState(chartRenderDefaultData);
   let [card_rust_list, set_rust_card_list] = useState(chartRenderDefaultData);
-  let [count, setCount] = useState(1000);
+  let [count, setCount] = useState(100);
   let [max_child, set_max_child] = useState(2);
   let [improve, set_improve] = useState("0");
 
@@ -75,22 +75,22 @@ function App() {
     <div className="App">
       <div className="controlPanel">
         <div className="leftPanel">Rust / JS Performance Improvement: {improve}</div>
-        <div className="rightPanel">
-          <Slider
-            min={1}
-            max={200}
-            onChange={function _a(e) {
-              setCount(e.target.value!);
-            }}
-          />
-          <Slider
-            min={1}
-            max={200}
-            onChange={function _a(e) {
-              set_max_child(e.target.value!);
-            }}
-          />
-        </div>
+        {/*<div className="rightPanel">*/}
+        {/*  <Slider*/}
+        {/*    min={1}*/}
+        {/*    max={200}*/}
+        {/*    onChange={function _a(e) {*/}
+        {/*      setCount(e.target.value!);*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*  <Slider*/}
+        {/*    min={1}*/}
+        {/*    max={200}*/}
+        {/*    onChange={function _a(e) {*/}
+        {/*      set_max_child(e.target.value!);*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</div>*/}
       </div>
       <div className="contentPanel">
         <div className="leftPanel">
