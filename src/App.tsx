@@ -66,7 +66,7 @@ function App() {
 
     return () => {
       console.log("clean");
-      // layoutRef.current?.dispose();
+      layoutRef.current?.dispose();
       layoutRef.current = undefined;
     };
   }, [count, max_child]);
