@@ -87,22 +87,22 @@ function App() {
             Max Child Count: {max_child}
           </span>
         </div>
-        <div className="rightPanel">
-          <Slider
-            min={1000}
-            max={2000}
-            onChange={function _a(e) {
-              setCount(e.target.value!);
-            }}
-          />
-          <Slider
-            min={1}
-            max={10}
-            onChange={function _a(e) {
-              set_max_child(e.target.value!);
-            }}
-          />
-        </div>
+        {/*<div className="rightPanel">*/}
+        {/*  <Slider*/}
+        {/*    min={1000}*/}
+        {/*    max={2000}*/}
+        {/*    onChange={function _a(e) {*/}
+        {/*      setCount(e.target.value!);*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*  <Slider*/}
+        {/*    min={1}*/}
+        {/*    max={10}*/}
+        {/*    onChange={function _a(e) {*/}
+        {/*      set_max_child(e.target.value!);*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</div>*/}
       </div>
       <div className="contentPanel">
         <div className="leftPanel">
