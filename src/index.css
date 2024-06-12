@@ -51,16 +51,29 @@ code {
   display: flex;
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .App .contentPanel .leftPanel,
 .App .contentPanel .rightPanel {
+  display: flex;
   flex: 1;
-  overflow: auto;
   border: 1px solid gray;
   border-radius: 8px;
+  flex-direction: column;
 }
 
 .App .contentPanel .rightPanel {
   margin-left: 10px;
+}
+
+.App .contentPanel .title {
+  font-weight: bold;
+  margin: 10px 0 0 10px;
+  height: 20px;
+}
+
+.App .contentPanel .chart {
+  flex: 1;
+  overflow: auto;
 }

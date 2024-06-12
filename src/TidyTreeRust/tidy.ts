@@ -67,14 +67,14 @@ export class TidyLayout extends Disposable {
     }
 
     for (let i = 0; i < lineLinkedList.length; i += 6) {
-      const x = nodeLinkedList[i];
-      const y = nodeLinkedList[i + 1];
-      const w = nodeLinkedList[i + 2];
-      const h = nodeLinkedList[i + 3];
-      const border_w = nodeLinkedList[i + 4];
-      const _mode = nodeLinkedList[i + 5];
+      const x = lineLinkedList[i];
+      const y = lineLinkedList[i + 1];
+      const w = lineLinkedList[i + 2];
+      const h = lineLinkedList[i + 3];
+      const border_w = lineLinkedList[i + 4];
+      const _mode = lineLinkedList[i + 5];
       const mode = _mode === 1 ? LineType.Line : LineType.Square;
-      line_list.push(new LineNode(x, y, w, h, mode, border_w));
+      line_list.push(new LineNode(x, y, w, h, mode, border_w,12));
     }
 
     return {
