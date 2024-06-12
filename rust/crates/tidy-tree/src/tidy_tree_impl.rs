@@ -78,6 +78,7 @@ impl TidyTree {
             return;
         }
 
+        self.map.clear();
         self.node_linked_list = Vec::with_capacity(node_list_len);
         self.line_linked_list = Vec::with_capacity(node_list_len);
 

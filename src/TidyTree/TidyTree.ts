@@ -108,6 +108,8 @@ class TidyTree {
       return;
     }
 
+    this.map.clear();
+
     // build card node map
     for (let i = 0; i < node_list_len; i++) {
       let { id, width, height } = node_list[i];
