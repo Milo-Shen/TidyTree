@@ -1,78 +1,85 @@
 // Import React Framework
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react"
 
 // Import Types & Interfaces of Tidy Tree
-import { chartRenderDefaultData, Node, TidyTree } from "./TidyTree/TidyTree";
-import { LayoutMode } from "./TidyTree/TidyTreeType";
-import { TidyConfiguration } from "./TidyTree/TidyTree";
-import { LayoutType, TidyLayout } from "./TidyTreeRust/tidy";
+import type { Node } from "./TidyTree/Node"
+import { chartRenderDefaultData, TidyTree } from "./TidyTree/TidyTree"
+import { LayoutMode } from "./TidyTree/TidyTreeType"
+import { TidyConfiguration } from "./TidyTree/TidyTree"
+import { LayoutType, TidyLayout } from "./TidyTreeRust/tidy"
 
 // Import Customized Component
-import Chart from "./Component/Chart/Chart";
-import SimpleOrgChart from "./Component/SimpleOrgChart";
+import Chart from "./Component/Chart/Chart"
+import SimpleOrgChart from "./Component/SimpleOrgChart"
 
 // Import Utils
-import { mock_org_chart_data } from "./Utils/mock_org_chart_data";
-import { range } from "./Utils/generate_id";
-
-// Import WebComponent React
-import { Slider } from "@ui5/webcomponents-react";
+import { mock_org_chart_data } from "./utils/mock_org_chart_data"
+import { range } from "./utils/generate_id"
 
 function App() {
   // ref hook
-  const layoutRef = useRef<TidyLayout>();
+  const layoutRef = useRef<TidyLayout>()
 
   // state hook
-  let [card_js_list, set_js_card_list] = useState(chartRenderDefaultData);
-  let [card_rust_list, set_rust_card_list] = useState(chartRenderDefaultData);
-  let [count, setCount] = useState(1000);
-  let [max_child, set_max_child] = useState(2);
-  let [improve, set_improve] = useState("0");
+  let [card_js_list, set_js_card_list] = useState(chartRenderDefaultData)
+  let [card_rust_list, set_rust_card_list] = useState(chartRenderDefaultData)
+  let [count, setCount] = useState(1000)
+  let [max_child, set_max_child] = useState(2)
+  let [improve, set_improve] = useState("0")
 
   const fetchCards = useCallback(async () => {
     // create mock data
-    let now = performance.now();
+    let now = performance.now()
     // let raw_data = mock_org_chart_data(range(1000, 2000), range(0, 5), true, [100, 200], [50, 100]);
-    let raw_data = mock_org_chart_data(count, max_child, false, [100, 200], [50, 100]);
-    console.log(`build mock data time: ${performance.now() - now} ms`);
+    let raw_data = mock_org_chart_data(
+      count,
+      max_child,
+      false,
+      [100, 200],
+      [50, 100],
+    )
+    console.log(`build mock data time: ${performance.now() - now} ms`)
 
     // build tidy data
-    let tidy_configuration = new TidyConfiguration();
-    let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
-    now = performance.now();
+    let tidy_configuration = new TidyConfiguration()
+    let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration)
+    now = performance.now()
     // chart.initialize_tree_from_raw_data(raw_data);
-    chart.initialize_tree_from_raw_data_with_parent(raw_data);
-    chart.generate_layout();
-    let card_list = chart.get_node_linked_list();
-    let line_list = chart.calculate_line_pos(chart.root);
-    let js_consume = performance.now() - now;
-    console.log(`JS process time: ${js_consume} ms`);
+    chart.initialize_tree_from_raw_data_with_parent(raw_data)
+    chart.generate_layout()
+    let card_list = chart.get_node_linked_list()
+    let line_list = chart.calculate_line_pos(chart.root)
+    let js_consume = performance.now() - now
+    console.log(`JS process time: ${js_consume} ms`)
 
     // rust data
-    now = performance.now();
-    layoutRef.current!.load_data(raw_data);
-    let rust_data = layoutRef.current!.layout();
-    let rust_consume = performance.now() - now;
-    console.log(`Rust data time: ${rust_consume} ms`);
+    now = performance.now()
+    layoutRef.current!.load_data(raw_data)
+    let rust_data = layoutRef.current!.layout()
+    let rust_consume = performance.now() - now
+    console.log(`Rust data time: ${rust_consume} ms`)
 
     // set state
-    set_js_card_list({ card_list: card_list, line_list: line_list } as any);
-    set_rust_card_list({ card_list: rust_data.node_list, line_list: rust_data.line_list } as any);
-    set_improve(`${((js_consume / rust_consume) * 100).toFixed(2)} %`);
-  }, [count, max_child]);
+    set_js_card_list({ card_list: card_list, line_list: line_list } as any)
+    set_rust_card_list({
+      card_list: rust_data.node_list,
+      line_list: rust_data.line_list,
+    } as any)
+    set_improve(`${((js_consume / rust_consume) * 100).toFixed(2)} %`)
+  }, [count, max_child])
 
   useEffect(() => {
-    (async () => {
-      layoutRef.current = await TidyLayout.create(LayoutType.Tidy);
-      await fetchCards();
-    })();
+    ;(async () => {
+      layoutRef.current = await TidyLayout.create(LayoutType.Tidy)
+      await fetchCards()
+    })()
 
     return () => {
-      console.log("clean");
-      layoutRef.current?.dispose();
-      layoutRef.current = undefined;
-    };
-  }, [fetchCards]);
+      console.log("clean")
+      layoutRef.current?.dispose()
+      layoutRef.current = undefined
+    }
+  }, [fetchCards])
 
   return (
     <div className="App">
@@ -87,22 +94,6 @@ function App() {
             Max Child Count: {max_child}
           </span>
         </div>
-        {/*<div className="rightPanel">*/}
-        {/*  <Slider*/}
-        {/*    min={1000}*/}
-        {/*    max={2000}*/}
-        {/*    onChange={function _a(e) {*/}
-        {/*      setCount(e.target.value!);*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*  <Slider*/}
-        {/*    min={1}*/}
-        {/*    max={10}*/}
-        {/*    onChange={function _a(e) {*/}
-        {/*      set_max_child(e.target.value!);*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*</div>*/}
       </div>
       <div className="contentPanel">
         <div className="leftPanel">
@@ -149,7 +140,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
