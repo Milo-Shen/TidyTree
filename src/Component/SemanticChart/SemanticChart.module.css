@@ -1,4 +1,5 @@
 .semanticChart {
+  position: absolute;
   width: 176px;
   height: 290px;
 }

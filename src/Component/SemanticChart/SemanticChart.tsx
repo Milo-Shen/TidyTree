@@ -5,11 +5,17 @@ import React from "react"
 // Import UI5 WebComponent React
 import { Card, Title, TitleLevel, Label } from "@ui5/webcomponents-react"
 
+// Import Mock Data
+import { namePhotoMock } from "./userPhotoMock"
+
 // Import CSS
 import styles from "./SemanticChart.module.css"
 
-export function SemanticChart(props: any) {
+export default function SemanticChart(props: any) {
   const { id, parent_id, width, height, pos_x, pos_y, child_count } = props
+
+  let content = namePhotoMock[id % namePhotoMock.length]
+
   return (
     <Card
       className={styles.semanticChart}
@@ -23,14 +29,14 @@ export function SemanticChart(props: any) {
       <div className={styles.avatarSection}>
         <img
           className={styles.avatarImg}
-          src="../../../public/avatar_1.png"
+          src={`../../../public/${content.avatar}.png`}
           alt="1"
         />
       </div>
       <Title className={styles.userName} level={TitleLevel.H5}>
-        Aanya Singh
+        {`${content.name} - ${id}`}
       </Title>
-      <Label className={styles.desc}>Administrative Support</Label>
+      <Label className={styles.desc}>{content.jobTitle}</Label>
     </Card>
   )
 }
