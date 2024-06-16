@@ -1,5 +1,5 @@
 // Import Utils
-import { generate_id, range } from "../utils/generate_id"
+import { generate_id, range } from "./generate_id"
 import { DoublyLinkedList } from "../TidyTree/DoublyLinkedList"
 
 export interface MockCard {

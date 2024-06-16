@@ -3,19 +3,19 @@
 import React, { useEffect, useRef, useState, useCallback } from "react"
 
 // Import Types & Interfaces of Tidy Tree
-import type { Node } from "../TidyTree/Node"
-import { chartRenderDefaultData, TidyTree } from "../TidyTree/TidyTree"
-import { LayoutMode } from "../TidyTree/TidyTreeType"
-import { TidyConfiguration } from "../TidyTree/TidyTree"
-import { LayoutType, TidyLayout } from "../TidyTreeRust/tidy"
+import type { Node } from "../../TidyTree/Node"
+import { chartRenderDefaultData, TidyTree } from "../../TidyTree/TidyTree"
+import { LayoutMode } from "../../TidyTree/TidyTreeType"
+import { TidyConfiguration } from "../../TidyTree/TidyTree"
+import { LayoutType, TidyLayout } from "../../TidyTreeRust/tidy"
 
 // Import Customized Component
-import Chart from "../Component/Chart/Chart"
-import SimpleOrgChart from "../Component/SimpleOrgChart"
+import Chart from "../../Component/Chart/Chart"
+import SimpleOrgChart from "../../Component/SimpleOrgChart"
 
 // Import Utils
-import { mock_org_chart_data } from "../utils/mock_org_chart_data"
-import { range } from "../utils/generate_id"
+import { mock_org_chart_data } from "../../utils/mock_org_chart_data"
+import { range } from "../../utils/generate_id"
 
 // Import Styles
 import "./PerformanceCompare.css"
@@ -27,8 +27,8 @@ function PerformanceCompare() {
   // state hook
   let [card_js_list, set_js_card_list] = useState(chartRenderDefaultData)
   let [card_rust_list, set_rust_card_list] = useState(chartRenderDefaultData)
-  let [count, setCount] = useState(1000)
-  let [max_child, set_max_child] = useState(2)
+  let [count, setCount] = useState(500)
+  let [max_child, set_max_child] = useState(3)
   let [improve, set_improve] = useState("0")
 
   const fetchCards = useCallback(async () => {

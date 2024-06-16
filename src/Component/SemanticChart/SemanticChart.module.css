@@ -1,0 +1,27 @@
+.semanticChart {
+  width: 176px;
+  height: 290px;
+}
+
+.avatarSection {
+  position: relative;
+  overflow: hidden;
+  height: 160px;
+}
+
+.avatarImg {
+  height: 160px;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+.userName {
+  margin-top: 16px;
+  padding: 0 16px;
+}
+
+.desc {
+  margin-top: 8px;
+  padding: 0 16px;
+}
