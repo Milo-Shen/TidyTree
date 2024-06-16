@@ -1,0 +1,58 @@
+.performanceView{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.performanceView .controlPanel {
+  display: flex;
+  width: 100%;
+  height: 100px;
+}
+
+.performanceView .controlPanel .leftPanel,
+.performanceView .controlPanel .rightPanel {
+  flex: 1;
+}
+
+.performanceView .controlPanel .leftPanel {
+  text-align: center;
+  font-weight: bold;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.performanceView .contentPanel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.performanceView .contentPanel .leftPanel,
+.performanceView .contentPanel .rightPanel {
+  display: flex;
+  flex: 1;
+  border: 1px solid gray;
+  border-radius: 8px;
+  flex-direction: column;
+}
+
+.performanceView .contentPanel .rightPanel {
+  margin-left: 10px;
+}
+
+.performanceView .contentPanel .title {
+  font-weight: bold;
+  margin: 10px 0 0 10px;
+  height: 20px;
+}
+
+.performanceView .contentPanel .chart {
+  flex: 1;
+  overflow: auto;
+}
