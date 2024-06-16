@@ -5,7 +5,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom"
 
 // Import Customized Component
 import PerformanceCompare from "./Page/PerformanceCompare/PerformanceCompare"
-import CardViewPage from "./Page/CardViewPage/CardViewPage"
+import RandomCardViewPage from "./Page/RandomCardViewPage/RandomCardViewPage"
 
 const router = createHashRouter([
   {
@@ -13,8 +13,8 @@ const router = createHashRouter([
     element: <PerformanceCompare />,
   },
   {
-    path: "/cards",
-    element: <CardViewPage />,
+    path: "/rust_cards",
+    element: <RandomCardViewPage />,
   },
 ])
 

@@ -8,9 +8,18 @@ import { Card, Title, TitleLevel, Label } from "@ui5/webcomponents-react"
 // Import CSS
 import styles from "./SemanticChart.module.css"
 
-export function SemanticChart() {
+export function SemanticChart(props: any) {
+  const { id, parent_id, width, height, pos_x, pos_y, child_count } = props
   return (
-    <Card className={styles.semanticChart}>
+    <Card
+      className={styles.semanticChart}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        left: `${pos_x}px`,
+        top: `${pos_y}px`,
+      }}
+    >
       <div className={styles.avatarSection}>
         <img
           className={styles.avatarImg}

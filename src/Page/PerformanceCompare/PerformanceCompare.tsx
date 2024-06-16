@@ -115,7 +115,7 @@ function PerformanceCompare() {
                   height={card.height}
                   pos_x={card.x}
                   pos_y={card.y}
-                  child_count={-1}
+                  child_count={card.children.length}
                 />
               )}
             />
