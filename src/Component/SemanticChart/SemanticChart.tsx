@@ -3,7 +3,7 @@
 import React from "react"
 
 // Import UI5 WebComponent React
-import { Card, Title, TitleLevel, Label } from "@ui5/webcomponents-react"
+import { Card, Title, TitleLevel, Label,WrappingType } from "@ui5/webcomponents-react"
 
 // Import Mock Data
 import { namePhotoMock } from "./userPhotoMock"
@@ -36,7 +36,7 @@ export default function SemanticChart(props: any) {
       <Title className={styles.userName} level={TitleLevel.H5}>
         {`${content.name} - ${id}`}
       </Title>
-      <Label className={styles.desc}>{content.jobTitle}</Label>
+      <Label wrappingType={WrappingType.Normal} className={styles.desc}>{content.jobTitle}</Label>
     </Card>
   )
 }
