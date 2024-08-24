@@ -4,14 +4,15 @@ export enum LineType {
 }
 
 export class LineNode {
-  pos_x: number;
-  pos_y: number;
-  width: number;
-  height: number;
-  border_width: number;
-  border_radius: number;
-  color: string;
-  mode: LineType;
+  id: string
+  pos_x: number
+  pos_y: number
+  width: number
+  height: number
+  border_width: number
+  border_radius: number
+  color: string
+  mode: LineType
 
   constructor(
     x = -Infinity,
@@ -21,15 +22,16 @@ export class LineNode {
     mode = LineType.Line,
     border_width = 0,
     border_radius = 0,
-    color = "#6A6D70"
+    color = "#6A6D70",
   ) {
-    this.pos_x = x;
-    this.pos_y = y;
-    this.width = w;
-    this.height = h;
-    this.mode = mode;
-    this.color = color;
-    this.border_width = border_width;
-    this.border_radius = border_radius;
+    this.pos_x = x
+    this.pos_y = y
+    this.width = w
+    this.height = h
+    this.mode = mode
+    this.color = color
+    this.border_width = border_width
+    this.border_radius = border_radius
+    this.id = `line-${x}${y}`
   }
 }
