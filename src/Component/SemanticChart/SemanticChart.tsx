@@ -29,7 +29,7 @@ export default function SemanticChart(props: any) {
       <div className={styles.avatarSection}>
         <img
           className={styles.avatarImg}
-          src={`/TidyTree/${content.avatar}.png`}
+          src={`./public/${content.avatar}.png`}
           alt="1"
         />
       </div>
