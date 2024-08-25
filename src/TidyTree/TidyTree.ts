@@ -68,6 +68,47 @@ class TidyTree {
     this.tidy_configuration = tidy_configuration;
   }
 
+  initialize_tree_with_collapse(node_list: Array<any>) {
+    // Initialization check
+    let node_list_len = node_list?.length;
+    if (!node_list || node_list_len === 0) {
+      return;
+    }
+
+    // clear the node map
+    this.map.clear();
+
+    // build the root node
+    let { id, width, height } = node_list[0];
+    let root_node = new Node(id, width, height);
+    this.map.set(id, root_node);
+
+    // build card node map
+    for (let i = 1; i < node_list_len; i++) {
+      let { id, width, height, collapse, children } = node_list[i];
+      let node = new Node(id, width, height);
+      // todo: collapse should be moved to Node class
+      if (collapse !== undefined && typeof collapse === "boolean" && children.length !== 0) {
+        node.collapse = collapse;
+      }
+      this.map.set(id, node);
+    }
+
+    let queue = DoublyLinkedList.from_array<Node>([root_node]);
+
+    while (!queue.is_empty()) {
+      let card = queue.shift()!;
+
+      let children = card!.children;
+      for (let i = 0; i < children.length; i++) {
+        let child = this.map.get(children[i].id);
+        queue.push(child);
+      }
+    }
+
+    return root_node;
+  }
+
   initialize_tree_from_raw_data(node_list: Array<any>) {
     let node_list_len = node_list?.length;
     if (!node_list || node_list_len === 0) {
@@ -84,6 +125,7 @@ class TidyTree {
       if (i !== 0 && collapse !== undefined && typeof collapse === "boolean" && children.length !== 0) {
         node.collapse = collapse;
       }
+
       this.map.set(id, node);
 
       // add node to linked list
