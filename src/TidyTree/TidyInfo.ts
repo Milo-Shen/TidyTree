@@ -1,4 +1,4 @@
-import { Node } from "./Node";
+import type { Node } from "./Node";
 
 export class TidyInfo {
   public thread_left?: Node;

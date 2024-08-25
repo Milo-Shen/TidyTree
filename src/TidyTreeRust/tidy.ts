@@ -1,5 +1,6 @@
 // Import WebAssembly
-import _initWasm, { InitInput, InitOutput, Tidy as TidyWasm, WasmLayoutType as LayoutType } from "../wasm_dist/wasm";
+import type { InitInput, InitOutput } from "../wasm_dist";
+import _initWasm, { Tidy as TidyWasm, WasmLayoutType as LayoutType } from "../wasm_dist/wasm";
 
 // Import Interface
 import { Node } from "../TidyTree/Node";

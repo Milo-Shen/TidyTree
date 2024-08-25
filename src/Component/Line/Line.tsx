@@ -1,8 +1,9 @@
+// Import React Framework
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React from "react";
+
 // Import Third Party Lib
 import classNames from "classnames";
-
-// Import React Framework
-import React from "react";
 
 // Import CSS
 import LineStyle from "./Line.module.css";

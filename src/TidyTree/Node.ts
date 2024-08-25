@@ -11,6 +11,7 @@ export class Node {
   relative_x: number;
   relative_y: number;
   bounding_box_w: number;
+  collapse: boolean;
   parent?: Node;
   children: Array<Node>;
   tidy?: TidyInfo;
@@ -25,6 +26,7 @@ export class Node {
     this.relative_x = 0;
     this.relative_y = 0;
     this.bounding_box_w = 0;
+    this.collapse = false;
     this.parent = undefined;
     this.children = [];
     this.tidy = undefined;
@@ -40,6 +42,7 @@ export class Node {
     node.relative_x = this.relative_x;
     node.relative_y = this.relative_y;
     node.bounding_box_w = this.bounding_box_w;
+    node.collapse = this.collapse;
     node.parent = this.parent;
     node.children = this.children;
     node.tidy = this.tidy;

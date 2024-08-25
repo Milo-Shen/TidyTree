@@ -1,6 +1,7 @@
 // Import React Framework
-import type { ReactNode } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
+import type { ReactNode } from "react";
 
 // Import Interface & Types & Classes
 import type { Node } from "../../TidyTree/Node";

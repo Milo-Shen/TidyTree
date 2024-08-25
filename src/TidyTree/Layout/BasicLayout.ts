@@ -1,5 +1,5 @@
 // Import Classes, Interfaces, Type
-import { Node } from "../Node";
+import type { Node } from "../Node";
 
 // Import Utils
 import { bfs_traverse_tree, post_order_traverse_tree } from "../TreeUtils";

@@ -1,5 +1,5 @@
 // Import Types, Classes and Interfaces from Nodes
-import { Node } from "./Node";
+import type { Node } from "./Node";
 
 // Import LinkedList
 import { DoublyLinkedList } from "./DoublyLinkedList";

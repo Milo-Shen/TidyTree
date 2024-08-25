@@ -1,4 +1,5 @@
 // Import React Framework
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect, useRef } from "react";
 
 // Import Tidy
