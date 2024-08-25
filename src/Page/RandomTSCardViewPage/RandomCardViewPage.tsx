@@ -13,6 +13,7 @@ import SimpleOrgChart from "../../Component/SimpleOrgChart";
 // Import Utils
 import { mock_org_chart_data } from "../../utils/mock_org_chart_data";
 import { LayoutMode } from "../../TidyTree/TidyTreeType";
+import { execution_time } from "../../utils/execution_time";
 
 export default function RandomCardViewPage() {
   // state hook
@@ -20,8 +21,10 @@ export default function RandomCardViewPage() {
   const fetchCards = useCallback(async () => {
     // create mock data
     let now = performance.now();
-    let raw_data = mock_org_chart_data(20, 3, true, [100, 200], [50, 100]);
-    console.log(`build mock data time: ${performance.now() - now} ms`, raw_data);
+    let raw_data = execution_time("build mock data time: ", () => {
+      return mock_org_chart_data(20, 3, true, [100, 200], [50, 100]);
+    });
+    console.log(raw_data);
 
     // build tidy data
     let tidy_configuration = new TidyConfiguration();

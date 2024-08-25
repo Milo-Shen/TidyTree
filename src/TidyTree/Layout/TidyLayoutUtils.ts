@@ -1,6 +1,6 @@
 // Import Classes, Interfaces, Type
-import { Node } from "../Node";
-import { LinkedYList } from "../LinkedYList";
+import type { Node } from "../Node";
+import type { LinkedYList } from "../LinkedYList";
 import { Contour } from "../Contour";
 import { pre_order_traverse_tree } from "../TreeUtils";
 
