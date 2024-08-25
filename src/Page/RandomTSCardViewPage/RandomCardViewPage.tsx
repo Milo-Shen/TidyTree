@@ -30,7 +30,7 @@ export default function RandomCardViewPage() {
     let { card_list, line_list } = execution_time("JS process time: ", () => {
       let tidy_configuration = new TidyConfiguration();
       let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
-      chart.initialize_tree_from_raw_data(raw_data);
+      chart.initialize_tree_with_collapse(raw_data);
       chart.generate_layout();
       let card_list = chart.get_node_linked_list();
       let line_list = chart.calculate_line_pos(chart.root);

@@ -61,6 +61,10 @@ export class Node {
     return depth;
   }
 
+  is_leaf() {
+    return this.children.length === 0;
+  }
+
   bottom() {
     return this.height + this.y;
   }

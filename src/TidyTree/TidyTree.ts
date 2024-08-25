@@ -94,12 +94,21 @@ class TidyTree {
       this.map.set(id, node);
     }
 
+    // build the card parent-child relationship
     let queue = DoublyLinkedList.from_array<Node>([root_node]);
-
     while (!queue.is_empty()) {
-      let card = queue.shift()!;
+      let node = queue.shift()!;
 
-      let children = card!.children;
+      // add node to linked list
+      this.node_linked_list.push(node);
+      // todo: node_array_list is only in testing
+      this.node_array_list.push(node);
+
+      if (!node.is_leaf() && node.collapse) {
+        continue;
+      }
+
+      let children = node!.children;
       for (let i = 0; i < children.length; i++) {
         let child = this.map.get(children[i].id);
         queue.push(child);
