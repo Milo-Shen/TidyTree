@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 // Import Types & Interfaces of Tidy Tree
 import type { Node } from "../../TidyTree/Node";
 import { chartRenderDefaultData, TidyConfiguration, TidyTree } from "../../TidyTree/TidyTree";
-import { LayoutType, TidyLayout } from "../../TidyTreeRust/tidy";
 
 // Import Customized Component
 import Chart from "../../Component/Chart/Chart";
@@ -64,7 +63,7 @@ export default function RandomCardViewPage() {
           height={card.height}
           pos_x={card.x}
           pos_y={card.y}
-          child_count={-1}
+          child_count={card.children.length}
         />
       )}
     />
