@@ -1,8 +1,9 @@
 // Import React Framework
-import React, { ReactNode } from "react"
+import type { ReactNode } from "react"
+import React from "react"
 
 // Import Interface & Types & Classes
-import { Node } from "../../TidyTree/Node"
+import type { Node } from "../../TidyTree/Node"
 
 // Import Customized Component
 import Line from "../Line"
@@ -29,11 +30,10 @@ function Chart(props: ChartPropsInterface) {
   return (
     <div className={ChartStyle.chart}>
       <>{data.card_list.map((card: any) => card_template(card))}</>
-      {/* todo: key of line should be identified */}
       <>
-        {data.line_list.map((line: any, index: number) => (
+        {data.line_list.map((line: any) => (
           <Line
-            key={index}
+            key={line.id}
             width={line.width}
             height={line.height}
             pos_x={line.pos_x}

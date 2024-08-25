@@ -39,6 +39,7 @@ export default function RandomCardViewPage() {
     let line_list = chart.calculate_line_pos(chart.root)
     let js_consume = performance.now() - now
     console.log(`JS process time: ${js_consume} ms`)
+    console.log(line_list)
 
     // set state
     set_rust_card_list({

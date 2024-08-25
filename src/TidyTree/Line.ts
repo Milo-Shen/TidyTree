@@ -32,6 +32,6 @@ export class LineNode {
     this.color = color
     this.border_width = border_width
     this.border_radius = border_radius
-    this.id = `line-${x}${y}`
+    this.id = ""
   }
 }
