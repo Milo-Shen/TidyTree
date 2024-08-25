@@ -141,27 +141,6 @@ class TidyTree {
     this.root = this.map.get(node_list[0].id);
   }
 
-  convertToRustData() {
-    const ids: number[] = [];
-    const width: number[] = [];
-    const height: number[] = [];
-    const parents: number[] = [];
-
-    bfs_traverse_tree(this.root, node => {
-      ids.push(node.id);
-      width.push(node.width);
-      height.push(node.height);
-      parents.push(node.parent?.id ?? -1);
-    });
-
-    return {
-      ids: new Int32Array(ids),
-      width: new Float32Array(width),
-      height: new Float32Array(height),
-      parents: new Int32Array(parents),
-    };
-  }
-
   generate_layout() {
     if (this.layout_mode === LayoutMode.Basic) {
       basic_layout(this.root!, this.tidy_configuration.v_space, this.tidy_configuration.h_space);
