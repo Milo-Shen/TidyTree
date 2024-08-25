@@ -21,14 +21,13 @@ export default function RandomCardViewPage() {
     // create mock data
     let now = performance.now();
     let raw_data = mock_org_chart_data(20, 3, true, [100, 200], [50, 100]);
-    console.log(`build mock data time: ${performance.now() - now} ms`);
+    console.log(`build mock data time: ${performance.now() - now} ms`, raw_data);
 
     // build tidy data
     let tidy_configuration = new TidyConfiguration();
     let chart = new TidyTree(LayoutMode.Tidy, tidy_configuration);
     now = performance.now();
-    // chart.initialize_tree_from_raw_data(raw_data);
-    chart.initialize_tree_from_raw_data_with_parent(raw_data);
+    chart.initialize_tree_from_raw_data(raw_data);
     chart.generate_layout();
     let card_list = chart.get_node_linked_list();
     let line_list = chart.calculate_line_pos(chart.root);
