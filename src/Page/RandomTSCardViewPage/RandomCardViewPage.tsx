@@ -1,6 +1,6 @@
 // Import React Framework
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 // Import Types & Interfaces of Tidy Tree
 import type { Node } from "../../TidyTree/Node";
@@ -56,19 +56,21 @@ export default function RandomCardViewPage() {
   return (
     <Chart
       data={card_rust_list}
-      card_template={(card: Node) => (
-        <SimpleOrgChart
-          onClick={(a: any) => console.log(a)}
-          key={card.id}
-          id={card.id}
-          parent_id={card.parent?.id}
-          width={card.width}
-          height={card.height}
-          pos_x={card.x}
-          pos_y={card.y}
-          child_count={card.children.length}
-        />
-      )}
+      card_template={(card: Node) => {
+        return (
+          <SimpleOrgChart
+            onClick={(a: any) => console.log(a)}
+            key={card.id}
+            id={card.id}
+            parent_id={card.parent?.id || -1}
+            width={card.width}
+            height={card.height}
+            pos_x={card.x}
+            pos_y={card.y}
+            child_count={card.children.length}
+          />
+        );
+      }}
     />
   );
 }

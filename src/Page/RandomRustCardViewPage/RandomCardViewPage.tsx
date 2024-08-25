@@ -56,19 +56,21 @@ export default function RandomCardViewPage() {
   return (
     <Chart
       data={card_rust_list}
-      card_template={(card: Node) => (
-        <SimpleOrgChart
-          onClick={(a: any) => console.log(a)}
-          key={card.id}
-          id={card.id}
-          parent_id={card.parent?.id}
-          width={card.width}
-          height={card.height}
-          pos_x={card.x}
-          pos_y={card.y}
-          child_count={-1}
-        />
-      )}
+      card_template={(card: Node) => {
+        return (
+          <SimpleOrgChart
+            onClick={(a: any) => console.log(a)}
+            key={card.id}
+            id={card.id}
+            parent_id={card.parent?.id}
+            width={card.width}
+            height={card.height}
+            pos_x={card.x}
+            pos_y={card.y}
+            child_count={card.children.length}
+          />
+        );
+      }}
     />
   );
 }
