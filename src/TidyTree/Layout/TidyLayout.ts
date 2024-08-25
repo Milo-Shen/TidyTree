@@ -1,5 +1,6 @@
 // Import Classes, Interfaces, Type
-import { Node, TidyInfo } from "../Node";
+import type { Node } from "../Node";
+import { TidyInfo } from "../TidyInfo";
 import { LinkedYList } from "../LinkedYList";
 
 // Import Utils
