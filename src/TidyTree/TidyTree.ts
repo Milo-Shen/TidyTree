@@ -78,8 +78,12 @@ class TidyTree {
 
     // build card node map
     for (let i = 0; i < node_list_len; i++) {
-      let { id, width, height } = node_list[i];
+      let { id, width, height, collapse, children } = node_list[i];
       let node = new Node(id, width, height);
+      // todo: collapse should be moved to Node class
+      if (i !== 0 && collapse !== undefined && typeof collapse === "boolean" && children.length !== 0) {
+        node.collapse = collapse;
+      }
       this.map.set(id, node);
 
       // add node to linked list
@@ -114,8 +118,12 @@ class TidyTree {
 
     // build card node map
     for (let i = 0; i < node_list_len; i++) {
-      let { id, width, height } = node_list[i];
+      let { id, width, height, collapse, children } = node_list[i];
       let node = new Node(id, width, height);
+      // todo: collapse should be moved to Node class
+      if (i !== 0 && collapse !== undefined && typeof collapse === "boolean" && children.length !== 0) {
+        node.collapse = collapse;
+      }
       this.map.set(id, node);
 
       // add node to linked list

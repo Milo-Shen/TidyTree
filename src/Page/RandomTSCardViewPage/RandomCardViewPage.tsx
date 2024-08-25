@@ -67,6 +67,7 @@ export default function RandomCardViewPage() {
             height={card.height}
             pos_x={card.x}
             pos_y={card.y}
+            collapse={card.collapse}
             child_count={card.children.length}
           />
         );

@@ -22,7 +22,7 @@ function SimpleOrgChart(props: any) {
     >
       id: {id}, parent: {parent_id}
       <br />
-      collapse: {collapse}
+      collapse: {String(collapse)}
       <br />
       child count: {child_count}
       <br />
