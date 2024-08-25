@@ -2,7 +2,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
 
 // Import UI5 WebComponent React
 import "@ui5/webcomponents-react/dist/Assets";
