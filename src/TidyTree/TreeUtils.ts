@@ -103,7 +103,7 @@ export function pre_order_traverse_tree(root: Node | undefined, callback: (node:
 
 export function pre_order_traverse_tree_with_depth(
   root: Node | undefined,
-  callback: (node: Node, depth: number) => void
+  callback: (node: Node, depth: number) => void,
 ) {
   if (!root) {
     return;

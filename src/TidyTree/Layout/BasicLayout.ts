@@ -8,7 +8,7 @@ import { adjust_node_position } from "./TidyLayoutUtils";
 function basic_layout(root: Node, v_space: number, h_space: number) {
   let min_x = Infinity;
 
-  post_order_traverse_tree(root, (node) => {
+  post_order_traverse_tree(root, node => {
     node.bounding_box_w = node.width;
 
     const children_len = node.children.length;
@@ -34,7 +34,7 @@ function basic_layout(root: Node, v_space: number, h_space: number) {
     node.bounding_box_w = Math.max(children_w, node.width);
   });
 
-  bfs_traverse_tree(root, (node) => {
+  bfs_traverse_tree(root, node => {
     if (node === root) {
       min_x = Math.min(min_x, node.x - node.width / 2);
       return;

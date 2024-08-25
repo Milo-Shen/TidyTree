@@ -34,4 +34,4 @@ export const namePhotoMock = [
     jobTitle: "VP Global People Operations",
     avatar: "avatar_7",
   },
-]
+];

@@ -1,8 +1,8 @@
 .simple_org_chart {
-    position: absolute;
-    font-size: 1rem;
-    display: inline-block;
-    text-align: center;
-    background: lightblue;
-    border-radius: 1rem;
+  position: absolute;
+  font-size: 1rem;
+  display: inline-block;
+  text-align: center;
+  background: lightblue;
+  border-radius: 1rem;
 }

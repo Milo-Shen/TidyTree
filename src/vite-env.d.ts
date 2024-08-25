@@ -1,2 +1,2 @@
 /// <reference types="vite/client" />
-declare module "@ui5/webcomponents-base/dist/config/Theme"
+declare module "@ui5/webcomponents-base/dist/config/Theme";

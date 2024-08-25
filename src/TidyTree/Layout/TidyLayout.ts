@@ -35,7 +35,7 @@ function tidy_layout(root: Node, v_space: number, h_space: number, is_layered: b
 }
 
 function init_node(root: Node) {
-  bfs_traverse_tree(root, (node) => {
+  bfs_traverse_tree(root, node => {
     node.x = 0;
     node.y = 0;
     node.relative_x = 0;
@@ -46,7 +46,7 @@ function init_node(root: Node) {
 
 function set_pos_y_of_nodes(root: Node, v_space: number, is_layered: boolean, depth_to_y: Array<number>) {
   if (!is_layered) {
-    pre_order_traverse_tree(root, (node) => {
+    pre_order_traverse_tree(root, node => {
       node.y = node.parent ? node.parent.bottom() + v_space : 0;
     });
   } else {
@@ -166,7 +166,7 @@ function second_walk(node: Node, modified_sum: number, min_x: { value: number })
 }
 
 function second_walk_without_recursion(root: Node, modified_sum: number, min_x: { value: number }) {
-  pre_order_traverse_tree(root, (node) => {
+  pre_order_traverse_tree(root, node => {
     let prev_modified_sum = node.parent ? node.parent.tidy!.prev_modified_sum : modified_sum;
     let cur_modified_sum = prev_modified_sum + node.tidy?.modifier_to_subtree!;
     node.x = node.relative_x + cur_modified_sum;

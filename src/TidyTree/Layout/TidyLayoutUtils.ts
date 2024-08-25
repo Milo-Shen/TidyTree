@@ -36,7 +36,7 @@ function separate(node: Node, child_index: number, pos_y_list: LinkedYList, h_sp
       let top = pos_y_list.pop();
       if (!top) {
         console.error(
-          `error occurred, node id: ${node.id}, left bottom: ${left.bottom()}, y list bottom: ${y_list_bottom}`
+          `error occurred, node id: ${node.id}, left bottom: ${left.bottom()}, y list bottom: ${y_list_bottom}`,
         );
       }
 
@@ -138,7 +138,7 @@ function add_child_spacing(node: Node) {
 }
 
 function adjust_node_position(node: Node, diff: number) {
-  pre_order_traverse_tree(node, (node) => {
+  pre_order_traverse_tree(node, node => {
     node.x = node.x - node.width / 2 + diff;
   });
 }

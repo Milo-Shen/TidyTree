@@ -106,7 +106,7 @@ export class Node {
   }
 
   remove_child(id: number) {
-    let index = this.children.findIndex((x) => x.id === id);
+    let index = this.children.findIndex(x => x.id === id);
 
     if (index !== -1) {
       this.children.splice(index, 1);

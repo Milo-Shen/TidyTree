@@ -4,11 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 
 // Import Types & Interfaces of Tidy Tree
 import type { Node } from "../../TidyTree/Node";
-import {
-  chartRenderDefaultData,
-  TidyConfiguration,
-  TidyTree,
-} from "../../TidyTree/TidyTree";
+import { chartRenderDefaultData, TidyConfiguration, TidyTree } from "../../TidyTree/TidyTree";
 import { LayoutType, TidyLayout } from "../../TidyTreeRust/tidy";
 
 // Import Customized Component

@@ -1,26 +1,20 @@
 // Import React Framework
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React from "react"
+import React from "react";
 
 // Import UI5 WebComponent React
-import {
-  Card,
-  Title,
-  TitleLevel,
-  Label,
-  WrappingType,
-} from "@ui5/webcomponents-react"
+import { Card, Title, TitleLevel, Label, WrappingType } from "@ui5/webcomponents-react";
 
 // Import Mock Data
-import { namePhotoMock } from "./userPhotoMock"
+import { namePhotoMock } from "./userPhotoMock";
 
 // Import CSS
-import styles from "./SemanticChart.module.css"
+import styles from "./SemanticChart.module.css";
 
 export default function SemanticChart(props: any) {
-  const { id, parent_id, width, height, pos_x, pos_y, child_count } = props
+  const { id, parent_id, width, height, pos_x, pos_y, child_count } = props;
 
-  let content = namePhotoMock[id % namePhotoMock.length]
+  let content = namePhotoMock[id % namePhotoMock.length];
 
   return (
     <Card
@@ -33,11 +27,7 @@ export default function SemanticChart(props: any) {
       }}
     >
       <div className={styles.avatarSection}>
-        <img
-          className={styles.avatarImg}
-          src={`./public/${content.avatar}.png`}
-          alt="1"
-        />
+        <img className={styles.avatarImg} src={`./public/${content.avatar}.png`} alt="1" />
       </div>
       <Title className={styles.userName} level={TitleLevel.H5}>
         {`${content.name} - ${id}`}
@@ -46,5 +36,5 @@ export default function SemanticChart(props: any) {
         {content.jobTitle}
       </Label>
     </Card>
-  )
+  );
 }

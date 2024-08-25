@@ -284,7 +284,7 @@ export class DoublyLinkedList<T> {
 
   to_string(callback: Function) {
     return this.to_array()
-      .map((node) => node.to_string(callback))
+      .map(node => node.to_string(callback))
       .toString();
   }
 

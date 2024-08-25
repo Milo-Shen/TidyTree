@@ -1,21 +1,21 @@
 // Import React Framework
-import type { ReactNode } from "react"
-import React from "react"
+import type { ReactNode } from "react";
+import React from "react";
 
 // Import Interface & Types & Classes
-import type { Node } from "../../TidyTree/Node"
+import type { Node } from "../../TidyTree/Node";
 
 // Import Customized Component
-import Line from "../Line"
+import Line from "../Line";
 
 // Import CSS
-import ChartStyle from "./Chart.module.css"
+import ChartStyle from "./Chart.module.css";
 
 // Interface
 interface ChartPropsInterface {
-  data: any
-  card_template: (card: Node) => ReactNode
-  children?: ReactNode | ReactNode[]
+  data: any;
+  card_template: (card: Node) => ReactNode;
+  children?: ReactNode | ReactNode[];
 }
 
 function Chart(props: ChartPropsInterface) {
@@ -25,7 +25,7 @@ function Chart(props: ChartPropsInterface) {
       line_list: [],
     },
     card_template,
-  } = props
+  } = props;
 
   return (
     <div className={ChartStyle.chart}>
@@ -46,7 +46,7 @@ function Chart(props: ChartPropsInterface) {
         ))}
       </>
     </div>
-  )
+  );
 }
 
-export default Chart
+export default Chart;
