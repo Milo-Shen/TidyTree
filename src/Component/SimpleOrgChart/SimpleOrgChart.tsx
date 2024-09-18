@@ -20,12 +20,13 @@ function SimpleOrgChart(props: any) {
       }}
       className={SimpleOrgChartStyle.simple_org_chart}
     >
-      id: {id}, parent: {parent_id}
-      <br />
-      collapse: {String(collapse)}
-      <br />
-      child count: {child_count}
-      <br />
+      id: {id}
+      {/*id: {id}, parent: {parent_id}*/}
+      {/*<br />*/}
+      {/*collapse: {String(collapse)}*/}
+      {/*<br />*/}
+      {/*child count: {child_count}*/}
+      {/*<br />*/}
     </div>
   );
 }
